@@ -33,7 +33,7 @@ export const Route = createFileRoute("/stones/$stoneId")({
 });
 
 function StoneDetail() {
-  const { stone } = Route.useLoaderData();
+  const { stone } = Route.useLoaderData() as { stone: Stone };
   const { currency, unit, setUnit, addToCart, cart, wishlist, toggleWishlist } = useVault();
   const [angle, setAngle] = useState(0);
   const [cert, setCert] = useState(false);
