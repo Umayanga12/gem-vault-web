@@ -9,10 +9,28 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrustRouteImport } from './routes/trust'
+import { Route as ConsultationRouteImport } from './routes/consultation'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StonesStoneIdRouteImport } from './routes/stones.$stoneId'
 
+const TrustRoute = TrustRouteImport.update({
+  id: '/trust',
+  path: '/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultationRoute = ConsultationRouteImport.update({
+  id: '/consultation',
+  path: '/consultation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrowseRoute = BrowseRouteImport.update({
   id: '/browse',
   path: '/browse',
@@ -32,35 +50,87 @@ const StonesStoneIdRoute = StonesStoneIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/cart': typeof CartRoute
+  '/consultation': typeof ConsultationRoute
+  '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/cart': typeof CartRoute
+  '/consultation': typeof ConsultationRoute
+  '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/cart': typeof CartRoute
+  '/consultation': typeof ConsultationRoute
+  '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/browse' | '/stones/$stoneId'
+  fullPaths:
+    | '/'
+    | '/browse'
+    | '/cart'
+    | '/consultation'
+    | '/trust'
+    | '/stones/$stoneId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/browse' | '/stones/$stoneId'
-  id: '__root__' | '/' | '/browse' | '/stones/$stoneId'
+  to:
+    | '/'
+    | '/browse'
+    | '/cart'
+    | '/consultation'
+    | '/trust'
+    | '/stones/$stoneId'
+  id:
+    | '__root__'
+    | '/'
+    | '/browse'
+    | '/cart'
+    | '/consultation'
+    | '/trust'
+    | '/stones/$stoneId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrowseRoute: typeof BrowseRoute
+  CartRoute: typeof CartRoute
+  ConsultationRoute: typeof ConsultationRoute
+  TrustRoute: typeof TrustRoute
   StonesStoneIdRoute: typeof StonesStoneIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/trust': {
+      id: '/trust'
+      path: '/trust'
+      fullPath: '/trust'
+      preLoaderRoute: typeof TrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consultation': {
+      id: '/consultation'
+      path: '/consultation'
+      fullPath: '/consultation'
+      preLoaderRoute: typeof ConsultationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/browse': {
       id: '/browse'
       path: '/browse'
@@ -88,6 +158,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrowseRoute: BrowseRoute,
+  CartRoute: CartRoute,
+  ConsultationRoute: ConsultationRoute,
+  TrustRoute: TrustRoute,
   StonesStoneIdRoute: StonesStoneIdRoute,
 }
 export const routeTree = rootRouteImport
