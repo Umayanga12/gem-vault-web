@@ -2,11 +2,11 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { Check, ExternalLink, FileText, Heart, RotateCcw, ShieldCheck, Truck } from "lucide-react";
-import { formatPrice, getStone, stones, typeAccent } from "@/data/stones";
+import { formatPrice, getStone, stones, typeAccent, type Stone } from "@/data/stones";
 import { useVault } from "@/lib/vault-store";
 
 export const Route = createFileRoute("/stones/$stoneId")({
-  loader: ({ params }) => {
+  loader: ({ params }): { stone: Stone } => {
     const stone = getStone(params.stoneId);
     if (!stone) throw notFound();
     return { stone };
