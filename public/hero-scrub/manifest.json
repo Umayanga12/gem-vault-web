@@ -1,0 +1,8 @@
+{
+  "source": "202607271247.mp4",
+  "sourceDurationSeconds": 19.85,
+  "frameCount": 72,
+  "width": 960,
+  "format": "jpg",
+  "note": "Extracted at 960px wide for prototyping only. Re-export from your original master at higher resolution before shipping to production — this pack is double-compressed (source mp4 -> jpg)."
+}

@@ -17,17 +17,20 @@ import { SiteFooter } from "@/components/vault/site-footer";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-7xl font-semibold text-pearl">404</h1>
-        <h2 className="mt-4 text-xl text-pearl">This page isn't in the vault</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="engraved-label mb-4">404</p>
+        <h1 className="font-display text-6xl font-medium text-pearl" style={{ lineHeight: 1.05 }}>
+          Not in the vault
+        </h1>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           The stone or page you requested may have sold or been relisted.
         </p>
-        <div className="mt-6">
+        <div className="mt-8">
           <Link
             to="/browse"
-            className="facet-sheen inline-flex items-center justify-center rounded-sm bg-brass px-4 py-2 text-sm font-medium text-primary-foreground"
+            search={{ type: undefined }}
+            className="facet-sheen btn-gold"
           >
             Browse available stones
           </Link>
@@ -45,25 +48,26 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-xl text-pearl">This page didn't load</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="engraved-label mb-4">Error</p>
+        <h1 className="font-display text-2xl text-pearl">This page didn't load</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
           Something failed on our side. Reload, or return to the vault.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="rounded-sm bg-brass px-4 py-2 text-sm font-medium text-primary-foreground"
+            className="facet-sheen btn-gold"
           >
             Try again
           </button>
           <a
             href="/"
-            className="rounded-sm border border-border px-4 py-2 text-sm text-pearl hover:bg-accent"
+            className="btn-outline-gold"
           >
             Go home
           </a>
@@ -93,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -127,7 +131,6 @@ function RootComponent() {
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">
-            {/* Required: nested routes render here. */}
             <Outlet />
           </main>
           <SiteFooter />
