@@ -1,14 +1,14 @@
 import { Link } from "@tanstack/react-router";
 
 const primaryLinks = [
+  { to: "/about", label: "About Us" },
   { to: "/browse", label: "Browse stones" },
-  { to: "/trust", label: "Certification" },
   { to: "/consultation", label: "Speak to a gemologist" },
 ];
 
 const secondaryLinks = [
   { to: "/cart", label: "Your parcel" },
-  { to: "/trust", label: "Sourcing policy" },
+  { to: "/about", label: "Our mission" },
   { to: "/consultation", label: "Book a call" },
 ];
 

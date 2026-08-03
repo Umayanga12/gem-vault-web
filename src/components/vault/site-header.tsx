@@ -6,9 +6,9 @@ import { useVault } from "@/lib/vault-store";
 import { formatPrice } from "@/data/stones";
 
 const nav = [
+  { to: "/about", label: "About Us" },
   { to: "/browse", label: "Browse" },
-  { to: "/trust", label: "Certification" },
-  { to: "/consultation", label: "Consultation" },
+  { to: "/consultation", label: "Contact Us" },
 ];
 
 const currencies = ["USD", "EUR", "GBP"] as const;
