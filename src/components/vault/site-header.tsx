@@ -6,6 +6,7 @@ import { useVault } from "@/lib/vault-store";
 import { formatPrice } from "@/data/stones";
 
 const nav = [
+  { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
   { to: "/browse", label: "Browse" },
   { to: "/consultation", label: "Contact Us" },
@@ -104,7 +105,7 @@ export function SiteHeader() {
           {/* Desktop nav */}
           <nav className="ml-auto hidden items-center gap-8 md:flex">
             {nav.map((n) => {
-              const isActive = currentPath === n.to || currentPath.startsWith(n.to + "/");
+              const isActive = n.to === "/" ? currentPath === "/" : currentPath === n.to || currentPath.startsWith(n.to + "/");
               return (
                 <Link
                   key={n.to}
