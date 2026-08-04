@@ -1,26 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { Check, Clock, MessageSquare, BarChart3 } from "lucide-react";
+import { Check, Clock, MessageSquare, BarChart3, Mail, Instagram, Facebook } from "lucide-react";
 import { Reveal } from "@/components/vault/reveal";
+import { ContactModal } from "@/components/vault/contact-modal";
 
 export const Route = createFileRoute("/consultation")({
   head: () => ({
     meta: [
-      { title: "Book a Gemologist Consultation — Cabochon" },
+      { title: "Contact Us & Consultation — Cabochon" },
       {
         name: "description",
         content:
-          "Book a 30-minute call with a graduate gemologist to review reports, compare stones and discuss origin, treatment and pricing before you buy.",
+          "Reach out for general inquiries or book a 30-minute call with a graduate gemologist to review stones.",
       },
-      { property: "og:title", content: "Book a Gemologist Consultation" },
+      { property: "og:title", content: "Contact & Consultation" },
       {
         property: "og:description",
-        content: "Thirty minutes with a graduate gemologist, on the stones you are considering.",
+        content: "Reach out to us directly or book time with a gemologist.",
       },
     ],
   }),
-  component: ConsultationPage,
+  component: ContactPage,
 });
 
 const slots = ["Tue 10:00", "Tue 14:30", "Wed 09:00", "Wed 16:00", "Thu 11:30", "Fri 13:00"];
@@ -31,7 +32,7 @@ const highlights = [
   { icon: Clock,       text: "Origin and treatment implications for resale" },
 ];
 
-function ConsultationPage() {
+function ContactPage() {
   const [slot, setSlot] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
@@ -46,75 +47,133 @@ function ConsultationPage() {
           borderBottom: "1px solid oklch(1 0 0 / 0.07)",
         }}
       >
-        <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <Reveal>
             <p className="engraved-label flex items-center gap-3">
               <span className="block h-px w-8" style={{ background: "linear-gradient(to right, transparent, var(--brass-dim))" }} />
-              Consultation
+              Get in touch
             </p>
             <h1
               className="mt-4 font-display text-pearl"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.05, letterSpacing: "-0.025em", maxWidth: "22ch" }}
+              style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: "20ch" }}
             >
-              Thirty minutes with a graduate gemologist
+              Contact & Consultation
             </h1>
           </Reveal>
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-5xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-2">
-        {/* Left — description */}
-        <Reveal>
-          <p className="text-base leading-relaxed text-muted-foreground" style={{ lineHeight: 1.8 }}>
-            Bring the report numbers of the stones you are considering. We will walk the grading
-            data, explain what the inclusions mean in practice, and give you a plain view of where
-            each stone sits against current market comparables. No obligation to buy.
-          </p>
+      <div className="mx-auto grid max-w-6xl gap-16 px-5 py-16 sm:px-8 lg:grid-cols-2">
+        {/* Left — Direct Contact & description */}
+        <div className="flex flex-col gap-12">
+          <Reveal>
+            <h2 className="font-display text-2xl text-pearl mb-4">General Inquiries</h2>
+            <p className="text-base leading-relaxed text-muted-foreground" style={{ lineHeight: 1.8 }}>
+              Looking for a specific stone? Have questions about our vault, shipping, or sourcing? 
+              Reach out directly and our gemologists will assist you promptly.
+            </p>
 
-          <ul className="mt-8 space-y-4">
-            {highlights.map((h, i) => (
-              <motion.li
-                key={h.text}
-                initial={{ opacity: 0, x: -12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-start gap-4"
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <ContactModal>
+                <button className="facet-sheen btn-gold flex items-center gap-2 cursor-pointer">
+                  <Mail className="h-4 w-4" />
+                  Email us directly
+                </button>
+              </ContactModal>
+              <a
+                href="https://wa.me/1234567890"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-pearl transition-all hover:bg-white/5"
+                style={{ border: "1px solid oklch(1 0 0 / 0.12)" }}
               >
-                <span
-                  className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg"
-                  style={{
-                    background: "oklch(0.70 0.082 78 / 0.10)",
-                    border: "1px solid oklch(0.70 0.082 78 / 0.25)",
-                  }}
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 text-emerald-400 group-hover:scale-110 transition-transform"
                 >
-                  <h.icon className="size-4 text-brass" />
-                </span>
-                <p className="text-sm leading-relaxed text-muted-foreground">{h.text}</p>
-              </motion.li>
-            ))}
-          </ul>
+                  <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
+                </svg>
+                WhatsApp
+              </a>
+            </div>
 
-          {/* Decorative gem */}
-          <div className="mt-16 hidden lg:block animate-float opacity-20">
-            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="url(#consult-gold)" strokeWidth="0.6">
-              <polygon points="12 2 22 9 12 22 2 9" />
-              <polygon points="12 4 20 9.5 12 20 4 9.5" />
-              <line x1="12" y1="4" x2="12" y2="20" />
-              <line x1="4" y1="9.5" x2="20" y2="9.5" />
-              <defs>
-                <linearGradient id="consult-gold" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                  <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </Reveal>
+            <div className="mt-10 pt-10 border-t border-white/5">
+              <span className="font-mono text-xs uppercase tracking-widest text-pearl/50 block mb-4">
+                Follow our journey
+              </span>
+              <div className="flex gap-3">
+                <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass">
+                  <Instagram className="h-5 w-5" />
+                  <span className="sr-only">Instagram</span>
+                </a>
+                <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass">
+                  <Facebook className="h-5 w-5" />
+                  <span className="sr-only">Facebook</span>
+                </a>
+                <a href="#" className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                  </svg>
+                  <span className="sr-only">TikTok</span>
+                </a>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="rounded-2xl p-8 relative overflow-hidden group" style={{ background: "oklch(0.12 0.012 305 / 0.5)", border: "1px solid oklch(1 0 0 / 0.05)" }}>
+              {/* Decorative gem in background */}
+              <div className="absolute -right-8 -bottom-8 opacity-5 transition-transform duration-700 group-hover:scale-110 group-hover:opacity-10 group-hover:rotate-12 pointer-events-none">
+                <svg width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="url(#consult-gold)" strokeWidth="0.8">
+                  <polygon points="12 2 22 9 12 22 2 9" />
+                  <polygon points="12 4 20 9.5 12 20 4 9.5" />
+                  <line x1="12" y1="4" x2="12" y2="20" />
+                  <line x1="4" y1="9.5" x2="20" y2="9.5" />
+                  <defs>
+                    <linearGradient id="consult-gold" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
+                      <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+
+              <h3 className="font-display text-xl text-pearl mb-3 relative z-10">Why book a call?</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground mb-6 relative z-10">
+                Bring the report numbers of the stones you are considering. We will walk the grading
+                data, explain what the inclusions mean in practice, and give you a plain view of where
+                each stone sits against current market comparables. No obligation to buy.
+              </p>
+              <ul className="space-y-4 relative z-10">
+                {highlights.map((h, i) => (
+                  <li key={h.text} className="flex items-start gap-4">
+                    <span
+                      className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg"
+                      style={{
+                        background: "oklch(0.70 0.082 78 / 0.10)",
+                        border: "1px solid oklch(0.70 0.082 78 / 0.25)",
+                      }}
+                    >
+                      <h.icon className="size-4 text-brass" />
+                    </span>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{h.text}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
 
         {/* Right — booking form */}
-        <Reveal delay={0.1}>
-          <AnimatePresence mode="wait">
+        <Reveal delay={0.2}>
+          <div className="sticky top-32">
+            <h2 className="font-display text-2xl text-pearl mb-6">Book a Gemologist</h2>
+            <AnimatePresence mode="wait">
             {sent ? (
               <motion.div
                 key="success"
@@ -242,6 +301,7 @@ function ConsultationPage() {
               </motion.form>
             )}
           </AnimatePresence>
+          </div>
         </Reveal>
       </div>
     </>
