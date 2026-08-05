@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
-import { Menu, ShoppingBag, X, Gem } from "lucide-react";
+import { ShoppingBag, X, Menu, Gem } from "lucide-react";
 import { useVault } from "@/lib/vault-store";
 import { formatPrice } from "@/data/stones";
 
@@ -24,12 +24,11 @@ export function SiteHeader() {
   const currentPath = routerState.location.pathname;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 48);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile nav on route change
   useEffect(() => {
     setMobile(false);
   }, [currentPath]);
@@ -40,114 +39,152 @@ export function SiteHeader() {
         className="sticky top-0 z-50 transition-all duration-500"
         style={{
           background: scrolled
-            ? "oklch(0.120 0.012 300 / 0.95)"
-            : "oklch(0.120 0.012 300 / 0.70)",
-          backdropFilter: "blur(24px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-          borderBottom: "1px solid oklch(1 0 0 / 0.06)",
-          boxShadow: scrolled ? "0 4px 40px oklch(0 0 0 / 0.50)" : "none",
+            ? "oklch(0.110 0.010 300 / 0.96)"
+            : "oklch(0.110 0.010 300 / 0.55)",
+          backdropFilter: "blur(28px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(28px) saturate(1.3)",
+          borderBottom: scrolled
+            ? "1px solid oklch(0.68 0.076 76 / 0.12)"
+            : "1px solid oklch(1 0 0 / 0.05)",
+          boxShadow: scrolled
+            ? "0 1px 32px oklch(0 0 0 / 0.40)"
+            : "none",
         }}
       >
-        <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
+        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-8 px-5 sm:px-8">
+
           {/* Logo */}
-          <Link to="/" className="group flex items-center gap-2.5 focus-visible:outline-none">
+          <Link to="/" className="group flex items-center gap-3 focus-visible:outline-none shrink-0">
             <motion.div
-              animate={{ scale: scrolled ? 0.92 : 1 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-2.5"
+              animate={{ scale: scrolled ? 0.94 : 1 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-3"
             >
               {/* Diamond glyph */}
-              <svg
-                width="18"
-                height="18"
+              <motion.svg
+                width="16"
+                height="16"
                 viewBox="0 0 18 18"
                 fill="none"
-                className="shrink-0 transition-opacity duration-300 group-hover:opacity-80"
+                className="shrink-0"
+                whileHover={{ rotate: 45 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
                 <polygon
                   points="9,1 17,7 9,17 1,7"
                   fill="none"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="1.2"
+                  stroke="url(#hdr-gold-grad)"
+                  strokeWidth="1.1"
                 />
                 <polygon
                   points="9,4 14,7 9,13 4,7"
-                  fill="url(#gold-fill)"
-                  opacity="0.35"
+                  fill="url(#hdr-gold-fill)"
+                  opacity="0.25"
                 />
                 <defs>
-                  <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.62 0.08 78)" />
-                    <stop offset="50%" stopColor="oklch(0.80 0.09 82)" />
-                    <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
+                  <linearGradient id="hdr-gold-grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
+                    <stop offset="55%" stopColor="oklch(0.78 0.085 80)" />
+                    <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
                   </linearGradient>
-                  <linearGradient id="gold-fill" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                    <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
+                  <linearGradient id="hdr-gold-fill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="oklch(0.78 0.085 80)" />
+                    <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
                   </linearGradient>
                 </defs>
-              </svg>
-              <span
-                className="font-display tracking-tight text-pearl"
-                style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}
-              >
-                Cabochon
-              </span>
+              </motion.svg>
+
+              <div className="flex flex-col leading-none">
+                <span
+                  className="font-display text-pearl tracking-tight"
+                  style={{ fontSize: "1.05rem", letterSpacing: "-0.01em" }}
+                >
+                  Cabochon
+                </span>
+                <span
+                  className="hidden sm:block font-mono"
+                  style={{
+                    fontSize: "0.55rem",
+                    letterSpacing: "0.20em",
+                    color: "var(--brass-dim)",
+                    marginTop: "2px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Gem Trading
+                </span>
+              </div>
             </motion.div>
-            <span
-              className="rule-label hidden sm:inline"
-              style={{ color: "var(--brass-dim)", letterSpacing: "0.16em" }}
-            >
-              Gem Trading
-            </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="ml-auto hidden items-center gap-8 md:flex">
+          <nav className="ml-auto hidden items-center gap-10 md:flex">
             {nav.map((n) => {
-              const isActive = n.to === "/" ? currentPath === "/" : currentPath === n.to || currentPath.startsWith(n.to + "/");
+              const isActive =
+                n.to === "/"
+                  ? currentPath === "/"
+                  : currentPath === n.to || currentPath.startsWith(n.to + "/");
               return (
                 <Link
                   key={n.to}
                   to={n.to}
-                  className="group relative py-1 text-sm font-light transition-colors duration-200"
-                  style={{ color: isActive ? "var(--brass)" : "var(--muted-foreground)" }}
+                  className="group relative py-1.5"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: isActive ? "var(--pearl)" : "var(--muted-foreground)",
+                    transition: "color 200ms ease",
+                    fontWeight: isActive ? 500 : 400,
+                  }}
                 >
                   {n.label}
-                  {/* Animated underline */}
+                  {/* Active indicator — thin gold line */}
                   <span
-                    className="absolute bottom-0 left-0 h-px transition-all duration-300 ease-out"
+                    className="absolute -bottom-0.5 left-0 h-px transition-all duration-400 ease-out"
                     style={{
                       background: "var(--gradient-gold)",
                       width: isActive ? "100%" : "0%",
                     }}
                   />
+                  {/* Hover indicator */}
                   <span
-                    className="absolute bottom-0 left-0 h-px w-0 transition-all duration-300 ease-out group-hover:w-full"
-                    style={{ background: "oklch(0.70 0.082 78 / 0.50)" }}
+                    className="absolute -bottom-0.5 left-0 h-px w-0 transition-all duration-300 ease-out group-hover:w-full"
+                    style={{
+                      background: "oklch(0.68 0.076 76 / 0.35)",
+                      display: isActive ? "none" : "block",
+                    }}
                   />
                 </Link>
               );
             })}
           </nav>
 
-          {/* Actions */}
-          <div className="ml-auto flex items-center gap-2 md:ml-0">
-            {/* Currency toggle */}
-            <div className="hidden items-center rounded-md sm:flex" style={{
-              background: "oklch(0.18 0.018 305 / 0.60)",
-              border: "1px solid oklch(1 0 0 / 0.07)",
-            }}>
+          {/* Actions row */}
+          <div className="flex items-center gap-2 md:ml-0 ml-auto">
+            {/* Currency toggle — refined pill */}
+            <div
+              className="hidden items-center sm:flex"
+              style={{
+                background: "oklch(0.16 0.015 305 / 0.50)",
+                border: "1px solid oklch(1 0 0 / 0.06)",
+                borderRadius: "0",
+              }}
+            >
               {currencies.map((c, i) => (
                 <button
                   key={c}
                   onClick={() => setCurrency(c)}
-                  className="px-2.5 py-1 font-mono text-[10px] tracking-wider transition-colors duration-200"
+                  className="px-2.5 py-1.5 font-mono text-[9px] tracking-widest transition-all duration-200"
                   style={{
                     color: currency === c ? "var(--brass)" : "var(--muted-foreground)",
-                    background: currency === c ? "oklch(0.70 0.082 78 / 0.12)" : "transparent",
-                    borderRadius: i === 0 ? "calc(var(--radius-md) - 1px) 0 0 calc(var(--radius-md) - 1px)" : i === currencies.length - 1 ? "0 calc(var(--radius-md) - 1px) calc(var(--radius-md) - 1px) 0" : "0",
-                    borderRight: i < currencies.length - 1 ? "1px solid oklch(1 0 0 / 0.07)" : "none",
+                    background: currency === c ? "oklch(0.68 0.076 76 / 0.10)" : "transparent",
+                    letterSpacing: "0.14em",
+                    borderRight:
+                      i < currencies.length - 1
+                        ? "1px solid oklch(1 0 0 / 0.06)"
+                        : "none",
                   }}
                 >
                   {c}
@@ -155,47 +192,81 @@ export function SiteHeader() {
               ))}
             </div>
 
-            {/* Cart */}
+            {/* Cart — refined, no glow-pulse */}
             <button
               onClick={() => setDrawer(true)}
-              className="facet-sheen relative flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-all duration-300"
+              className="relative flex items-center gap-2 px-3 py-2 transition-all duration-250"
               style={{
-                color: "var(--brass)",
-                background: cart.length > 0 ? "oklch(0.70 0.082 78 / 0.10)" : "oklch(0.18 0.018 305 / 0.60)",
-                border: `1px solid ${cart.length > 0 ? "oklch(0.70 0.082 78 / 0.40)" : "oklch(1 0 0 / 0.07)"}`,
-                boxShadow: cart.length > 0 ? "0 0 16px 2px var(--glow-gold)" : "none",
-                animation: cart.length > 0 ? "glow-pulse 2.5s ease-in-out infinite" : "none",
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.10em",
+                color: cart.length > 0 ? "var(--brass)" : "var(--muted-foreground)",
+                background: "oklch(0.16 0.015 305 / 0.50)",
+                border: `1px solid ${
+                  cart.length > 0
+                    ? "oklch(0.68 0.076 76 / 0.30)"
+                    : "oklch(1 0 0 / 0.06)"
+                }`,
+                borderRadius: "0",
               }}
               aria-label={`Open cart, ${cart.length} items`}
             >
-              <ShoppingBag className="size-4" />
+              <ShoppingBag className="size-3.5" />
               <AnimatePresence mode="wait">
                 <motion.span
                   key={cart.length}
-                  initial={{ opacity: 0, y: -4 }}
+                  initial={{ opacity: 0, y: -3 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 4 }}
-                  className="font-mono text-xs"
+                  exit={{ opacity: 0, y: 3 }}
+                  className="font-mono text-[10px]"
                 >
                   {cart.length}
                 </motion.span>
               </AnimatePresence>
+              {cart.length > 0 && (
+                <span
+                  className="absolute -top-1 -right-1 flex size-[14px] items-center justify-center rounded-full text-[8px] font-mono"
+                  style={{
+                    background: "var(--gradient-gold)",
+                    color: "oklch(0.10 0.010 300)",
+                    fontWeight: 600,
+                  }}
+                >
+                  {cart.length}
+                </span>
+              )}
             </button>
 
             {/* Mobile hamburger */}
             <button
-              className="rounded-md p-2 text-muted-foreground transition-colors hover:text-pearl md:hidden"
-              style={{ border: "1px solid oklch(1 0 0 / 0.07)" }}
+              className="flex items-center justify-center p-2 text-muted-foreground transition-colors hover:text-pearl md:hidden"
+              style={{
+                background: "oklch(0.16 0.015 305 / 0.50)",
+                border: "1px solid oklch(1 0 0 / 0.06)",
+                borderRadius: "0",
+              }}
               aria-label="Menu"
               onClick={() => setMobile((v) => !v)}
             >
               <AnimatePresence mode="wait" initial={false}>
                 {mobile ? (
-                  <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <motion.div
+                    key="x"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
                     <X className="size-4" />
                   </motion.div>
                 ) : (
-                  <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
                     <Menu className="size-4" />
                   </motion.div>
                 )}
@@ -213,65 +284,117 @@ export function SiteHeader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25 }}
               onClick={() => setMobile(false)}
               className="fixed inset-0 z-40"
-              style={{ background: "oklch(0.08 0.01 300 / 0.85)", backdropFilter: "blur(8px)" }}
+              style={{
+                background: "oklch(0.06 0.008 300 / 0.90)",
+                backdropFilter: "blur(12px)",
+              }}
             />
             <motion.nav
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
               className="fixed top-0 right-0 z-50 flex h-full w-4/5 max-w-xs flex-col"
               style={{
-                background: "linear-gradient(160deg, oklch(0.16 0.018 305) 0%, oklch(0.12 0.014 300) 100%)",
-                borderLeft: "1px solid oklch(1 0 0 / 0.08)",
+                background:
+                  "linear-gradient(160deg, oklch(0.150 0.016 305) 0%, oklch(0.110 0.012 300) 100%)",
+                borderLeft: "1px solid oklch(1 0 0 / 0.07)",
               }}
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)" }}>
-                <span className="font-display text-pearl" style={{ fontSize: "1rem" }}>Menu</span>
-                <button onClick={() => setMobile(false)} className="text-muted-foreground hover:text-pearl">
-                  <X className="size-5" />
+              <div
+                className="flex items-center justify-between px-7 py-6"
+                style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)" }}
+              >
+                <span
+                  className="font-mono text-[9px] uppercase tracking-[0.24em]"
+                  style={{ color: "var(--brass-dim)" }}
+                >
+                  Navigation
+                </span>
+                <button
+                  onClick={() => setMobile(false)}
+                  className="p-1 text-muted-foreground transition-colors hover:text-pearl"
+                >
+                  <X className="size-4" />
                 </button>
               </div>
 
-              {/* Nav links — staggered */}
-              <div className="flex flex-col px-6 py-8 gap-1">
-                {nav.map((n, i) => (
-                  <motion.div
-                    key={n.to}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07 + 0.1, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Link
-                      to={n.to}
-                      onClick={() => setMobile(false)}
-                      className="block py-3 font-display text-2xl text-pearl transition-colors hover:text-brass"
-                      style={{ letterSpacing: "-0.01em" }}
-                      activeProps={{ style: { color: "var(--brass)" } }}
+              {/* Nav links */}
+              <div className="flex flex-col px-7 py-10 gap-0">
+                {nav.map((n, i) => {
+                  const isActive =
+                    n.to === "/"
+                      ? currentPath === "/"
+                      : currentPath === n.to || currentPath.startsWith(n.to + "/");
+                  return (
+                    <motion.div
+                      key={n.to}
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: i * 0.07 + 0.08,
+                        duration: 0.35,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
                     >
-                      {n.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        to={n.to}
+                        onClick={() => setMobile(false)}
+                        className="group block py-5 relative"
+                        style={{
+                          borderBottom: "1px solid oklch(1 0 0 / 0.05)",
+                          color: isActive ? "var(--pearl)" : "oklch(0.640 0.014 85 / 0.70)",
+                        }}
+                      >
+                        <span
+                          className="font-display block transition-colors duration-200 group-hover:text-pearl"
+                          style={{
+                            fontSize: "clamp(1.5rem, 5vw, 2rem)",
+                            letterSpacing: "-0.02em",
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          {n.label}
+                        </span>
+                        {isActive && (
+                          <span
+                            className="absolute right-0 top-1/2 -translate-y-1/2 h-px w-5"
+                            style={{
+                              background: "var(--gradient-gold)",
+                            }}
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
               </div>
 
-              {/* Currency bottom */}
-              <div className="mt-auto px-6 pb-10">
-                <p className="engraved-label mb-3">Currency</p>
-                <div className="flex gap-2">
-                  {currencies.map((c) => (
+              {/* Currency */}
+              <div className="mt-auto px-7 pb-12">
+                <p className="engraved-label mb-4">Currency</p>
+                <div className="flex gap-0">
+                  {currencies.map((c, i) => (
                     <button
                       key={c}
                       onClick={() => setCurrency(c)}
-                      className="rounded-md px-3 py-1.5 font-mono text-xs transition-all"
+                      className="flex-1 py-2 font-mono text-[10px] tracking-wider transition-all"
                       style={{
                         color: currency === c ? "var(--brass)" : "var(--muted-foreground)",
-                        background: currency === c ? "oklch(0.70 0.082 78 / 0.15)" : "oklch(0.20 0.018 305 / 0.60)",
-                        border: `1px solid ${currency === c ? "oklch(0.70 0.082 78 / 0.40)" : "oklch(1 0 0 / 0.07)"}`,
+                        background:
+                          currency === c
+                            ? "oklch(0.68 0.076 76 / 0.12)"
+                            : "oklch(0.18 0.016 305 / 0.50)",
+                        border: `1px solid ${
+                          currency === c ? "oklch(0.68 0.076 76 / 0.35)" : "oklch(1 0 0 / 0.07)"
+                        }`,
+                        borderRight:
+                          i < currencies.length - 1 ? "none" : undefined,
+                        letterSpacing: "0.14em",
                       }}
                     >
                       {c}
@@ -294,69 +417,103 @@ export function SiteHeader() {
               exit={{ opacity: 0 }}
               onClick={() => setDrawer(false)}
               className="fixed inset-0 z-40"
-              style={{ background: "oklch(0.08 0.01 300 / 0.75)", backdropFilter: "blur(8px)" }}
+              style={{
+                background: "oklch(0.06 0.008 300 / 0.80)",
+                backdropFilter: "blur(10px)",
+              }}
             />
             <motion.aside
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
               className="fixed top-0 right-0 z-50 flex h-full w-full max-w-sm flex-col"
               style={{
-                background: "linear-gradient(160deg, oklch(0.16 0.018 305) 0%, oklch(0.12 0.014 300) 100%)",
-                borderLeft: "1px solid oklch(1 0 0 / 0.08)",
+                background:
+                  "linear-gradient(160deg, oklch(0.150 0.016 305) 0%, oklch(0.110 0.012 300) 100%)",
+                borderLeft: "1px solid oklch(1 0 0 / 0.07)",
               }}
             >
               {/* Drawer header */}
               <div
-                className="flex items-center justify-between px-5 py-4"
+                className="flex items-center justify-between px-6 py-5"
                 style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)" }}
               >
                 <div>
-                  <h2 className="font-display text-lg text-pearl" style={{ letterSpacing: "-0.01em" }}>
+                  <h2
+                    className="font-display text-pearl"
+                    style={{ fontSize: "1.25rem", letterSpacing: "-0.015em" }}
+                  >
                     Your parcel
                   </h2>
-                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+                  <p className="mt-0.5 font-mono text-[10px] tracking-widest text-muted-foreground uppercase" style={{ letterSpacing: "0.16em" }}>
                     {cart.length} {cart.length === 1 ? "stone" : "stones"} reserved
                   </p>
                 </div>
                 <button
                   onClick={() => setDrawer(false)}
                   aria-label="Close cart"
-                  className="rounded-md p-1.5 text-muted-foreground transition-colors hover:text-pearl"
-                  style={{ border: "1px solid oklch(1 0 0 / 0.06)" }}
+                  className="p-2 text-muted-foreground transition-colors hover:text-pearl"
+                  style={{ border: "1px solid oklch(1 0 0 / 0.07)" }}
                 >
                   <X className="size-4" />
                 </button>
               </div>
 
               {/* Stone list */}
-              <div className="flex-1 overflow-auto px-5 py-5">
+              <div className="flex-1 overflow-auto px-6 py-6">
                 {cartStones.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 text-center">
-                    <Gem className="size-10 text-muted-foreground mb-4 opacity-30" />
-                    <p className="font-display text-lg text-pearl opacity-60">The parcel is empty</p>
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      Browse the vault and add a stone to hold it for 48 hours.
-                    </p>
-                    <button
-                      onClick={() => setDrawer(false)}
-                      className="mt-6 btn-outline-gold text-sm"
+                  <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
                     >
-                      Browse the vault
-                    </button>
+                      <svg
+                        width="40"
+                        height="40"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="url(#cart-empty-gold)"
+                        strokeWidth="0.8"
+                        className="mx-auto mb-6 opacity-20"
+                      >
+                        <polygon points="12 2 22 9 12 22 2 9" />
+                        <defs>
+                          <linearGradient id="cart-empty-gold" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
+                            <stop offset="100%" stopColor="oklch(0.78 0.085 80)" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <p
+                        className="font-display text-pearl"
+                        style={{ fontSize: "1.25rem", letterSpacing: "-0.015em", opacity: 0.7 }}
+                      >
+                        The parcel is empty
+                      </p>
+                      <p className="mt-3 text-xs text-muted-foreground leading-relaxed" style={{ maxWidth: "22ch", margin: "0.75rem auto 0" }}>
+                        Browse the vault and add a stone to hold it for 48 hours.
+                      </p>
+                      <button
+                        onClick={() => setDrawer(false)}
+                        className="mt-8 btn-outline-gold"
+                      >
+                        Browse the vault
+                      </button>
+                    </motion.div>
                   </div>
                 ) : (
-                  <ul className="space-y-4">
+                  <ul className="space-y-3">
                     {cartStones.map((s, i) => (
                       <motion.li
                         key={s.id}
-                        initial={{ opacity: 0, y: 8 }}
+                        initial={{ opacity: 0, y: 6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.06 }}
-                        className="flex gap-3 rounded-lg p-3"
+                        transition={{ delay: i * 0.05 }}
+                        className="flex gap-4 p-4"
                         style={{
-                          background: "oklch(0.18 0.018 305 / 0.50)",
+                          background: "oklch(0.16 0.015 305 / 0.45)",
                           border: "1px solid oklch(1 0 0 / 0.06)",
                         }}
                       >
@@ -364,20 +521,21 @@ export function SiteHeader() {
                           src={s.images[0]}
                           alt={s.alt}
                           loading="lazy"
-                          className="size-16 rounded-md object-cover"
+                          className="size-16 object-cover"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-pearl truncate">{s.name}</p>
-                          <p className="font-mono text-xs text-muted-foreground mt-0.5">
+                          <p className="text-sm text-pearl font-light truncate">{s.name}</p>
+                          <p className="font-mono text-[10px] text-muted-foreground mt-1 tracking-wider uppercase" style={{ letterSpacing: "0.10em" }}>
                             {s.carat.toFixed(2)} ct · {s.certificate}
                           </p>
-                          <p className="font-mono text-sm text-brass mt-1">
+                          <p className="font-display text-sm mt-1.5" style={{ color: "var(--brass)" }}>
                             {formatPrice(s.price, currency)}
                           </p>
                         </div>
                         <button
                           onClick={() => removeFromCart(s.id)}
-                          className="rule-label self-start text-muted-foreground transition-colors hover:text-pearl text-[9px]"
+                          className="self-start font-mono text-[9px] uppercase tracking-widest text-muted-foreground transition-colors hover:text-pearl"
+                          style={{ letterSpacing: "0.14em" }}
                         >
                           Remove
                         </button>
@@ -390,16 +548,19 @@ export function SiteHeader() {
               {/* Drawer footer */}
               {cartStones.length > 0 && (
                 <div
-                  className="px-5 py-5"
+                  className="px-6 py-6"
                   style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}
                 >
-                  <div className="mb-4 flex items-baseline justify-between">
+                  {/* Gold rule */}
+                  <div className="hairline-gold mb-5" />
+                  <div className="mb-5 flex items-baseline justify-between">
                     <span className="rule-label">Subtotal</span>
                     <motion.span
                       key={total}
-                      initial={{ opacity: 0, y: -4 }}
+                      initial={{ opacity: 0, y: -3 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="font-display text-xl text-pearl"
+                      className="font-display text-pearl"
+                      style={{ fontSize: "1.4rem", letterSpacing: "-0.02em" }}
                     >
                       {formatPrice(total, currency)}
                     </motion.span>
@@ -409,9 +570,9 @@ export function SiteHeader() {
                     onClick={() => setDrawer(false)}
                     className="facet-sheen btn-gold block w-full text-center"
                   >
-                    Review and checkout
+                    Review & checkout
                   </Link>
-                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                  <p className="mt-4 text-center rule-label" style={{ lineHeight: 1.7 }}>
                     Insured shipping · 14-day return · Lab report included
                   </p>
                 </div>

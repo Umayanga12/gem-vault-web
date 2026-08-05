@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 const primaryLinks = [
   { to: "/about", label: "About Us" },
@@ -15,99 +16,123 @@ const secondaryLinks = [
 const currentYear = new Date().getFullYear();
 
 export function SiteFooter() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+    }
+  }
+
   return (
-    <footer style={{ borderTop: "1px solid oklch(1 0 0 / 0.07)" }}>
-      {/* Diamond divider */}
-      <div className="flex items-center justify-center py-0">
+    <footer style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}>
+      {/* Gold hairline + diamond divider */}
+      <div className="flex items-center">
         <div
           className="h-px flex-1"
-          style={{ background: "linear-gradient(to right, transparent, oklch(0.70 0.082 78 / 0.25))" }}
+          style={{ background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.20))" }}
         />
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className="mx-4 shrink-0"
-          aria-hidden="true"
-        >
-          <polygon
-            points="10,2 18,10 10,18 2,10"
-            stroke="url(#footer-gold)"
-            strokeWidth="1"
-            fill="url(#footer-fill)"
-          />
-          <defs>
-            <linearGradient id="footer-gold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="oklch(0.70 0.082 78 / 0.60)" />
-              <stop offset="100%" stopColor="oklch(0.50 0.060 78 / 0.30)" />
-            </linearGradient>
-            <linearGradient id="footer-fill" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="oklch(0.80 0.09 82 / 0.08)" />
-              <stop offset="100%" stopColor="oklch(0.62 0.08 78 / 0.04)" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <div className="px-6 py-4">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+            fill="none"
+            className="shrink-0"
+            aria-hidden="true"
+          >
+            <polygon
+              points="10,1 19,10 10,19 1,10"
+              stroke="url(#footer-diamond-stroke)"
+              strokeWidth="0.8"
+              fill="url(#footer-diamond-fill)"
+            />
+            <defs>
+              <linearGradient id="footer-diamond-stroke" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="oklch(0.68 0.076 76 / 0.50)" />
+                <stop offset="100%" stopColor="oklch(0.48 0.055 76 / 0.20)" />
+              </linearGradient>
+              <linearGradient id="footer-diamond-fill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="oklch(0.78 0.085 80 / 0.06)" />
+                <stop offset="100%" stopColor="oklch(0.58 0.065 76 / 0.03)" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <div
           className="h-px flex-1"
-          style={{ background: "linear-gradient(to left, transparent, oklch(0.70 0.082 78 / 0.25))" }}
+          style={{ background: "linear-gradient(to left, transparent, oklch(0.68 0.076 76 / 0.20))" }}
         />
       </div>
 
       {/* Main footer content */}
       <div
-        className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[2fr_1fr_1fr]"
-        style={{ background: "linear-gradient(to bottom, oklch(0.14 0.016 305 / 0.40), transparent)" }}
+        className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-[2fr_1fr_1fr_1.4fr]"
+        style={{
+          background: "linear-gradient(to bottom, oklch(0.130 0.014 305 / 0.35), transparent)",
+        }}
       >
         {/* Brand column */}
         <div>
           {/* Logo */}
-          <div className="flex items-center gap-2.5">
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <div className="flex items-center gap-3">
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
               <polygon
                 points="9,1 17,7 9,17 1,7"
                 fill="none"
                 stroke="url(#footer-logo-gold)"
-                strokeWidth="1.2"
+                strokeWidth="1.1"
               />
               <polygon
                 points="9,4 14,7 9,13 4,7"
                 fill="url(#footer-logo-fill)"
-                opacity="0.30"
+                opacity="0.22"
               />
               <defs>
                 <linearGradient id="footer-logo-gold" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.62 0.08 78)" />
-                  <stop offset="100%" stopColor="oklch(0.80 0.09 82)" />
+                  <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
+                  <stop offset="100%" stopColor="oklch(0.78 0.085 80)" />
                 </linearGradient>
                 <linearGradient id="footer-logo-fill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                  <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
+                  <stop offset="0%" stopColor="oklch(0.78 0.085 80)" />
+                  <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
                 </linearGradient>
               </defs>
             </svg>
-            <p className="font-display text-pearl" style={{ fontSize: "1.05rem", letterSpacing: "-0.01em" }}>
+            <span
+              className="font-display text-pearl"
+              style={{ fontSize: "1rem", letterSpacing: "-0.01em" }}
+            >
               Cabochon
-            </p>
+            </span>
           </div>
-          <p className="mt-2 font-mono text-xs" style={{ color: "var(--brass-dim)", letterSpacing: "0.10em" }}>
+          <p
+            className="mt-1.5 font-mono text-[9px] uppercase"
+            style={{ color: "var(--brass-dim)", letterSpacing: "0.18em" }}
+          >
             Gem Trading · Est. 2024
           </p>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground" style={{ lineHeight: 1.7 }}>
-            Loose natural and lab-grown gemstones, sold with the report that describes them.
-            Every stone is independently graded before it is listed.
+          <p
+            className="mt-5 text-sm text-muted-foreground"
+            style={{ lineHeight: 1.80, maxWidth: "30ch" }}
+          >
+            Loose natural and lab-grown gemstones, sold with the report that
+            describes them. Every stone is independently graded before listing.
           </p>
         </div>
 
         {/* Navigation columns */}
         <div>
-          <p className="engraved-label mb-5">Explore</p>
-          <nav className="flex flex-col gap-3">
+          <p className="engraved-label mb-6">Explore</p>
+          <nav className="flex flex-col gap-4">
             {primaryLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className="text-sm text-muted-foreground transition-colors duration-200 hover:text-brass"
+                className="text-xs text-muted-foreground transition-colors duration-200 hover:text-brass"
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {l.label}
               </Link>
@@ -116,33 +141,67 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="engraved-label mb-5">Services</p>
-          <nav className="flex flex-col gap-3">
+          <p className="engraved-label mb-6">Services</p>
+          <nav className="flex flex-col gap-4">
             {secondaryLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
-                className="text-sm text-muted-foreground transition-colors duration-200 hover:text-brass"
+                className="text-xs text-muted-foreground transition-colors duration-200 hover:text-brass"
               >
                 {l.label}
               </Link>
             ))}
           </nav>
+        </div>
+
+        {/* Newsletter */}
+        <div>
+          <p className="engraved-label mb-6">Stay informed</p>
+          <p
+            className="text-xs text-muted-foreground mb-5"
+            style={{ lineHeight: 1.7 }}
+          >
+            New certifications, rare finds, and market notes — delivered quietly.
+          </p>
+          {subscribed ? (
+            <p
+              className="font-mono text-[10px] uppercase tracking-widest"
+              style={{ color: "var(--brass)", letterSpacing: "0.16em" }}
+            >
+              Noted. We'll be in touch.
+            </p>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="vault-input w-full"
+                aria-label="Email address for newsletter"
+              />
+              <button
+                type="submit"
+                className="btn-outline-gold w-full"
+              >
+                Subscribe
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
       {/* Bottom strip */}
       <div
         className="px-5 py-4 sm:px-8"
-        style={{ borderTop: "1px solid oklch(1 0 0 / 0.05)" }}
+        style={{ borderTop: "1px solid oklch(1 0 0 / 0.04)" }}
       >
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
           <p className="rule-label">
             © {currentYear} Cabochon · All stones independently graded
           </p>
-          <p className="rule-label">
-            Prices per stone · Exclusive of duty
-          </p>
+          <p className="rule-label">Prices per stone · Exclusive of duty</p>
         </div>
       </div>
     </footer>

@@ -1,5 +1,5 @@
 import { BadgeCheck, RotateCcw, ShieldCheck, Truck } from "lucide-react";
-import { Reveal } from "@/components/vault/reveal";
+import { motion } from "motion/react";
 
 const items = [
   {
@@ -26,67 +26,68 @@ const items = [
 
 export function TrustStrip() {
   return (
-    <section className="relative py-1">
-      {/* Top gold rule */}
-      <div
-        className="mx-auto max-w-7xl px-5 sm:px-8"
-        style={{ marginBottom: "-1px" }}
-      >
-        <div
-          className="h-px"
-          style={{ background: "linear-gradient(to right, transparent, oklch(0.70 0.082 78 / 0.30), transparent)" }}
-        />
-      </div>
+    <section className="relative">
+      {/* Top rule */}
+      <div className="hairline-gold" />
 
       <div
-        className="glass-vault"
-        style={{ background: "linear-gradient(to bottom, oklch(0.16 0.018 305 / 0.60), oklch(0.13 0.014 300 / 0.70))" }}
+        style={{
+          background: "oklch(0.135 0.014 305 / 0.60)",
+          borderBottom: "1px solid oklch(1 0 0 / 0.05)",
+        }}
       >
-        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl gap-0 px-5 sm:px-8 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.08}>
-              <div className="group flex gap-4">
-                {/* Icon with glow ring */}
-                <div className="relative shrink-0 mt-0.5">
-                  <div
-                    className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{
-                      background: "var(--glow-gold)",
-                      filter: "blur(8px)",
-                      transform: "scale(1.8)",
-                    }}
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.55, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
+              className="group flex gap-5 py-8 px-6"
+              style={{
+                borderRight:
+                  i < items.length - 1
+                    ? "1px solid oklch(1 0 0 / 0.05)"
+                    : "none",
+              }}
+            >
+              {/* Icon */}
+              <div className="shrink-0 mt-0.5">
+                <div
+                  className="flex size-8 items-center justify-center"
+                  style={{
+                    border: "1px solid oklch(0.68 0.076 76 / 0.18)",
+                  }}
+                >
+                  <item.icon
+                    className="size-3.5 transition-colors duration-300"
+                    style={{ color: "var(--brass-dim)" }}
                   />
-                  <div
-                    className="relative flex size-9 items-center justify-center rounded-full"
-                    style={{
-                      background: "linear-gradient(135deg, oklch(0.22 0.022 305) 0%, oklch(0.18 0.018 300) 100%)",
-                      border: "1px solid oklch(0.70 0.082 78 / 0.25)",
-                    }}
-                  >
-                    <item.icon
-                      className="size-4 transition-colors duration-300"
-                      style={{ color: "var(--brass)" }}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm font-medium text-pearl">{item.title}</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
                 </div>
               </div>
-            </Reveal>
+
+              <div>
+                <p
+                  className="text-xs font-medium text-pearl"
+                  style={{ letterSpacing: "0.02em" }}
+                >
+                  {item.title}
+                </p>
+                <p
+                  className="mt-1.5 text-xs leading-relaxed text-muted-foreground"
+                  style={{ lineHeight: 1.6 }}
+                >
+                  {item.body}
+                </p>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Bottom gold rule */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div
-          className="h-px"
-          style={{ background: "linear-gradient(to right, transparent, oklch(0.70 0.082 78 / 0.20), transparent)" }}
-        />
-      </div>
+      {/* Bottom rule */}
+      <div className="hairline-gold" />
     </section>
   );
 }

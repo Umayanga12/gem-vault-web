@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/vault/reveal";
 import { TrustStrip } from "@/components/vault/trust-strip";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import { useRef } from "react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -25,293 +26,490 @@ export const Route = createFileRoute("/about")({
 
 const pillars = [
   {
+    index: "I",
     title: "Independent grading, without exception",
     body: "No stone is listed before it is graded by GIA, IGI, AGS or GRS. We do not grade in-house, and we do not list a stone against a report issued to a different stone. The report number on the page is the report number in the parcel.",
   },
   {
+    index: "II",
     title: "Treatment disclosed, every time",
     body: "Heat, oil, fracture filling and diffusion each change value materially. Where a laboratory records a treatment, we print it on the card, the detail page and the invoice. 'Unheated' appears only where the report says so.",
   },
   {
+    index: "III",
     title: "Origin where it can be evidenced",
     body: "Country of origin is a laboratory opinion based on inclusion and trace-element analysis. We state the country the report names. Where origin is inconclusive, we say so rather than inferring it from the colour.",
   },
   {
+    index: "IV",
     title: "Natural and lab-grown, clearly separated",
     body: "Lab-grown stones are labelled at every point in the interface and priced against lab-grown comparables. They are never presented alongside natural material without that distinction.",
   },
 ];
 
+/* ── Animated line ──────────────────────────────────────────────────── */
+function DrawLine({ delay = 0, className = "" }: { delay?: number; className?: string }) {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      className={`h-px ${className}`}
+      initial={{ scaleX: 0, transformOrigin: "left" }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: reduced ? 0 : 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        background: "linear-gradient(to right, oklch(0.68 0.076 76 / 0.30), oklch(0.68 0.076 76 / 0.04))",
+      }}
+    />
+  );
+}
+
+/* ── Roman numeral ──────────────────────────────────────────────────── */
+function PillarNumber({ label, delay = 0 }: { label: string; delay?: number }) {
+  const reduced = useReducedMotion();
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: reduced ? 0 : delay }}
+      className="font-mono select-none block"
+      style={{
+        fontSize: "0.6rem",
+        letterSpacing: "0.20em",
+        color: "oklch(0.68 0.076 76 / 0.35)",
+        paddingTop: "0.25rem",
+      }}
+      aria-hidden="true"
+    >
+      {label}
+    </motion.span>
+  );
+}
+
+/* ── About page ─────────────────────────────────────────────────────── */
 function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <div
-        className="relative overflow-hidden py-24"
-        style={{
-          background: "linear-gradient(to bottom, oklch(0.14 0.016 305 / 0.60) 0%, transparent 100%)",
-          borderBottom: "1px solid oklch(1 0 0 / 0.07)",
-        }}
-      >
-        {/* Decorative gem */}
-        <div
-          className="absolute right-10 top-1/2 -translate-y-1/2 animate-float opacity-10 hidden lg:block"
-          aria-hidden="true"
-        >
-          <svg width="220" height="220" viewBox="0 0 24 24" fill="none" stroke="url(#about-gold)" strokeWidth="0.5">
-            <polygon points="12 2 22 9 12 22 2 9" />
-            <defs>
-              <linearGradient id="about-gold" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        <div className="relative mx-auto max-w-3xl px-5 sm:px-8">
-          <Reveal>
-            <p className="engraved-label flex items-center gap-3">
-              <span className="block h-px w-8" style={{ background: "linear-gradient(to right, transparent, var(--brass-dim))" }} />
-              Our story
-            </p>
-            <h1
-              className="mt-4 font-display text-pearl"
-              style={{
-                fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                maxWidth: "22ch",
-              }}
-            >
-              Built for people who take gemstones seriously
-            </h1>
-            <p
-              className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground"
-              style={{ lineHeight: 1.8 }}
-            >
-              Cabochon was founded on a simple conviction: every stone deserves an honest record.
-              We are a specialist vault — not a marketplace — where each gem is independently graded
-              before it is ever shown to a buyer.
-            </p>
-          </Reveal>
-        </div>
-      </div>
+      <HeroSection />
 
       {/* Vision & Mission */}
-      <div className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
+      <section className="mx-auto max-w-3xl px-5 pt-28 pb-12 sm:px-8">
+        <VisionMission />
+      </section>
 
-        {/* Vision */}
+      {/* Divider */}
+      <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal>
-          <div
-            className="rounded-2xl p-8 sm:p-10 mb-6"
-            style={{
-              background: "linear-gradient(160deg, oklch(0.175 0.018 305 / 0.60) 0%, oklch(0.14 0.014 300 / 0.70) 100%)",
-              border: "1px solid oklch(0.70 0.082 78 / 0.15)",
-            }}
-          >
-            <div className="flex items-start gap-6">
-              {/* Vision icon */}
-              <div className="shrink-0 mt-1">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-full"
-                  style={{
-                    background: "linear-gradient(135deg, oklch(0.70 0.082 78 / 0.20) 0%, oklch(0.50 0.060 78 / 0.10) 100%)",
-                    border: "1px solid oklch(0.70 0.082 78 / 0.25)",
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#vision-gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 1C6.5 6 2 9 2 12c0 3 4.5 6 10 11 5.5-5 10-8 10-11 0-3-4.5-6-10-11Z" />
-                    <defs>
-                      <linearGradient id="vision-gold" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                        <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-              </div>
-
-              <div>
-                <p
-                  className="font-mono text-[10px] uppercase tracking-[0.20em] mb-3"
-                  style={{ color: "var(--brass-dim)" }}
-                >
-                  Our vision
-                </p>
-                <h2
-                  className="font-display text-pearl mb-4"
-                  style={{
-                    fontSize: "clamp(1.3rem, 2.8vw, 1.8rem)",
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  A world where every gemstone speaks for itself
-                </h2>
-                <p className="text-base leading-relaxed text-muted-foreground" style={{ lineHeight: 1.8 }}>
-                  We envision a gemstone market where price reflects quality, quality is independently
-                  verified, and every buyer — from first-time collector to seasoned investor — has access
-                  to the same unambiguous data that experts have always kept to themselves. Transparency
-                  is not a feature. It is the foundation.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Mission */}
-        <Reveal delay={0.08}>
-          <div
-            className="rounded-2xl p-8 sm:p-10 mb-16"
-            style={{
-              background: "linear-gradient(160deg, oklch(0.175 0.018 305 / 0.60) 0%, oklch(0.14 0.014 300 / 0.70) 100%)",
-              border: "1px solid oklch(0.70 0.082 78 / 0.15)",
-            }}
-          >
-            <div className="flex items-start gap-6">
-              {/* Mission icon */}
-              <div className="shrink-0 mt-1">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-full"
-                  style={{
-                    background: "linear-gradient(135deg, oklch(0.70 0.082 78 / 0.20) 0%, oklch(0.50 0.060 78 / 0.10) 100%)",
-                    border: "1px solid oklch(0.70 0.082 78 / 0.25)",
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#mission-gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="3" />
-                    <line x1="12" y1="2" x2="12" y2="5" />
-                    <line x1="12" y1="19" x2="12" y2="22" />
-                    <line x1="2" y1="12" x2="5" y2="12" />
-                    <line x1="19" y1="12" x2="22" y2="12" />
-                    <defs>
-                      <linearGradient id="mission-gold" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="oklch(0.80 0.09 82)" />
-                        <stop offset="100%" stopColor="oklch(0.62 0.08 78)" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-              </div>
-
-              <div>
-                <p
-                  className="font-mono text-[10px] uppercase tracking-[0.20em] mb-3"
-                  style={{ color: "var(--brass-dim)" }}
-                >
-                  Our mission
-                </p>
-                <h2
-                  className="font-display text-pearl mb-4"
-                  style={{
-                    fontSize: "clamp(1.3rem, 2.8vw, 1.8rem)",
-                    lineHeight: 1.15,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  To list only what we can fully account for
-                </h2>
-                <p className="text-base leading-relaxed text-muted-foreground" style={{ lineHeight: 1.8 }}>
-                  Our mission is to operate the most rigorously documented gemstone vault available.
-                  Every stone we list carries an independent laboratory report. Every treatment is
-                  disclosed. Every origin claim is sourced from that report — not inferred from colour
-                  or cut. We exist to eliminate the information asymmetry that has disadvantaged buyers
-                  for too long.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Divider label */}
-        <Reveal>
-          <div className="flex items-center gap-4 mb-14">
-            <div className="h-px flex-1" style={{ background: "linear-gradient(to right, transparent, oklch(0.70 0.082 78 / 0.20))" }} />
-            <p className="engraved-label shrink-0">How we do it</p>
-            <div className="h-px flex-1" style={{ background: "linear-gradient(to left, transparent, oklch(0.70 0.082 78 / 0.20))" }} />
+          <div className="flex items-center gap-6 mb-20">
+            <DrawLine className="flex-1" />
+            <p
+              className="shrink-0 font-mono text-[9px] uppercase"
+              style={{
+                color: "oklch(0.68 0.076 76 / 0.40)",
+                letterSpacing: "0.26em",
+              }}
+            >
+              How we do it
+            </p>
+            <DrawLine className="flex-1" delay={0.08} />
           </div>
         </Reveal>
 
         {/* Pillars */}
-        <div className="space-y-0">
-          {pillars.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.06}>
-              <div
-                className="group flex gap-8 py-12"
-                style={{ borderBottom: "1px solid oklch(1 0 0 / 0.07)" }}
-              >
-                {/* Number marker */}
-                <div className="shrink-0 pt-1">
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.06 + 0.2 }}
-                    className="font-display"
-                    style={{
-                      fontSize: "2.5rem",
-                      lineHeight: 1,
-                      letterSpacing: "-0.04em",
-                      background: "linear-gradient(180deg, oklch(0.70 0.082 78 / 0.60) 0%, oklch(0.50 0.060 78 / 0.25) 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                      display: "block",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </motion.span>
-                </div>
-
-                {/* Content */}
-                <div>
-                  <h3
-                    className="font-display text-pearl transition-colors group-hover:text-brass"
-                    style={{
-                      fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
-                      lineHeight: 1.15,
-                      letterSpacing: "-0.015em",
-                      transition: "color 300ms ease",
-                    }}
-                  >
-                    {s.title}
-                  </h3>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground" style={{ lineHeight: 1.8 }}>
-                    {s.body}
-                  </p>
-                </div>
-              </div>
+        <div>
+          {pillars.map((p, i) => (
+            <Reveal key={p.title} delay={i * 0.05}>
+              <PillarRow pillar={p} isLast={i === pillars.length - 1} />
             </Reveal>
           ))}
         </div>
 
-        {/* Closing CTA */}
-        <Reveal delay={0.2}>
-          <div
-            className="mt-16 rounded-2xl p-8 text-center"
-            style={{
-              background: "linear-gradient(160deg, oklch(0.175 0.018 305 / 0.60) 0%, oklch(0.14 0.014 300 / 0.70) 100%)",
-              border: "1px solid oklch(0.70 0.082 78 / 0.15)",
-            }}
-          >
-            <p className="engraved-label mb-4">Ready to explore?</p>
-            <h3
-              className="font-display text-pearl mb-6"
-              style={{ fontSize: "1.6rem", letterSpacing: "-0.02em" }}
-            >
-              Enter the vault
-            </h3>
-            <Link to="/browse" search={{ type: undefined }} className="facet-sheen btn-gold inline-flex">
-              Browse certified stones
-            </Link>
-          </div>
+        {/* CTA */}
+        <Reveal delay={0.12}>
+          <ClosingCta />
         </Reveal>
       </div>
 
       <TrustStrip />
     </>
+  );
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+function HeroSection() {
+  const reduced = useReducedMotion();
+  const _ref = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      ref={_ref}
+      className="relative overflow-hidden"
+      style={{
+        borderBottom: "1px solid oklch(1 0 0 / 0.06)",
+        paddingTop: "clamp(5.5rem, 14vw, 9rem)",
+        paddingBottom: "clamp(4.5rem, 10vw, 7.5rem)",
+      }}
+    >
+      {/* Ambient glow — very subtle */}
+      <div
+        className="pointer-events-none absolute -top-60 -left-60 w-[800px] h-[800px]"
+        aria-hidden="true"
+        style={{
+          background: "radial-gradient(ellipse at center, oklch(0.68 0.076 76 / 0.035) 0%, transparent 60%)",
+          filter: "blur(80px)",
+        }}
+      />
+
+      {/* Decorative vertical rule — far right */}
+      <motion.div
+        className="pointer-events-none absolute top-0 right-20 w-px hidden lg:block"
+        aria-hidden="true"
+        initial={{ scaleY: 0, transformOrigin: "top" }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: reduced ? 0 : 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.10 }}
+        style={{
+          height: "100%",
+          background:
+            "linear-gradient(to bottom, transparent, oklch(0.68 0.076 76 / 0.10) 30%, oklch(0.68 0.076 76 / 0.10) 70%, transparent)",
+        }}
+      />
+
+      {/* Diamond mark — top right */}
+      <motion.div
+        className="pointer-events-none absolute top-16 right-[4.5rem] hidden lg:block"
+        aria-hidden="true"
+        initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: reduced ? 0 : 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+      >
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="url(#about-facet-g)" strokeWidth="0.6">
+          <polygon points="12 2 22 9 12 22 2 9" />
+          <defs>
+            <linearGradient id="about-facet-g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="oklch(0.76 0.082 80 / 0.40)" />
+              <stop offset="100%" stopColor="oklch(0.55 0.060 76 / 0.10)" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </motion.div>
+
+      <div className="relative mx-auto max-w-3xl px-5 sm:px-8">
+        {/* Eyebrow */}
+        <motion.div
+          className="flex items-center gap-4 mb-10"
+          initial={{ opacity: 0, x: -14 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: reduced ? 0 : 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        >
+          <div
+            className="h-px w-10 flex-none"
+            style={{
+              background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.60))",
+            }}
+          />
+          <p
+            className="font-mono text-[9px] uppercase"
+            style={{ color: "oklch(0.68 0.076 76 / 0.55)", letterSpacing: "0.28em" }}
+          >
+            Our story
+          </p>
+        </motion.div>
+
+        {/* Headline */}
+        <motion.h1
+          className="font-display text-pearl"
+          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduced ? 0 : 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
+          style={{
+            fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
+            lineHeight: 1.03,
+            letterSpacing: "-0.032em",
+            maxWidth: "18ch",
+          }}
+        >
+          Built for people who take gemstones{" "}
+          <em
+            style={{
+              fontStyle: "italic",
+              background:
+                "linear-gradient(135deg, oklch(0.58 0.065 76) 0%, oklch(0.80 0.086 80) 55%, oklch(0.58 0.065 76) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            seriously.
+          </em>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          className="mt-8 text-base"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reduced ? 0 : 0.9, ease: "easeOut", delay: 0.52 }}
+          style={{
+            color: "oklch(0.580 0.014 85 / 0.70)",
+            lineHeight: 1.95,
+            maxWidth: "50ch",
+          }}
+        >
+          Cabochon was founded on a simple conviction: every stone deserves an
+          honest record. We are a specialist vault — not a marketplace — where
+          each gem is independently graded before it is ever shown to a buyer.
+        </motion.p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Vision & Mission ───────────────────────────────────────────────── */
+function VisionMission() {
+  return (
+    <div>
+      <Reveal>
+        <EditorialBlock
+          eyebrow="Our vision"
+          headline="A world where every gemstone speaks for itself"
+          body="We envision a gemstone market where price reflects quality, quality is independently verified, and every buyer — from first-time collector to seasoned investor — has access to the same unambiguous data that experts have always kept to themselves. Transparency is not a feature. It is the foundation."
+        />
+      </Reveal>
+      <Reveal delay={0.07}>
+        <EditorialBlock
+          eyebrow="Our mission"
+          headline="To list only what we can fully account for"
+          body="Our mission is to operate the most rigorously documented gemstone vault available. Every stone we list carries an independent laboratory report. Every treatment is disclosed. Every origin claim is sourced from that report — not inferred from colour or cut. We exist to eliminate the information asymmetry that has disadvantaged buyers for too long."
+          indented
+        />
+      </Reveal>
+    </div>
+  );
+}
+
+function EditorialBlock({
+  eyebrow,
+  headline,
+  body,
+  indented = false,
+}: {
+  eyebrow: string;
+  headline: string;
+  body: string;
+  indented?: boolean;
+}) {
+  return (
+    <div
+      className="group relative py-14 sm:py-16"
+      style={{ borderBottom: "1px solid oklch(1 0 0 / 0.05)" }}
+    >
+      {/* Left accent bar */}
+      <motion.div
+        className="absolute left-0 top-14 w-px"
+        initial={{ height: 0 }}
+        whileInView={{ height: "5rem" }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+        style={{
+          background:
+            "linear-gradient(to bottom, oklch(0.68 0.076 76 / 0.60), transparent)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className={`pl-7 sm:pl-10 ${indented ? "sm:pl-20" : ""}`}>
+        <p
+          className="font-mono text-[9px] uppercase mb-5"
+          style={{ color: "oklch(0.68 0.076 76 / 0.45)", letterSpacing: "0.26em" }}
+        >
+          {eyebrow}
+        </p>
+        <h2
+          className="font-display text-pearl mb-6"
+          style={{
+            fontSize: "clamp(1.4rem, 2.8vw, 2rem)",
+            lineHeight: 1.10,
+            letterSpacing: "-0.026em",
+          }}
+        >
+          {headline}
+        </h2>
+        <p
+          style={{
+            color: "oklch(0.580 0.014 85 / 0.65)",
+            lineHeight: 1.95,
+            maxWidth: "54ch",
+            fontSize: "0.9375rem",
+          }}
+        >
+          {body}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Pillar row ─────────────────────────────────────────────────────── */
+function PillarRow({
+  pillar,
+  isLast,
+}: {
+  pillar: (typeof pillars)[number];
+  isLast: boolean;
+}) {
+  return (
+    <div
+      className="group grid grid-cols-[2.5rem_1fr] sm:grid-cols-[3.5rem_1fr] gap-x-6 sm:gap-x-10 py-12 relative"
+      style={{
+        borderBottom: isLast ? "none" : "1px solid oklch(1 0 0 / 0.06)",
+      }}
+    >
+      {/* Hover accent bar */}
+      <div
+        className="absolute left-0 top-0 w-px h-0 transition-all duration-500 ease-out group-hover:h-full"
+        style={{
+          background:
+            "linear-gradient(to bottom, oklch(0.68 0.076 76 / 0.45), oklch(0.68 0.076 76 / 0.08), transparent)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Roman numeral */}
+      <div className="flex flex-col items-center pt-0.5">
+        <PillarNumber label={pillar.index} delay={0.05} />
+        <motion.div
+          className="mt-3 w-[2px] h-[2px] rounded-full"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.35, delay: 0.25 }}
+          style={{ background: "oklch(0.68 0.076 76 / 0.28)" }}
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* Content */}
+      <div>
+        <h3
+          className="font-display text-pearl transition-colors duration-300 group-hover:text-brass"
+          style={{
+            fontSize: "clamp(1.05rem, 2vw, 1.4rem)",
+            lineHeight: 1.15,
+            letterSpacing: "-0.018em",
+          }}
+        >
+          {pillar.title}
+        </h3>
+        <p
+          className="mt-4"
+          style={{
+            color: "oklch(0.580 0.014 85 / 0.62)",
+            lineHeight: 1.95,
+            maxWidth: "56ch",
+            fontSize: "0.9375rem",
+          }}
+        >
+          {pillar.body}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Closing CTA ────────────────────────────────────────────────────── */
+function ClosingCta() {
+  return (
+    <div className="mt-24 mb-28 relative">
+      {/* Diamond rule */}
+      <div className="flex items-center mb-16">
+        <div
+          className="h-px flex-1"
+          style={{
+            background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.22))",
+          }}
+        />
+        {/* Diamond glyph */}
+        <div
+          className="mx-5 size-2 flex-none"
+          style={{
+            background: "var(--gradient-gold)",
+            transform: "rotate(45deg)",
+            boxShadow: "0 0 8px 2px oklch(0.68 0.076 76 / 0.25)",
+          }}
+        />
+        <div
+          className="h-px flex-1"
+          style={{
+            background: "linear-gradient(to left, transparent, oklch(0.68 0.076 76 / 0.22))",
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-10">
+        <div>
+          <p
+            className="font-mono text-[9px] uppercase mb-5"
+            style={{ color: "oklch(0.68 0.076 76 / 0.45)", letterSpacing: "0.28em" }}
+          >
+            Ready to explore?
+          </p>
+          <h3
+            className="font-display text-pearl"
+            style={{
+              fontSize: "clamp(2rem, 4.5vw, 3rem)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Enter{" "}
+            <em
+              style={{
+                fontStyle: "italic",
+                background:
+                  "linear-gradient(135deg, oklch(0.58 0.065 76) 0%, oklch(0.81 0.087 80) 55%, oklch(0.58 0.065 76) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              the vault.
+            </em>
+          </h3>
+          <p
+            className="mt-4 text-sm"
+            style={{
+              color: "oklch(0.580 0.014 85 / 0.48)",
+              maxWidth: "36ch",
+              lineHeight: 1.80,
+            }}
+          >
+            Browse certified stones with full origin disclosure and independent laboratory reports.
+          </p>
+        </div>
+
+        <div className="shrink-0">
+          <Link
+            to="/browse"
+            search={{ type: undefined }}
+            className="facet-sheen btn-gold inline-flex items-center gap-3"
+          >
+            Browse certified stones
+            <motion.span
+              className="inline-block"
+              animate={{ x: [0, 4, 0] }}
+              transition={{
+                duration: 2.0,
+                repeat: Infinity,
+                ease: "easeInOut",
+                repeatDelay: 1.5,
+              }}
+            >
+              →
+            </motion.span>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
