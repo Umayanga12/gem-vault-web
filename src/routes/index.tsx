@@ -11,10 +11,12 @@ import {
   AnimatePresence,
 } from "motion/react";
 
-import { gemTypes, stones, typeAccent } from "@/data/stones";
+import { gemTypes, typeAccent } from "@/data/stones";
 import { StoneCard } from "@/components/vault/stone-card";
 import { TrustStrip } from "@/components/vault/trust-strip";
 import { Reveal } from "@/components/vault/reveal";
+import { PromoBanner } from "@/components/vault/PromoBanner";
+import { useVault } from "@/lib/vault-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -58,11 +60,13 @@ const gemRowAccent: Record<string, string> = {
 };
 
 function Home() {
+  const { stones } = useVault();
   const featured = stones.slice(0, 6);
 
   return (
     <>
       <ScrollScrubHero />
+      <PromoBanner />
       <TrustStrip />
 
       {/* Gem type list — editorial row layout */}
@@ -242,6 +246,7 @@ function Home() {
 
 /* ── Gem Type Row — editorial list item ──────────────── */
 function GemTypeRow({ type, index }: { type: string; index: number }) {
+  const { stones } = useVault();
   const [hovered, setHovered] = useState(false);
   const count = stones.filter((s) => s.type === type).length;
   const displayType = type === "Other" ? "Rare Gems" : type;

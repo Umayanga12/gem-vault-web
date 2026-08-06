@@ -4,6 +4,11 @@ import { Heart } from "lucide-react";
 import { formatPrice, typeAccent, type Stone } from "@/data/stones";
 import { useVault } from "@/lib/vault-store";
 import { useState } from "react";
+import {
+  getApplicableDiscount,
+  computeDiscountedPrice,
+  formatDiscount,
+} from "@/data/discounts";
 
 /* Gem-type hover glow — only on hover */
 const typeGlow: Record<string, string> = {
@@ -25,13 +30,20 @@ const typeBadgeColor: Record<string, string> = {
 
 export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }) {
   const reduced = useReducedMotion();
-  const { currency, wishlist, toggleWishlist } = useVault();
+  const { currency, wishlist, toggleWishlist, discounts } = useVault();
   const rx = useSpring(useMotionValue(0), { stiffness: 200, damping: 24 });
   const ry = useSpring(useMotionValue(0), { stiffness: 200, damping: 24 });
   const saved = wishlist.includes(stone.id);
   const [hovered, setHovered] = useState(false);
   const glow = typeGlow[stone.type] ?? typeGlow.Diamond;
   const badgeColor = typeBadgeColor[stone.type] ?? typeBadgeColor.Diamond;
+
+  // Discount logic
+  const activeDiscount = getApplicableDiscount(stone.id, stone.type, discounts);
+  const discountedPrice = activeDiscount
+    ? computeDiscountedPrice(stone.price, activeDiscount)
+    : null;
+  const hasDiscount = discountedPrice !== null && discountedPrice < stone.price;
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
     if (reduced) return;
@@ -116,6 +128,26 @@ export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }
               {stone.type}
             </span>
 
+            {/* Discount badge */}
+            {hasDiscount && activeDiscount && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 font-mono text-[8px] uppercase"
+                style={{
+                  background: "oklch(0.62 0.120 15 / 0.90)",
+                  border: "1px solid oklch(0.62 0.120 15 / 0.60)",
+                  backdropFilter: "blur(6px)",
+                  color: "oklch(0.97 0.01 15)",
+                  letterSpacing: "0.16em",
+                  borderRadius: "3px",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {formatDiscount(activeDiscount)}
+              </motion.span>
+            )}
+
             {/* Wishlist */}
             <button
               onClick={(e) => {
@@ -172,14 +204,33 @@ export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }
 
               <div className="shrink-0 text-right">
                 <p className="rule-label mb-0.5">{stone.lab}</p>
-                <motion.p
-                  className="font-display"
-                  animate={{ color: hovered ? "var(--brass-hi)" : "var(--brass)" }}
-                  transition={{ duration: 0.3 }}
-                  style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
-                >
-                  {formatPrice(stone.price, currency)}
-                </motion.p>
+                {hasDiscount && discountedPrice !== null ? (
+                  <div>
+                    <p
+                      className="font-mono line-through"
+                      style={{ fontSize: "0.7rem", color: "var(--muted-foreground)", letterSpacing: "-0.01em" }}
+                    >
+                      {formatPrice(stone.price, currency)}
+                    </p>
+                    <motion.p
+                      className="font-display"
+                      animate={{ color: hovered ? "oklch(0.80 0.120 15)" : "oklch(0.72 0.120 15)" }}
+                      transition={{ duration: 0.3 }}
+                      style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
+                    >
+                      {formatPrice(discountedPrice, currency)}
+                    </motion.p>
+                  </div>
+                ) : (
+                  <motion.p
+                    className="font-display"
+                    animate={{ color: hovered ? "var(--brass-hi)" : "var(--brass)" }}
+                    transition={{ duration: 0.3 }}
+                    style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
+                  >
+                    {formatPrice(stone.price, currency)}
+                  </motion.p>
+                )}
               </div>
             </div>
 

@@ -2,9 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { gemTypes, stones, type GemType } from "@/data/stones";
+import { gemTypes, type GemType } from "@/data/stones";
 import { StoneCard } from "@/components/vault/stone-card";
 import { CountUp } from "@/components/vault/reveal";
+import { PromoBanner } from "@/components/vault/PromoBanner";
+import { useVault } from "@/lib/vault-store";
 
 export const Route = createFileRoute("/browse")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -33,6 +35,7 @@ const treatments = ["Unheated", "Heated", "Minor oil", "None"] as const;
 
 function Browse() {
   const { type } = Route.useSearch();
+  const { stones } = useVault();
   const [types, setTypes] = useState<GemType[]>(type ? [type] : []);
   const [maxCarat, setMaxCarat] = useState(8);
   const [lab, setLab] = useState<string[]>([]);
@@ -69,7 +72,9 @@ function Browse() {
     types.length > 0 || maxCarat < 8 || lab.length > 0 || treatment.length > 0 || maxPrice < 250000;
 
   return (
-    <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
+    <>
+      <PromoBanner />
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
       {/* Page header */}
       <header
         className="flex flex-wrap items-end justify-between gap-4 pb-10"
@@ -266,6 +271,7 @@ function Browse() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

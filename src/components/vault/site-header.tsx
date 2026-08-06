@@ -159,6 +159,33 @@ export function SiteHeader() {
                 </Link>
               );
             })}
+
+            {/* Dashboard admin link */}
+            <a
+              href="/dashboard"
+              className="flex items-center gap-1.5 px-2.5 py-1 transition-all duration-200 hover:opacity-90"
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.55rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "oklch(0.10 0.010 300)",
+                background: currentPath === "/dashboard"
+                  ? "var(--brass)"
+                  : "oklch(0.68 0.076 76 / 0.15)",
+                border: "1px solid oklch(0.68 0.076 76 / 0.30)",
+              }}
+            >
+              <svg width="8" height="8" viewBox="0 0 10 10" fill="currentColor" opacity="0.8">
+                <rect x="0" y="0" width="4" height="4" rx="1" />
+                <rect x="6" y="0" width="4" height="4" rx="1" />
+                <rect x="0" y="6" width="4" height="4" rx="1" />
+                <rect x="6" y="6" width="4" height="4" rx="1" />
+              </svg>
+              <span style={{ color: currentPath === "/dashboard" ? "oklch(0.10 0.010 300)" : "var(--brass)" }}>
+                Dashboard
+              </span>
+            </a>
           </nav>
 
           {/* Actions row */}

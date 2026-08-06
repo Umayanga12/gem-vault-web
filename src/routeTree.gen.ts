@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as ConsultationRouteImport } from './routes/consultation'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TrustRouteImport } from './routes/trust'
 import { Route as StonesStoneIdRouteImport } from './routes/stones.$stoneId'
@@ -43,6 +44,11 @@ const ConsultationRoute = ConsultationRouteImport.update({
   path: '/consultation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/consultation': typeof ConsultationRoute
+  '/dashboard': typeof DashboardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/consultation': typeof ConsultationRoute
+  '/dashboard': typeof DashboardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/cart': typeof CartRoute
   '/consultation': typeof ConsultationRoute
+  '/dashboard': typeof DashboardRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/consultation'
+    | '/dashboard'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/consultation'
+    | '/dashboard'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/browse'
     | '/cart'
     | '/consultation'
+    | '/dashboard'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   BrowseRoute: typeof BrowseRoute
   CartRoute: typeof CartRoute
   ConsultationRoute: typeof ConsultationRoute
+  DashboardRoute: typeof DashboardRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrustRoute: typeof TrustRoute
   StonesStoneIdRoute: typeof StonesStoneIdRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsultationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   BrowseRoute: BrowseRoute,
   CartRoute: CartRoute,
   ConsultationRoute: ConsultationRoute,
+  DashboardRoute: DashboardRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrustRoute: TrustRoute,
   StonesStoneIdRoute: StonesStoneIdRoute,
