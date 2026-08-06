@@ -127,11 +127,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const routerState = useRouterState();
   const isDashboard = routerState.location.pathname.startsWith("/dashboard");
+  const isLogin = routerState.location.pathname.startsWith("/login");
+  const isStandalone = isDashboard || isLogin;
 
   return (
     <QueryClientProvider client={queryClient}>
       <VaultProvider>
-        {isDashboard ? (
+        {isStandalone ? (
           <Outlet />
         ) : (
           <div className="flex min-h-screen flex-col">

@@ -8,6 +8,8 @@ import {
   LogOut,
   Settings,
 } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useVault } from "@/lib/vault-store";
 
 type Tab = "overview" | "stones" | "discounts";
 
@@ -24,6 +26,8 @@ const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { logout } = useVault();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -149,9 +153,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           className="absolute bottom-0 left-0 right-0 px-2 pb-4"
           style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}
         >
-          <a
-            href="/"
-            className="mt-3 flex items-center gap-3 px-3 py-2.5 transition-colors hover:text-pearl"
+          <button
+            onClick={() => {
+              logout();
+              navigate({ to: "/", replace: true });
+            }}
+            className="mt-3 flex items-center gap-3 px-3 py-2.5 transition-colors hover:text-pearl w-full text-left cursor-pointer"
             style={{ color: "var(--muted-foreground)", borderRadius: "6px" }}
           >
             <LogOut className="size-4 flex-none" />
@@ -163,11 +170,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   exit={{ opacity: 0 }}
                   className="text-sm"
                 >
-                  Back to site
+                  Log out
                 </motion.span>
               )}
             </AnimatePresence>
-          </a>
+          </button>
           <a
             href="/"
             className="flex items-center gap-3 px-3 py-2.5 transition-colors hover:text-pearl"

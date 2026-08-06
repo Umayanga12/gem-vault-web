@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useVault } from "@/lib/vault-store";
 import { DashboardLayout } from "@/components/vault/dashboard/DashboardLayout";
 import { OverviewPanel } from "@/components/vault/dashboard/OverviewPanel";
 import { StonesPanel } from "@/components/vault/dashboard/StonesPanel";
@@ -15,6 +17,23 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
+  const { isLoggedIn } = useVault();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate({
+        to: "/login",
+        search: { redirect: "/dashboard" },
+        replace: true,
+      });
+    }
+  }, [isLoggedIn, navigate]);
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   return (
     <DashboardLayout>
       {(activeTab, setTab) => {

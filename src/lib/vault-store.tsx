@@ -34,6 +34,10 @@ interface VaultState {
   addDiscount: (d: Discount) => void;
   updateDiscount: (d: Discount) => void;
   deleteDiscount: (id: string) => void;
+  // Authentication
+  isLoggedIn: boolean;
+  login: (password: string) => boolean;
+  logout: () => void;
 }
 
 const VaultContext = createContext<VaultState | null>(null);
@@ -70,6 +74,9 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   const [discounts, setDiscounts] = useState<Discount[]>(() =>
     loadFromStorage("vault_discounts", defaultDiscounts),
   );
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
+    loadFromStorage("vault_logged_in", false),
+  );
 
   // Persist stones & discounts on change
   useEffect(() => {
@@ -78,6 +85,9 @@ export function VaultProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     saveToStorage("vault_discounts", discounts);
   }, [discounts]);
+  useEffect(() => {
+    saveToStorage("vault_logged_in", isLoggedIn);
+  }, [isLoggedIn]);
 
   const value = useMemo<VaultState>(
     () => ({
@@ -115,8 +125,20 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         setDiscounts((prev) => prev.map((x) => (x.id === d.id ? d : x))),
       deleteDiscount: (id) =>
         setDiscounts((prev) => prev.filter((x) => x.id !== id)),
+      // Authentication
+      isLoggedIn,
+      login: (password) => {
+        if (password === "admin" || password === "gems123") {
+          setIsLoggedIn(true);
+          return true;
+        }
+        return false;
+      },
+      logout: () => {
+        setIsLoggedIn(false);
+      },
     }),
-    [cart, wishlist, compare, currency, unit, stones, discounts],
+    [cart, wishlist, compare, currency, unit, stones, discounts, isLoggedIn],
   );
 
   return <VaultContext.Provider value={value}>{children}</VaultContext.Provider>;
