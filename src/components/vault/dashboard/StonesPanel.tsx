@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Plus, Pencil, Trash2, Search, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, X, Star } from "lucide-react";
 import { useVault } from "@/lib/vault-store";
 import { formatPrice, type Stone } from "@/data/stones";
 import { StoneFormModal } from "./StoneFormModal";
@@ -14,7 +14,7 @@ const typeColors: Record<string, string> = {
 };
 
 export function StonesPanel() {
-  const { stones, deleteStone } = useVault();
+  const { stones, deleteStone, updateStone } = useVault();
   const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editingStone, setEditingStone] = useState<Stone | null>(null);
@@ -43,6 +43,10 @@ export function StonesPanel() {
       deleteStone(id);
       setDeletingId(null);
     }, 300);
+  }
+
+  function handleToggleFeatured(stone: Stone) {
+    updateStone({ ...stone, isFeatured: !stone.isFeatured });
   }
 
   return (
@@ -110,7 +114,7 @@ export function StonesPanel() {
         <div
           className="grid items-center px-4 py-3"
           style={{
-            gridTemplateColumns: "1fr 1fr 80px 90px 80px 100px 88px",
+            gridTemplateColumns: "1fr 1fr 80px 90px 80px 100px 110px",
             borderBottom: "1px solid oklch(1 0 0 / 0.07)",
           }}
         >
@@ -148,7 +152,7 @@ export function StonesPanel() {
                 transition={{ duration: 0.25, delay: i * 0.03 }}
                 className="grid items-center px-4 py-3 transition-colors hover:bg-white/[0.025]"
                 style={{
-                  gridTemplateColumns: "1fr 1fr 80px 90px 80px 100px 88px",
+                  gridTemplateColumns: "1fr 1fr 80px 90px 80px 100px 110px",
                   borderBottom:
                     i < filtered.length - 1
                       ? "1px solid oklch(1 0 0 / 0.05)"
@@ -197,7 +201,20 @@ export function StonesPanel() {
                   {formatPrice(stone.price)}
                 </span>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleToggleFeatured(stone)}
+                    aria-label={`Toggle Featured for ${stone.name}`}
+                    className="flex size-7 items-center justify-center transition-colors hover:text-yellow-400"
+                    style={{
+                      color: stone.isFeatured ? "var(--brass)" : "var(--muted-foreground)",
+                      background: "oklch(1 0 0 / 0.04)",
+                      border: "1px solid oklch(1 0 0 / 0.08)",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <Star className="size-3" fill={stone.isFeatured ? "currentColor" : "none"} />
+                  </button>
                   <button
                     onClick={() => handleEdit(stone)}
                     aria-label={`Edit ${stone.name}`}

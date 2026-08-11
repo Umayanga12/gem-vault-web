@@ -91,7 +91,8 @@ const WHY_ITEMS = [
 
 function Home() {
   const { stones } = useVault();
-  const featured = stones.slice(0, 6);
+  const featuredStones = stones.filter((s) => s.isFeatured);
+  const featured = featuredStones.length > 0 ? featuredStones : stones.slice(0, 6);
 
   return (
     <>
@@ -142,13 +143,13 @@ function Home() {
           </Link>
         </Reveal>
 
-        <div className="hairline-gold mt-10 mb-0" />
-        <div>
+
+        {/* Modern grid layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-12">
           {gemTypes.map((type, i) => (
-            <GemTypeRow key={type} type={type} index={i} />
+            <GemTypeCard key={type} type={type} index={i} />
           ))}
         </div>
-        <div className="hairline-gold" />
       </section>
 
       {/* Featured stones */}
@@ -317,8 +318,8 @@ function WhyStrip() {
   );
 }
 
-/* ── Gem Type Row — enriched editorial list item ──────── */
-function GemTypeRow({ type, index }: { type: string; index: number }) {
+/* ── Gem Type Card — enriched grid tile item ────────── */
+function GemTypeCard({ type, index }: { type: string; index: number }) {
   const { stones } = useVault();
   const [hovered, setHovered] = useState(false);
   const count = stones.filter((s) => s.type === type).length;
@@ -331,122 +332,142 @@ function GemTypeRow({ type, index }: { type: string; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -6 }}
+      className="h-full"
     >
       <Link
         to="/browse"
         search={{ type: type as any }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="group flex items-center justify-between py-6 relative"
+        className="relative flex flex-col justify-between h-full min-h-[250px] p-6 overflow-hidden transition-all duration-300"
         style={{
-          borderBottom: "1px solid oklch(1 0 0 / 0.07)",
-          paddingLeft: "1.25rem",
-          paddingRight: "1.25rem",
+          background: "linear-gradient(160deg, oklch(0.135 0.015 305 / 0.55) 0%, oklch(0.100 0.010 300 / 0.60) 100%)",
+          border: hovered ? `1px solid ${accentColor.replace(")", " / 0.30)")}` : "1px solid oklch(1 0 0 / 0.06)",
+          boxShadow: hovered 
+            ? `0 12px 30px -10px oklch(0 0 0 / 0.8), 0 0 20px -2px ${accentColor.replace(")", " / 0.12)")}`
+            : "0 4px 20px -10px oklch(0 0 0 / 0.5)",
         }}
       >
-        {/* Hover background fill */}
+        {/* Top colored accent line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300"
+          style={{
+            background: `linear-gradient(90deg, ${accentColor}, ${accentColor.replace(")", " / 0.35)")})`,
+            opacity: hovered ? 1 : 0.4,
+          }}
+        />
+
+        {/* Hover ambient color glow behind icon */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{ opacity: hovered ? 1 : 0 }}
+          className="absolute pointer-events-none w-32 h-32 -right-8 -top-8 rounded-full"
+          animate={{ opacity: hovered ? 0.15 : 0 }}
           transition={{ duration: 0.35 }}
           style={{
-            background: `linear-gradient(to right, ${accentColor.replace(")", " / 0.06)")}, transparent 55%)`,
+            background: `radial-gradient(circle, ${accentColor} 0%, transparent 70%)`,
+            filter: "blur(20px)",
           }}
         />
 
-        {/* Left accent bar — always visible at 18% opacity, full on hover */}
-        <motion.div
-          className="absolute left-0 top-0 bottom-0 w-[3px]"
-          animate={{ opacity: hovered ? 1 : 0.18 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            background: `linear-gradient(to bottom, ${accentColor}, ${accentColor.replace(")", " / 0.30)")})`,
-          }}
-        />
-
-        {/* Left content */}
-        <div className="relative z-10 flex items-center gap-6 min-w-0">
-          {/* Index numeral */}
+        {/* Card Header (Index & Count) */}
+        <div className="flex items-center justify-between z-10">
           <span
-            className="font-mono text-[9px] w-5 text-right shrink-0"
-            style={{ color: "oklch(0.68 0.076 76 / 0.30)", letterSpacing: "0.14em" }}
+            className="font-mono text-[9px] uppercase tracking-[0.14em]"
+            style={{ color: "oklch(0.68 0.076 76 / 0.40)" }}
           >
-            {String(index + 1).padStart(2, "0")}
+            {String(index + 1).padStart(2, "0")} / {displayType.toUpperCase()}
           </span>
-
-          {/* Gem icon — 28px, fill + glow on hover */}
-          <motion.svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill={hovered ? fillColor : "none"}
-            stroke={accentColor}
-            strokeWidth="1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            animate={{ rotate: hovered ? 18 : 0, opacity: hovered ? 1 : 0.45 }}
-            style={{
-              flexShrink: 0,
-              filter: hovered
-                ? `drop-shadow(0 0 6px ${accentColor.replace(")", " / 0.50)")})`
-                : "none",
-              transition: "filter 0.35s ease",
-            }}
-            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <path d={iconPath} />
-          </motion.svg>
-
-          {/* Name + one-line descriptor */}
-          <div className="min-w-0">
-            <span
-              className="block font-display transition-colors duration-300"
-              style={{
-                fontSize: "clamp(1.35rem, 2.6vw, 1.9rem)",
-                letterSpacing: "-0.025em",
-                lineHeight: 1.05,
-                color: hovered ? "var(--pearl)" : "oklch(0.945 0.012 85 / 0.82)",
-              }}
-            >
-              {displayType}
-            </span>
-            <span
-              className="block font-mono text-[9px] mt-1.5"
-              style={{
-                letterSpacing: "0.09em",
-                color: hovered ? "var(--muted-foreground)" : "oklch(0.58 0.014 85 / 0.45)",
-                lineHeight: 1.5,
-                transition: "color 0.3s ease",
-              }}
-            >
-              {descriptor}
-            </span>
-          </div>
-        </div>
-
-        {/* Right side — count + arrow (always visible at low opacity) */}
-        <div className="relative z-10 flex items-center gap-5 shrink-0 pl-4">
           <span
-            className="font-mono text-[9px] uppercase tracking-wider transition-colors duration-300"
+            className="font-mono text-[8px] uppercase tracking-wider px-2 py-0.5"
             style={{
-              letterSpacing: "0.16em",
-              color: hovered ? accentColor : "var(--muted-foreground)",
+              color: hovered ? "var(--pearl)" : "var(--muted-foreground)",
+              background: hovered ? accentColor.replace(")", " / 0.12)") : "oklch(1 0 0 / 0.03)",
+              border: hovered ? `1px solid ${accentColor.replace(")", " / 0.25)")}` : "1px solid oklch(1 0 0 / 0.05)",
+              borderRadius: "2px",
+              transition: "all 0.3s ease",
             }}
           >
             {count} {count === 1 ? "stone" : "stones"}
           </span>
-          <motion.span
-            animate={{ x: hovered ? 0 : -4, opacity: hovered ? 1 : 0.25 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="font-mono text-sm"
-            style={{ color: accentColor }}
+        </div>
+
+        {/* Card Body (Large visual icon with orbital ring) */}
+        <div className="flex items-center justify-center my-6 relative z-10">
+          {/* Orbital path outline */}
+          <motion.div
+            className="absolute rounded-full pointer-events-none"
+            animate={{ rotate: hovered ? 90 : 0, scale: hovered ? 1.05 : 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              width: "60px",
+              height: "60px",
+              border: `1px dashed ${accentColor.replace(")", " / 0.15)")}`,
+            }}
+          />
+
+          <motion.svg
+            width="34"
+            height="34"
+            viewBox="0 0 24 24"
+            fill={hovered ? fillColor : "none"}
+            stroke={accentColor}
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            animate={{
+              rotate: hovered ? 15 : 0,
+              scale: hovered ? 1.1 : 1,
+            }}
+            style={{
+              filter: hovered
+                ? `drop-shadow(0 0 8px ${accentColor.replace(")", " / 0.45)")})`
+                : "none",
+              transition: "filter 0.35s ease",
+            }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
-            →
-          </motion.span>
+            <path d={iconPath} />
+          </motion.svg>
+        </div>
+
+        {/* Card Footer (Name, description & arrow) */}
+        <div className="relative z-10 flex flex-col justify-end">
+          <div className="flex items-end justify-between gap-2">
+            <span
+              className="font-display block transition-colors duration-300"
+              style={{
+                fontSize: "1.35rem",
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+                color: hovered ? "var(--pearl)" : "oklch(0.945 0.012 85 / 0.85)",
+              }}
+            >
+              {displayType}
+            </span>
+            <motion.span
+              animate={{ x: hovered ? 2 : -2, opacity: hovered ? 1 : 0.35 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="font-mono text-sm leading-none"
+              style={{ color: accentColor }}
+            >
+              →
+            </motion.span>
+          </div>
+          <span
+            className="block text-[11px] mt-2 font-sans"
+            style={{
+              color: "var(--muted-foreground)",
+              lineHeight: 1.5,
+              opacity: hovered ? 0.95 : 0.65,
+              transition: "opacity 0.3s ease",
+            }}
+          >
+            {descriptor}
+          </span>
         </div>
       </Link>
     </motion.div>
@@ -497,8 +518,20 @@ function ScrubbingHero() {
   });
 
   /* — Phased reveals — */
-  const subtitleOpacity  = useTransform(scrollYProgress, [0.06, 0.20], [0, 1]);
-  const subtitleY        = useTransform(scrollYProgress, [0.06, 0.20], [10, 0]);
+  // Phase 1 (0% to 30%)
+  const text1Opacity         = useTransform(scrollYProgress, [0.25, 0.30], [1, 0]);
+  const text1Y               = useTransform(scrollYProgress, [0.25, 0.30], [0, -15]);
+  const text1SubtitleOpacity = useTransform(scrollYProgress, [0.06, 0.20, 0.25, 0.30], [0, 1, 1, 0]);
+  const text1SubtitleY       = useTransform(scrollYProgress, [0.06, 0.20, 0.25, 0.30], [10, 0, 0, -15]);
+
+  // Phase 2 (30% to 60%)
+  const text2Opacity         = useTransform(scrollYProgress, [0.25, 0.30, 0.55, 0.60], [0, 1, 1, 0]);
+  const text2Y               = useTransform(scrollYProgress, [0.25, 0.30, 0.55, 0.60], [15, 0, 0, -15]);
+
+  // Phase 3 (60% to 100%)
+  const text3Opacity         = useTransform(scrollYProgress, [0.55, 0.60], [0, 1]);
+  const text3Y               = useTransform(scrollYProgress, [0.55, 0.60], [15, 0]);
+
   const badgeOpacity     = useTransform(scrollYProgress, [0.18, 0.32], [0, 1]);
   const badgeY           = useTransform(scrollYProgress, [0.18, 0.32], [8,  0]);
   const detailsOpacity   = useTransform(scrollYProgress, [0.45, 0.62], [0, 1]);
@@ -623,44 +656,114 @@ function ScrubbingHero() {
             Lot 214 · Certified this week
           </motion.p>
 
-          {/* Headline — shimmer italic */}
-          <motion.h1
-            className="font-display text-pearl"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-            style={{
-              fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)",
-              lineHeight: 1.00,
-              maxWidth: "14ch",
-              letterSpacing: "-0.03em",
-              textShadow: "0 4px 40px oklch(0 0 0 / 0.55)",
-              marginTop: "0.875rem",
-            }}
-          >
-            A 3.02 ct D / VVS1,{" "}
-            <em
-              style={{
-                fontStyle: "italic",
-                background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 45%, var(--brass-hi) 70%, var(--brass) 100%)",
-                backgroundSize: "200% auto",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                animation: "gold-shimmer 5s linear infinite",
-              }}
-            >
-              turned in full light.
-            </em>
-          </motion.h1>
+          {/* Headline & Subtitle Phases */}
+          <div className="relative mt-[0.875rem]">
+            {/* Phase 1 */}
+            <motion.div style={{ opacity: text1Opacity, y: text1Y }} className="relative">
+              <motion.h1
+                className="font-display text-pearl"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
+                style={{
+                  fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)",
+                  lineHeight: 1.00,
+                  maxWidth: "14ch",
+                  letterSpacing: "-0.03em",
+                  textShadow: "0 4px 40px oklch(0 0 0 / 0.55)",
+                }}
+              >
+                A 3.02 ct D / VVS1,{" "}
+                <em
+                  style={{
+                    fontStyle: "italic",
+                    background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 45%, var(--brass-hi) 70%, var(--brass) 100%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    animation: "gold-shimmer 5s linear infinite",
+                  }}
+                >
+                  turned in full light.
+                </em>
+              </motion.h1>
+              <motion.p style={{ opacity: text1SubtitleOpacity, y: text1SubtitleY }} className="mt-4 max-w-sm text-sm">
+                <span style={{ color: "oklch(1 0 0 / 0.45)", lineHeight: 1.75, display: "block" }}>
+                  A flawless Botswana diamond, independently graded by GIA.
+                  Scroll to examine every facet.
+                </span>
+              </motion.p>
+            </motion.div>
 
-          {/* Subtitle — phase 2: 6% scroll */}
-          <motion.p style={{ opacity: subtitleOpacity, y: subtitleY }} className="mt-4 max-w-sm text-sm">
-            <span style={{ color: "oklch(1 0 0 / 0.45)", lineHeight: 1.75, display: "block" }}>
-              A flawless Botswana diamond, independently graded by GIA.
-              Scroll to examine every facet.
-            </span>
-          </motion.p>
+            {/* Phase 2 */}
+            <motion.div style={{ opacity: text2Opacity, y: text2Y }} className="absolute inset-0 pointer-events-none">
+              <h1
+                className="font-display text-pearl"
+                style={{
+                  fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)",
+                  lineHeight: 1.00,
+                  maxWidth: "14ch",
+                  letterSpacing: "-0.03em",
+                  textShadow: "0 4px 40px oklch(0 0 0 / 0.55)",
+                }}
+              >
+                Uncompromising{" "}
+                <em
+                  style={{
+                    fontStyle: "italic",
+                    background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 45%, var(--brass-hi) 70%, var(--brass) 100%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    animation: "gold-shimmer 5s linear infinite",
+                  }}
+                >
+                  clarity.
+                </em>
+              </h1>
+              <p className="mt-4 max-w-sm text-sm">
+                <span style={{ color: "oklch(1 0 0 / 0.45)", lineHeight: 1.75, display: "block" }}>
+                  Notice the precise facet alignment and absolute absence of inclusions, visible at every angle.
+                </span>
+              </p>
+            </motion.div>
+
+            {/* Phase 3 */}
+            <motion.div style={{ opacity: text3Opacity, y: text3Y }} className="absolute inset-0 pointer-events-none">
+              <h1
+                className="font-display text-pearl"
+                style={{
+                  fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)",
+                  lineHeight: 1.00,
+                  maxWidth: "14ch",
+                  letterSpacing: "-0.03em",
+                  textShadow: "0 4px 40px oklch(0 0 0 / 0.55)",
+                }}
+              >
+                Ready for the{" "}
+                <em
+                  style={{
+                    fontStyle: "italic",
+                    background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 45%, var(--brass-hi) 70%, var(--brass) 100%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    animation: "gold-shimmer 5s linear infinite",
+                  }}
+                >
+                  vault.
+                </em>
+              </h1>
+              <p className="mt-4 max-w-sm text-sm">
+                <span style={{ color: "oklch(1 0 0 / 0.45)", lineHeight: 1.75, display: "block" }}>
+                  Fully certified and available for secure acquisition today. Includes comprehensive GIA documentation.
+                </span>
+              </p>
+            </motion.div>
+          </div>
 
           {/* Stat badge — phase 3: 18% scroll */}
           <motion.div style={{ opacity: badgeOpacity, y: badgeY }} className="mt-5 w-fit">

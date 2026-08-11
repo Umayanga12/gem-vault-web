@@ -56,55 +56,55 @@
   --radius: 0.25rem;
 
   /* ── Core palette ───────────────────────────────── */
-  --obsidian:   oklch(0.110 0.010 300);
-  --velvet:     oklch(0.160 0.016 305);
-  --pearl:      oklch(0.945 0.012 85);
-  --brass:      oklch(0.680 0.076 76);
-  --brass-dim:  oklch(0.480 0.055 76);
-  --brass-hi:   oklch(0.800 0.088 80);
-  --ruby:       oklch(0.418 0.155 15);
-  --sapphire:   oklch(0.352 0.069 250);
-  --emerald:    oklch(0.380 0.073 160);
-  --amethyst:   oklch(0.353 0.088 313);
+  --obsidian: oklch(0.110 0.010 300);
+  --velvet: oklch(0.160 0.016 305);
+  --pearl: oklch(0.945 0.012 85);
+  --brass: oklch(0.680 0.076 76);
+  --brass-dim: oklch(0.480 0.055 76);
+  --brass-hi: oklch(0.800 0.088 80);
+  --ruby: oklch(0.418 0.155 15);
+  --sapphire: oklch(0.352 0.069 250);
+  --emerald: oklch(0.380 0.073 160);
+  --amethyst: oklch(0.353 0.088 313);
 
   /* ── Glow palette — intentionally restrained ───── */
-  --glow-gold:     oklch(0.68 0.076 76 / 0.20);
-  --glow-gold-hi:  oklch(0.80 0.088 80 / 0.35);
-  --glow-ruby:     oklch(0.42 0.155 15 / 0.20);
+  --glow-gold: oklch(0.68 0.076 76 / 0.20);
+  --glow-gold-hi: oklch(0.80 0.088 80 / 0.35);
+  --glow-ruby: oklch(0.42 0.155 15 / 0.20);
   --glow-sapphire: oklch(0.35 0.069 250 / 0.20);
-  --glow-emerald:  oklch(0.38 0.073 160 / 0.20);
+  --glow-emerald: oklch(0.38 0.073 160 / 0.20);
   --glow-amethyst: oklch(0.35 0.088 313 / 0.20);
 
   /* ── Semantic mapping ───────────────────────────── */
-  --background:             var(--obsidian);
-  --foreground:             var(--pearl);
-  --card:                   var(--velvet);
-  --card-foreground:        var(--pearl);
-  --popover:                var(--velvet);
-  --popover-foreground:     var(--pearl);
-  --primary:                var(--brass);
-  --primary-foreground:     oklch(0.10 0.010 300);
-  --secondary:              oklch(0.200 0.016 305);
-  --secondary-foreground:   var(--pearl);
-  --muted:                  oklch(0.200 0.016 305);
-  --muted-foreground:       oklch(0.580 0.014 85);
-  --accent:                 oklch(0.240 0.020 305);
-  --accent-foreground:      var(--pearl);
-  --destructive:            oklch(0.520 0.190 20);
+  --background: var(--obsidian);
+  --foreground: var(--pearl);
+  --card: var(--velvet);
+  --card-foreground: var(--pearl);
+  --popover: var(--velvet);
+  --popover-foreground: var(--pearl);
+  --primary: var(--brass);
+  --primary-foreground: oklch(0.10 0.010 300);
+  --secondary: oklch(0.200 0.016 305);
+  --secondary-foreground: var(--pearl);
+  --muted: oklch(0.200 0.016 305);
+  --muted-foreground: oklch(0.580 0.014 85);
+  --accent: oklch(0.240 0.020 305);
+  --accent-foreground: var(--pearl);
+  --destructive: oklch(0.520 0.190 20);
   --destructive-foreground: var(--pearl);
-  --border:                 oklch(0.240 0.014 305);
-  --input:                  oklch(0.230 0.014 305);
-  --ring:                   var(--brass);
+  --border: oklch(0.240 0.014 305);
+  --input: oklch(0.230 0.014 305);
+  --ring: var(--brass);
 
   /* ── Shadows ────────────────────────────────────── */
-  --shadow-vault:   0 40px 100px -50px oklch(0 0 0 / 0.98);
-  --shadow-card:    0 2px 20px -4px oklch(0 0 0 / 0.55), 0 0 0 1px oklch(1 0 0 / 0.04);
-  --shadow-gold:    0 0 20px 2px var(--glow-gold);
+  --shadow-vault: 0 40px 100px -50px oklch(0 0 0 / 0.98);
+  --shadow-card: 0 2px 20px -4px oklch(0 0 0 / 0.55), 0 0 0 1px oklch(1 0 0 / 0.04);
+  --shadow-gold: 0 0 20px 2px var(--glow-gold);
   --shadow-card-hover: 0 12px 40px -8px oklch(0 0 0 / 0.70), 0 0 0 1px oklch(1 0 0 / 0.07);
 
   /* ── Gradients ──────────────────────────────────── */
   --gradient-stage: radial-gradient(70% 55% at 50% 42%, oklch(0.22 0.024 305 / 0.70), transparent 70%);
-  --gradient-gold:  linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 48%, var(--brass-hi) 100%);
+  --gradient-gold: linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 48%, var(--brass-hi) 100%);
   --gradient-surface: linear-gradient(160deg, oklch(0.165 0.017 305 / 0.80) 0%, oklch(0.130 0.013 300 / 0.85) 100%);
 }
 
@@ -153,13 +153,16 @@
     width: 4px;
     height: 4px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: oklch(0.28 0.014 305 / 0.70);
     border-radius: 99px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--brass-dim);
   }
@@ -169,108 +172,234 @@
 
 /* Subtle ambient pulse — for single focal elements only */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 12px 1px var(--glow-gold); }
-  50%       { box-shadow: 0 0 22px 4px var(--glow-gold-hi); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 12px 1px var(--glow-gold);
+  }
+
+  50% {
+    box-shadow: 0 0 22px 4px var(--glow-gold-hi);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes shimmer-pan {
-  from { background-position: 180% 0; }
-  to   { background-position: -80% 0; }
+  from {
+    background-position: 180% 0;
+  }
+
+  to {
+    background-position: -80% 0;
+  }
 }
 
 /* Facet sheen — kept but more subtle */
 @keyframes facet-sweep {
-  0%       { transform: translateX(-115%) rotate(2deg); }
-  35%, 100% { transform: translateX(115%) rotate(2deg); }
+  0% {
+    transform: translateX(-115%) rotate(2deg);
+  }
+
+  35%,
+  100% {
+    transform: translateX(115%) rotate(2deg);
+  }
 }
 
 @keyframes gold-shimmer {
-  0%    { background-position: -200% center; }
-  100%  { background-position: 200% center; }
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
 
 @keyframes scale-in {
-  from { transform: scale(0.97); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
+  from {
+    transform: scale(0.97);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Refined fade-up — the core entrance animation */
 @keyframes fade-up {
-  from { transform: translateY(18px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Slow fade-in — for ambient elements */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Line draw — for horizontal rules and dividers */
 @keyframes line-grow-h {
-  from { transform: scaleX(0); transform-origin: left; }
-  to   { transform: scaleX(1); transform-origin: left; }
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 
 @keyframes line-grow-v {
-  from { transform: scaleY(0); transform-origin: top; }
-  to   { transform: scaleY(1); transform-origin: top; }
+  from {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  to {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
 }
 
 @keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes counter-up {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes border-dash {
-  0%   { stroke-dashoffset: 200; }
-  100% { stroke-dashoffset: 0; }
+  0% {
+    stroke-dashoffset: 200;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes blink-cursor {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Horizontal marquee — for why-strip ticker */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Gentle bounce — for scroll invitation arrow */
 @keyframes bounce-gentle {
-  0%, 100% { transform: translateY(0);   opacity: 0.50; }
-  50%       { transform: translateY(6px); opacity: 0.90; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.50;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 0.90;
+  }
 }
 
 /* Soft pulse ring — for scroll invitation */
 @keyframes ring-pulse {
-  0%   { transform: scale(1);    opacity: 0.25; }
-  70%  { transform: scale(1.55); opacity: 0;    }
-  100% { transform: scale(1.55); opacity: 0;    }
+  0% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+
+  70% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
 }
 
 /* Tip glow — travels with progress bar dot */
 @keyframes tip-glow {
-  0%, 100% { box-shadow: 0 0 4px 1px var(--glow-gold); }
-  50%       { box-shadow: 0 0 10px 3px var(--glow-gold-hi); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 4px 1px var(--glow-gold);
+  }
+
+  50% {
+    box-shadow: 0 0 10px 3px var(--glow-gold-hi);
+  }
 }
 
 /* Page-level entrance */
 @keyframes page-enter {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Utilities ────────────────────────────────────── */
@@ -287,14 +416,12 @@
     inset: -60% -120%;
     z-index: 2;
     pointer-events: none;
-    background: linear-gradient(
-      104deg,
-      transparent 40%,
-      oklch(1 0 0 / 0.04) 46%,
-      oklch(0.92 0.09 85 / 0.35) 50%,
-      oklch(1 0 0 / 0.04) 54%,
-      transparent 60%
-    );
+    background: linear-gradient(104deg,
+        transparent 40%,
+        oklch(1 0 0 / 0.04) 46%,
+        oklch(0.92 0.09 85 / 0.35) 50%,
+        oklch(1 0 0 / 0.04) 54%,
+        transparent 60%);
     transform: translateX(-115%) rotate(2deg);
     opacity: 0;
     transition:
@@ -433,26 +560,22 @@
 
 /* Shimmer loading skeleton */
 @utility shimmer {
-  background: linear-gradient(
-    100deg,
-    var(--velvet) 30%,
-    oklch(0.22 0.018 305) 50%,
-    var(--velvet) 70%
-  );
+  background: linear-gradient(100deg,
+      var(--velvet) 30%,
+      oklch(0.22 0.018 305) 50%,
+      var(--velvet) 70%);
   background-size: 220% 100%;
   animation: shimmer-pan 1.8s linear infinite;
 }
 
 /* Gold shimmer text — RESERVED for hero headings only */
 @utility text-gold-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--brass-dim),
-    var(--brass),
-    var(--brass-hi),
-    var(--brass),
-    var(--brass-dim)
-  );
+  background: linear-gradient(90deg,
+      var(--brass-dim),
+      var(--brass),
+      var(--brass-hi),
+      var(--brass),
+      var(--brass-dim));
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
@@ -510,12 +633,10 @@
     content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      oklch(1 0 0 / 0.08),
-      transparent
-    );
+    background: linear-gradient(to right,
+        transparent,
+        oklch(1 0 0 / 0.08),
+        transparent);
   }
 }
 
@@ -558,11 +679,25 @@
 }
 
 /* Gem type glow helpers — ONLY applied on hover, not ambient */
-@utility glow-ruby    { box-shadow: 0 0 28px 2px var(--glow-ruby); }
-@utility glow-sapphire { box-shadow: 0 0 28px 2px var(--glow-sapphire); }
-@utility glow-emerald { box-shadow: 0 0 28px 2px var(--glow-emerald); }
-@utility glow-amethyst { box-shadow: 0 0 28px 2px var(--glow-amethyst); }
-@utility glow-diamond { box-shadow: 0 0 28px 4px oklch(0.85 0.02 240 / 0.18); }
+@utility glow-ruby {
+  box-shadow: 0 0 28px 2px var(--glow-ruby);
+}
+
+@utility glow-sapphire {
+  box-shadow: 0 0 28px 2px var(--glow-sapphire);
+}
+
+@utility glow-emerald {
+  box-shadow: 0 0 28px 2px var(--glow-emerald);
+}
+
+@utility glow-amethyst {
+  box-shadow: 0 0 28px 2px var(--glow-amethyst);
+}
+
+@utility glow-diamond {
+  box-shadow: 0 0 28px 4px oklch(0.85 0.02 240 / 0.18);
+}
 
 /* ── Input styling ────────────────────────────────── */
 @utility vault-input {
@@ -587,6 +722,7 @@
 
 /* ── Reduced motion ───────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

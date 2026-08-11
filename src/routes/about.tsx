@@ -161,105 +161,117 @@ function HeroSection() {
         }}
       />
 
-      {/* Decorative vertical rule — far right */}
-      <motion.div
-        className="pointer-events-none absolute top-0 right-20 w-px hidden lg:block"
-        aria-hidden="true"
-        initial={{ scaleY: 0, transformOrigin: "top" }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: reduced ? 0 : 1.6, ease: [0.22, 1, 0.36, 1], delay: 0.10 }}
-        style={{
-          height: "100%",
-          background:
-            "linear-gradient(to bottom, transparent, oklch(0.68 0.076 76 / 0.10) 30%, oklch(0.68 0.076 76 / 0.10) 70%, transparent)",
-        }}
-      />
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          {/* Left Column: Story text */}
+          <div className="max-w-2xl">
+            {/* Eyebrow */}
+            <motion.div
+              className="flex items-center gap-4 mb-10"
+              initial={{ opacity: 0, x: -14 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: reduced ? 0 : 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            >
+              <div
+                className="h-px w-10 flex-none"
+                style={{
+                  background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.60))",
+                }}
+              />
+              <p
+                className="font-mono text-[9px] uppercase"
+                style={{ color: "oklch(0.68 0.076 76 / 0.55)", letterSpacing: "0.28em" }}
+              >
+                Our story
+              </p>
+            </motion.div>
 
-      {/* Diamond mark — top right */}
-      <motion.div
-        className="pointer-events-none absolute top-16 right-[4.5rem] hidden lg:block"
-        aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: reduced ? 0 : 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-      >
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="url(#about-facet-g)" strokeWidth="0.6">
-          <polygon points="12 2 22 9 12 22 2 9" />
-          <defs>
-            <linearGradient id="about-facet-g" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="oklch(0.76 0.082 80 / 0.40)" />
-              <stop offset="100%" stopColor="oklch(0.55 0.060 76 / 0.10)" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </motion.div>
+            {/* Headline */}
+            <motion.h1
+              className="font-display text-pearl"
+              initial={{ opacity: 0, y: reduced ? 0 : 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduced ? 0 : 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
+              style={{
+                fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
+                lineHeight: 1.03,
+                letterSpacing: "-0.032em",
+                maxWidth: "18ch",
+              }}
+            >
+              Built for people who take gemstones{" "}
+              <em
+                style={{
+                  fontStyle: "italic",
+                  background:
+                    "linear-gradient(135deg, oklch(0.58 0.065 76) 0%, oklch(0.80 0.086 80) 55%, oklch(0.58 0.065 76) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                seriously.
+              </em>
+            </motion.h1>
 
-      <div className="relative mx-auto max-w-3xl px-5 sm:px-8">
-        {/* Eyebrow */}
-        <motion.div
-          className="flex items-center gap-4 mb-10"
-          initial={{ opacity: 0, x: -14 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: reduced ? 0 : 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-        >
-          <div
-            className="h-px w-10 flex-none"
-            style={{
-              background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.60))",
-            }}
-          />
-          <p
-            className="font-mono text-[9px] uppercase"
-            style={{ color: "oklch(0.68 0.076 76 / 0.55)", letterSpacing: "0.28em" }}
+            {/* Subtitle */}
+            <motion.p
+              className="mt-8 text-base"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: reduced ? 0 : 0.9, ease: "easeOut", delay: 0.52 }}
+              style={{
+                color: "oklch(0.580 0.014 85 / 0.70)",
+                lineHeight: 1.95,
+                maxWidth: "50ch",
+              }}
+            >
+              Cabochon was founded on a simple conviction: every stone deserves an
+              honest record. We are a specialist vault — not a marketplace — where
+              each gem is independently graded before it is ever shown to a buyer.
+            </motion.p>
+          </div>
+
+          {/* Right Column: Staggered Photo Grid */}
+          <motion.div 
+            className="grid grid-cols-2 gap-4 lg:gap-6 mt-10 lg:mt-0"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0 : 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
           >
-            Our story
-          </p>
-        </motion.div>
-
-        {/* Headline */}
-        <motion.h1
-          className="font-display text-pearl"
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduced ? 0 : 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.24 }}
-          style={{
-            fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
-            lineHeight: 1.03,
-            letterSpacing: "-0.032em",
-            maxWidth: "18ch",
-          }}
-        >
-          Built for people who take gemstones{" "}
-          <em
-            style={{
-              fontStyle: "italic",
-              background:
-                "linear-gradient(135deg, oklch(0.58 0.065 76) 0%, oklch(0.80 0.086 80) 55%, oklch(0.58 0.065 76) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            seriously.
-          </em>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          className="mt-8 text-base"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: reduced ? 0 : 0.9, ease: "easeOut", delay: 0.52 }}
-          style={{
-            color: "oklch(0.580 0.014 85 / 0.70)",
-            lineHeight: 1.95,
-            maxWidth: "50ch",
-          }}
-        >
-          Cabochon was founded on a simple conviction: every stone deserves an
-          honest record. We are a specialist vault — not a marketplace — where
-          each gem is independently graded before it is ever shown to a buyer.
-        </motion.p>
+            {/* Column 1 (Pushed down) */}
+            <div className="flex flex-col gap-4 lg:gap-6 pt-12 lg:pt-16">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                <img 
+                  src="/media/lot-214-poster.jpg" 
+                  alt="Workplace" 
+                  className="h-full w-full object-cover object-left"
+                />
+              </div>
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                <div className="absolute inset-0 bg-[oklch(0.08_0.01_300)] flex items-center justify-center p-6 text-center border-t border-white/5">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-white/40">Independently Graded</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Column 2 */}
+            <div className="flex flex-col gap-4 lg:gap-6">
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                 <div className="absolute inset-0 bg-[oklch(0.12_0.02_305)] flex items-center justify-center p-6 text-center border-t border-white/5">
+                  <p className="font-display text-xl text-white/80 italic">"Transparency is the foundation."</p>
+                </div>
+              </div>
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                <img 
+                  src="/media/lot-214-poster.jpg" 
+                  alt="Inspection" 
+                  className="h-full w-full object-cover object-right"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

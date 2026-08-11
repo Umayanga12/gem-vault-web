@@ -24,6 +24,7 @@ export interface Stone {
   images: string[];
   alt: string;
   note: string;
+  isFeatured?: boolean;
 }
 
 const imageFor: Record<GemType, string> = {
