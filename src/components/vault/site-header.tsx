@@ -40,12 +40,12 @@ export function SiteHeader() {
         style={{
           background: scrolled
             ? "oklch(0.110 0.010 300 / 0.96)"
-            : "oklch(0.110 0.010 300 / 0.55)",
-          backdropFilter: "blur(28px) saturate(1.3)",
-          WebkitBackdropFilter: "blur(28px) saturate(1.3)",
+            : "transparent",
+          backdropFilter: scrolled ? "blur(28px) saturate(1.3)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(28px) saturate(1.3)" : "none",
           borderBottom: scrolled
             ? "1px solid oklch(0.68 0.076 76 / 0.12)"
-            : "1px solid oklch(1 0 0 / 0.05)",
+            : "1px solid transparent",
           boxShadow: scrolled
             ? "0 1px 32px oklch(0 0 0 / 0.40)"
             : "none",
@@ -60,60 +60,12 @@ export function SiteHeader() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center gap-3"
             >
-              {/* Diamond glyph */}
-              <motion.svg
-                width="16"
-                height="16"
-                viewBox="0 0 18 18"
-                fill="none"
-                className="shrink-0"
-                whileHover={{ rotate: 45 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <polygon
-                  points="9,1 17,7 9,17 1,7"
-                  fill="none"
-                  stroke="url(#hdr-gold-grad)"
-                  strokeWidth="1.1"
-                />
-                <polygon
-                  points="9,4 14,7 9,13 4,7"
-                  fill="url(#hdr-gold-fill)"
-                  opacity="0.25"
-                />
-                <defs>
-                  <linearGradient id="hdr-gold-grad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
-                    <stop offset="55%" stopColor="oklch(0.78 0.085 80)" />
-                    <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
-                  </linearGradient>
-                  <linearGradient id="hdr-gold-fill" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.78 0.085 80)" />
-                    <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
-                  </linearGradient>
-                </defs>
-              </motion.svg>
-
-              <div className="flex flex-col leading-none">
-                <span
-                  className="font-display text-pearl tracking-tight"
-                  style={{ fontSize: "1.05rem", letterSpacing: "-0.01em" }}
-                >
-                  Cabochon
-                </span>
-                <span
-                  className="hidden sm:block font-mono"
-                  style={{
-                    fontSize: "0.55rem",
-                    letterSpacing: "0.20em",
-                    color: "var(--brass-dim)",
-                    marginTop: "2px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Gem Trading
-                </span>
-              </div>
+              {/* Logo Image */}
+              <img
+                src="/logo.png"
+                alt="Rhea Cylone Logo"
+                className="h-10 w-auto shrink-0 object-contain"
+              />
             </motion.div>
           </Link>
 

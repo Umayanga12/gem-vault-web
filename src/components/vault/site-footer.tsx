@@ -78,35 +78,11 @@ export function SiteFooter() {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <polygon
-                points="9,1 17,7 9,17 1,7"
-                fill="none"
-                stroke="url(#footer-logo-gold)"
-                strokeWidth="1.1"
-              />
-              <polygon
-                points="9,4 14,7 9,13 4,7"
-                fill="url(#footer-logo-fill)"
-                opacity="0.22"
-              />
-              <defs>
-                <linearGradient id="footer-logo-gold" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
-                  <stop offset="100%" stopColor="oklch(0.78 0.085 80)" />
-                </linearGradient>
-                <linearGradient id="footer-logo-fill" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="oklch(0.78 0.085 80)" />
-                  <stop offset="100%" stopColor="oklch(0.55 0.060 76)" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span
-              className="font-display text-pearl"
-              style={{ fontSize: "1rem", letterSpacing: "-0.01em" }}
-            >
-              Cabochon
-            </span>
+            <img
+              src="/logo.png"
+              alt="Rhea Cylone Logo"
+              className="h-8 w-auto object-contain shrink-0"
+            />
           </div>
           <p
             className="mt-1.5 font-mono text-[9px] uppercase"
@@ -199,7 +175,7 @@ export function SiteFooter() {
       >
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
           <p className="rule-label">
-            © {currentYear} Cabochon · All stones independently graded
+            © {currentYear} Rhea Cylone · All stones independently graded
           </p>
           <p className="rule-label">Prices per stone · Exclusive of duty</p>
         </div>

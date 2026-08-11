@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 export const Route = createFileRoute("/trust")({
   head: () => ({
     meta: [
-      { title: "Sourcing, Grading and Certification — Cabochon" },
+      { title: "Sourcing, Grading and Certification — Rhea Cylone" },
       {
         name: "description",
         content:

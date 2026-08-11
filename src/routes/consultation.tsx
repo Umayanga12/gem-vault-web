@@ -8,7 +8,7 @@ import { ContactModal } from "@/components/vault/contact-modal";
 export const Route = createFileRoute("/consultation")({
   head: () => ({
     meta: [
-      { title: "Contact Us & Consultation — Cabochon" },
+      { title: "Contact Us & Consultation — Rhea Cylone" },
       {
         name: "description",
         content:

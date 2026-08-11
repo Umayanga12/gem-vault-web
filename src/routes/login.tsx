@@ -16,7 +16,7 @@ export const Route = createFileRoute("/login")({
   },
   head: () => ({
     meta: [
-      { title: "Owner Login — Gem Vault" },
+      { title: "Owner Login — Rhea Cylone" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

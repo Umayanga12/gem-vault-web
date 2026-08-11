@@ -8,13 +8,13 @@ import { useVault } from "@/lib/vault-store";
 export const Route = createFileRoute("/cart")({
   head: () => ({
     meta: [
-      { title: "Your Parcel — Cabochon" },
+      { title: "Your Parcel — Rhea Cylone" },
       {
         name: "description",
         content:
           "Review reserved stones, confirm insured delivery details and settle securely. Reservations hold each stone for 48 hours.",
       },
-      { property: "og:title", content: "Your Parcel — Cabochon" },
+      { property: "og:title", content: "Your Parcel — Rhea Cylone" },
       {
         property: "og:description",
         content: "Review reserved stones and complete an insured, escrow-backed purchase.",

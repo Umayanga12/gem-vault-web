@@ -9,7 +9,7 @@ import { DiscountsPanel } from "@/components/vault/dashboard/DiscountsPanel";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — Gem Vault" },
+      { title: "Admin Dashboard — Rhea Cylone" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

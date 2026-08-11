@@ -68,7 +68,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   className="font-display text-pearl truncate"
                   style={{ fontSize: "1rem", letterSpacing: "-0.01em" }}
                 >
-                  Gem Vault
+                  Rhea Cylone
                 </p>
                 <p
                   className="font-mono uppercase"

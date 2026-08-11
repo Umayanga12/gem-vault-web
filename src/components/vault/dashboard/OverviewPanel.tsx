@@ -169,7 +169,7 @@ export function OverviewPanel({ onNavigate }: { onNavigate: (tab: "stones" | "di
           Welcome back, Admin
         </h2>
         <p className="mt-1 text-sm" style={{ color: "var(--muted-foreground)" }}>
-          Here's a summary of your gem vault.
+          Here's a summary of your rhea cylone.
         </p>
       </div>
 

@@ -14,7 +14,7 @@ export const Route = createFileRoute("/browse")({
   }),
   head: () => ({
     meta: [
-      { title: "Browse Certified Loose Gemstones — Cabochon" },
+      { title: "Browse Certified Loose Gemstones — Rhea Cylone" },
       {
         name: "description",
         content:

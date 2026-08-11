@@ -7,13 +7,13 @@ import { useRef } from "react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us — Cabochon" },
+      { title: "About Us — Rhea Cylone" },
       {
         name: "description",
         content:
           "Discover who we are, our vision for transparent gemstone trading, and our mission to connect collectors with independently graded, ethically sourced stones.",
       },
-      { property: "og:title", content: "About Us — Cabochon" },
+      { property: "og:title", content: "About Us — Rhea Cylone" },
       {
         property: "og:description",
         content:
@@ -226,7 +226,7 @@ function HeroSection() {
                 maxWidth: "50ch",
               }}
             >
-              Cabochon was founded on a simple conviction: every stone deserves an
+              Rhea Cylone was founded on a simple conviction: every stone deserves an
               honest record. We are a specialist vault — not a marketplace — where
               each gem is independently graded before it is ever shown to a buyer.
             </motion.p>
