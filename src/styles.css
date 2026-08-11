@@ -242,6 +242,31 @@
   50%       { opacity: 0; }
 }
 
+/* Horizontal marquee — for why-strip ticker */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Gentle bounce — for scroll invitation arrow */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0);   opacity: 0.50; }
+  50%       { transform: translateY(6px); opacity: 0.90; }
+}
+
+/* Soft pulse ring — for scroll invitation */
+@keyframes ring-pulse {
+  0%   { transform: scale(1);    opacity: 0.25; }
+  70%  { transform: scale(1.55); opacity: 0;    }
+  100% { transform: scale(1.55); opacity: 0;    }
+}
+
+/* Tip glow — travels with progress bar dot */
+@keyframes tip-glow {
+  0%, 100% { box-shadow: 0 0 4px 1px var(--glow-gold); }
+  50%       { box-shadow: 0 0 10px 3px var(--glow-gold-hi); }
+}
+
 /* Page-level entrance */
 @keyframes page-enter {
   from { opacity: 0; transform: translateY(8px); }
@@ -512,6 +537,24 @@
 /* Page entrance */
 @utility animate-page-enter {
   animation: page-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Marquee track — infinite scroll ticker */
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+/* Scroll invitation bounce */
+@utility animate-bounce-gentle {
+  animation: bounce-gentle 1.8s ease-in-out infinite;
+}
+
+/* Tip glow pulse */
+@utility animate-tip-glow {
+  animation: tip-glow 2.2s ease-in-out infinite;
 }
 
 /* Gem type glow helpers — ONLY applied on hover, not ambient */

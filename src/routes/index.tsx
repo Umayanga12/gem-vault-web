@@ -11,7 +11,7 @@ import {
   AnimatePresence,
 } from "motion/react";
 
-import { gemTypes, typeAccent } from "@/data/stones";
+import { gemTypes } from "@/data/stones";
 import { StoneCard } from "@/components/vault/stone-card";
 import { TrustStrip } from "@/components/vault/trust-strip";
 import { Reveal } from "@/components/vault/reveal";
@@ -43,21 +43,51 @@ const HERO_VIDEO_POSTER = "/media/lot-214-poster.jpg";
 
 /* Gem type icon paths (SVG outlines) */
 const gemIcons: Record<string, string> = {
-  Diamond:   "M12 2 22 9 12 22 2 9Z",
-  Sapphire:  "M12 3 19 8.5 19 15.5 12 21 5 15.5 5 8.5Z",
-  Ruby:      "M12 3 20 10 12 21 4 10Z",
-  Emerald:   "M8 3 16 3 20 9 12 21 4 9Z",
-  Amethyst:  "M12 2 20 8 17 20 7 20 4 8Z",
+  Diamond:  "M12 2 22 9 12 22 2 9Z",
+  Sapphire: "M12 3 19 8.5 19 15.5 12 21 5 15.5 5 8.5Z",
+  Ruby:     "M12 3 20 10 12 21 4 10Z",
+  Emerald:  "M8 3 16 3 20 9 12 21 4 9Z",
+  Amethyst: "M12 2 20 8 17 20 7 20 4 8Z",
 };
 
-/* Restrained type-specific colors for gem rows */
+/* Per-type stroke accent colors */
 const gemRowAccent: Record<string, string> = {
-  Diamond:  "oklch(0.82 0.015 240)",
-  Sapphire: "oklch(0.60 0.055 250)",
-  Ruby:     "oklch(0.58 0.110 15)",
-  Emerald:  "oklch(0.56 0.060 160)",
-  Amethyst: "oklch(0.58 0.070 313)",
+  Diamond:  "oklch(0.84 0.015 240)",
+  Sapphire: "oklch(0.62 0.060 250)",
+  Ruby:     "oklch(0.64 0.135 15)",
+  Emerald:  "oklch(0.62 0.085 160)",
+  Amethyst: "oklch(0.64 0.095 313)",
 };
+
+/* Per-type SVG fill on hover */
+const gemFillAccent: Record<string, string> = {
+  Diamond:  "oklch(0.84 0.015 240 / 0.18)",
+  Sapphire: "oklch(0.62 0.060 250 / 0.22)",
+  Ruby:     "oklch(0.64 0.135 15  / 0.22)",
+  Emerald:  "oklch(0.62 0.085 160 / 0.22)",
+  Amethyst: "oklch(0.64 0.095 313 / 0.22)",
+};
+
+/* One-line descriptor per gem family */
+const gemDescriptor: Record<string, string> = {
+  Diamond:  "Colourless to fancy — the hardest substance on Earth",
+  Sapphire: "Royal blue to padparadscha — corundum in every hue",
+  Ruby:     "Pigeon blood to vivid red — rarest of the corundum family",
+  Emerald:  "Muzo to Zambian — the standard bearer of green gemstones",
+  Other:    "Rare collector pieces outside the four classical families",
+};
+
+/* Why-strip marquee items */
+const WHY_ITEMS = [
+  "GIA · IGI · AGS · GRS graded",
+  "Full origin disclosure",
+  "Unheated status stated plainly",
+  "Insured transit worldwide",
+  "14-day returns",
+  "Escrow above $50,000",
+  "No conflict stones",
+  "Independent gemologist review",
+];
 
 function Home() {
   const { stones } = useVault();
@@ -68,10 +98,11 @@ function Home() {
       <ScrollScrubHero />
       <PromoBanner />
       <TrustStrip />
+      <WhyStrip />
 
       {/* Gem type list — editorial row layout */}
-      <section id="vault" className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
-        <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-14">
+      <section id="vault" className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-5">
           <div>
             <p className="engraved-label flex items-center gap-3">
               <span
@@ -90,6 +121,13 @@ function Home() {
             >
               Five families,<br />one standard.
             </h2>
+            <p
+              className="mt-3 text-sm"
+              style={{ color: "var(--muted-foreground)", maxWidth: "46ch", lineHeight: 1.75 }}
+            >
+              Every stone belongs to one of five gem families — each graded to the
+              same exacting standard regardless of type or price.
+            </p>
           </div>
           <Link
             to="/browse"
@@ -104,19 +142,17 @@ function Home() {
           </Link>
         </Reveal>
 
-        {/* Editorial list */}
+        <div className="hairline-gold mt-10 mb-0" />
         <div>
           {gemTypes.map((type, i) => (
-            <Reveal key={type} delay={i * 0.06}>
-              <GemTypeRow type={type} index={i} />
-            </Reveal>
+            <GemTypeRow key={type} type={type} index={i} />
           ))}
         </div>
+        <div className="hairline-gold" />
       </section>
 
       {/* Featured stones */}
       <section className="mx-auto max-w-7xl px-5 pb-28 sm:px-8">
-        {/* Section header */}
         <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-12">
           <div>
             <p className="engraved-label flex items-center gap-3">
@@ -157,7 +193,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Contact CTA — editorial */}
+      {/* Contact CTA */}
       <section id="contact" className="mx-auto max-w-7xl px-5 pb-28 sm:px-8">
         <Reveal>
           <div className="hairline-gold mb-0" />
@@ -169,7 +205,6 @@ function Home() {
               borderTop: "none",
             }}
           >
-            {/* Ambient glow — single, subtle */}
             <div
               className="pointer-events-none absolute -right-32 -top-32 w-96 h-96"
               style={{
@@ -177,7 +212,6 @@ function Home() {
                 filter: "blur(60px)",
               }}
             />
-
             <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
               <div className="max-w-2xl">
                 <p className="engraved-label flex items-center gap-3 mb-6">
@@ -199,8 +233,7 @@ function Home() {
                   <em
                     style={{
                       fontStyle: "italic",
-                      background:
-                        "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 50%, var(--brass-hi) 100%)",
+                      background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 50%, var(--brass-hi) 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
@@ -217,7 +250,6 @@ function Home() {
                   Reach out and our gemologists will assist you within 24 hours.
                 </p>
               </div>
-
               <div className="flex flex-col gap-3 lg:items-end">
                 <ContactModal>
                   <button className="facet-sheen btn-gold flex items-center gap-2.5 cursor-pointer">
@@ -244,7 +276,48 @@ function Home() {
   );
 }
 
-/* ── Gem Type Row — editorial list item ──────────────── */
+/* ── Why-Strip — scrolling marquee between trust strip and gem types ── */
+function WhyStrip() {
+  const doubled = [...WHY_ITEMS, ...WHY_ITEMS];
+  return (
+    <div
+      className="relative overflow-hidden py-4"
+      style={{
+        borderTop: "1px solid oklch(1 0 0 / 0.05)",
+        borderBottom: "1px solid oklch(1 0 0 / 0.05)",
+        background: "oklch(0.125 0.013 305 / 0.50)",
+      }}
+    >
+      {/* Edge fades */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 z-10"
+        style={{ background: "linear-gradient(to right, var(--obsidian), transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 z-10"
+        style={{ background: "linear-gradient(to left, var(--obsidian), transparent)" }}
+      />
+      <div className="marquee-track">
+        {doubled.map((item, i) => (
+          <span key={i} className="flex items-center shrink-0">
+            <span
+              className="font-mono text-[9px] uppercase tracking-[0.20em] px-8"
+              style={{ color: "var(--muted-foreground)" }}
+            >
+              {item}
+            </span>
+            <span
+              className="block w-px h-3 shrink-0"
+              style={{ background: "oklch(0.68 0.076 76 / 0.22)" }}
+            />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Gem Type Row — enriched editorial list item ──────── */
 function GemTypeRow({ type, index }: { type: string; index: number }) {
   const { stones } = useVault();
   const [hovered, setHovered] = useState(false);
@@ -253,104 +326,133 @@ function GemTypeRow({ type, index }: { type: string; index: number }) {
   const iconKey = type === "Other" ? "Amethyst" : type;
   const iconPath = gemIcons[iconKey] ?? gemIcons.Diamond;
   const accentColor = gemRowAccent[iconKey] ?? gemRowAccent.Diamond;
+  const fillColor = gemFillAccent[iconKey] ?? gemFillAccent.Diamond;
+  const descriptor = gemDescriptor[type] ?? "";
 
   return (
-    <Link
-      to="/browse"
-      search={{ type: type as any }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group flex items-center justify-between py-7 relative"
-      style={{
-        borderBottom: "1px solid oklch(1 0 0 / 0.06)",
-        paddingLeft: "1rem",
-        paddingRight: "1rem",
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
     >
-      {/* Hover background — subtle fill */}
-      <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-400"
+      <Link
+        to="/browse"
+        search={{ type: type as any }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="group flex items-center justify-between py-6 relative"
         style={{
-          background: `linear-gradient(to right, ${accentColor.replace(")", " / 0.04)")}, transparent 60%)`,
-          opacity: hovered ? 1 : 0,
+          borderBottom: "1px solid oklch(1 0 0 / 0.07)",
+          paddingLeft: "1.25rem",
+          paddingRight: "1.25rem",
         }}
-      />
-
-      {/* Left accent bar */}
-      <div
-        className="absolute left-0 top-0 w-px transition-all duration-400 ease-out"
-        style={{
-          height: hovered ? "100%" : "0%",
-          background: `linear-gradient(to bottom, ${accentColor}, transparent)`,
-        }}
-      />
-
-      <div className="relative z-10 flex items-center gap-6">
-        {/* Index numeral */}
-        <span
-          className="font-mono text-[9px] w-5 text-right shrink-0"
+      >
+        {/* Hover background fill */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{ opacity: hovered ? 1 : 0 }}
+          transition={{ duration: 0.35 }}
           style={{
-            color: "oklch(0.68 0.076 76 / 0.35)",
-            letterSpacing: "0.14em",
+            background: `linear-gradient(to right, ${accentColor.replace(")", " / 0.06)")}, transparent 55%)`,
           }}
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
+        />
 
-        {/* Gem icon */}
-        <motion.svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke={accentColor}
-          strokeWidth="1"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          animate={{ rotate: hovered ? 20 : 0, opacity: hovered ? 1 : 0.45 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <path d={iconPath} />
-        </motion.svg>
-
-        {/* Name */}
-        <span
-          className="font-display text-pearl transition-colors duration-300"
+        {/* Left accent bar — always visible at 18% opacity, full on hover */}
+        <motion.div
+          className="absolute left-0 top-0 bottom-0 w-[3px]"
+          animate={{ opacity: hovered ? 1 : 0.18 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            fontSize: "clamp(1.4rem, 2.8vw, 2rem)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1,
-            color: hovered ? "var(--pearl)" : "oklch(0.945 0.012 85 / 0.80)",
+            background: `linear-gradient(to bottom, ${accentColor}, ${accentColor.replace(")", " / 0.30)")})`,
           }}
-        >
-          {displayType}
-        </span>
-      </div>
+        />
 
-      {/* Right side — count + arrow */}
-      <div className="relative z-10 flex items-center gap-6">
-        <span
-          className="font-mono text-[9px] uppercase tracking-wider"
-          style={{
-            color: hovered ? accentColor : "var(--muted-foreground)",
-            letterSpacing: "0.16em",
-            transition: "color 300ms ease",
-          }}
-        >
-          {count} {count === 1 ? "stone" : "stones"}
-        </span>
-        <motion.span
-          animate={{ x: hovered ? 0 : -6, opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="font-mono text-sm"
-          style={{ color: accentColor }}
-        >
-          →
-        </motion.span>
-      </div>
-    </Link>
+        {/* Left content */}
+        <div className="relative z-10 flex items-center gap-6 min-w-0">
+          {/* Index numeral */}
+          <span
+            className="font-mono text-[9px] w-5 text-right shrink-0"
+            style={{ color: "oklch(0.68 0.076 76 / 0.30)", letterSpacing: "0.14em" }}
+          >
+            {String(index + 1).padStart(2, "0")}
+          </span>
+
+          {/* Gem icon — 28px, fill + glow on hover */}
+          <motion.svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill={hovered ? fillColor : "none"}
+            stroke={accentColor}
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            animate={{ rotate: hovered ? 18 : 0, opacity: hovered ? 1 : 0.45 }}
+            style={{
+              flexShrink: 0,
+              filter: hovered
+                ? `drop-shadow(0 0 6px ${accentColor.replace(")", " / 0.50)")})`
+                : "none",
+              transition: "filter 0.35s ease",
+            }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <path d={iconPath} />
+          </motion.svg>
+
+          {/* Name + one-line descriptor */}
+          <div className="min-w-0">
+            <span
+              className="block font-display transition-colors duration-300"
+              style={{
+                fontSize: "clamp(1.35rem, 2.6vw, 1.9rem)",
+                letterSpacing: "-0.025em",
+                lineHeight: 1.05,
+                color: hovered ? "var(--pearl)" : "oklch(0.945 0.012 85 / 0.82)",
+              }}
+            >
+              {displayType}
+            </span>
+            <span
+              className="block font-mono text-[9px] mt-1.5"
+              style={{
+                letterSpacing: "0.09em",
+                color: hovered ? "var(--muted-foreground)" : "oklch(0.58 0.014 85 / 0.45)",
+                lineHeight: 1.5,
+                transition: "color 0.3s ease",
+              }}
+            >
+              {descriptor}
+            </span>
+          </div>
+        </div>
+
+        {/* Right side — count + arrow (always visible at low opacity) */}
+        <div className="relative z-10 flex items-center gap-5 shrink-0 pl-4">
+          <span
+            className="font-mono text-[9px] uppercase tracking-wider transition-colors duration-300"
+            style={{
+              letterSpacing: "0.16em",
+              color: hovered ? accentColor : "var(--muted-foreground)",
+            }}
+          >
+            {count} {count === 1 ? "stone" : "stones"}
+          </span>
+          <motion.span
+            animate={{ x: hovered ? 0 : -4, opacity: hovered ? 1 : 0.25 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="font-mono text-sm"
+            style={{ color: accentColor }}
+          >
+            →
+          </motion.span>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
+
 
 /* ── Hero routing ──────────────────────────────────── */
 function ScrollScrubHero() {
@@ -372,15 +474,13 @@ function ScrubbingHero() {
   const trackRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (video.readyState >= 1) {
-      setVideoReady(true);
-    } else {
-      video.load();
-    }
+    if (video.readyState >= 1) setVideoReady(true);
+    else video.load();
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -392,43 +492,45 @@ function ScrubbingHero() {
     const video = videoRef.current;
     if (!video || !video.duration || Number.isNaN(video.duration)) return;
     video.currentTime = progress * video.duration;
+    if (progress > 0.04) setScrolled(true);
+    if (progress < 0.02) setScrolled(false);
   });
 
-  const detailsOpacity = useTransform(scrollYProgress, [0.45, 0.62], [0, 1]);
-  const detailsY       = useTransform(scrollYProgress, [0.45, 0.62], [14, 0]);
-  const vignetteOpacity= useTransform(scrollYProgress, [0, 1], [0.25, 0.72]);
-  const haloOpacity    = useTransform(scrollYProgress, [0.10, 0.55], [0, 0.40]);
-  const haloScale      = useTransform(scrollYProgress, [0.10, 0.55], [0.6, 1]);
+  /* — Phased reveals — */
+  const subtitleOpacity  = useTransform(scrollYProgress, [0.06, 0.20], [0, 1]);
+  const subtitleY        = useTransform(scrollYProgress, [0.06, 0.20], [10, 0]);
+  const badgeOpacity     = useTransform(scrollYProgress, [0.18, 0.32], [0, 1]);
+  const badgeY           = useTransform(scrollYProgress, [0.18, 0.32], [8,  0]);
+  const detailsOpacity   = useTransform(scrollYProgress, [0.45, 0.62], [0, 1]);
+  const detailsY         = useTransform(scrollYProgress, [0.45, 0.62], [14, 0]);
+  const ctaOpacity       = useTransform(scrollYProgress, [0.55, 0.68], [0, 1]);
+  const vignetteOpacity  = useTransform(scrollYProgress, [0, 1], [0.30, 0.78]);
+  const haloOpacity      = useTransform(scrollYProgress, [0.05, 0.55], [0, 0.55]);
+  const haloScale        = useTransform(scrollYProgress, [0.05, 0.55], [0.55, 1.05]);
+  const sidebarOpacity   = useTransform(scrollYProgress, [0, 0.28], [1, 0]);
 
   return (
-    <section ref={trackRef} className="relative h-[280vh]">
+    <section ref={trackRef} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden" style={{ background: "oklch(0.07 0.009 300)" }}>
-        {/* Grain texture */}
+
+        {/* Film grain */}
         <div
           className="absolute inset-0 pointer-events-none z-10"
           style={{
             backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-            opacity: 0.032,
+            opacity: 0.028,
           }}
           aria-hidden="true"
         />
 
         {/* Poster fallback */}
-        <img
-          src={HERO_VIDEO_POSTER}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-          aria-hidden="true"
-        />
+        <img src={HERO_VIDEO_POSTER} alt="" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
 
         {/* Video */}
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          style={{
-            opacity: videoReady ? 1 : 0,
-            transition: "opacity 800ms ease",
-          }}
+          style={{ opacity: videoReady ? 1 : 0, transition: "opacity 800ms ease" }}
           src={HERO_VIDEO_SRC}
           poster={HERO_VIDEO_POSTER}
           muted
@@ -440,13 +542,13 @@ function ScrubbingHero() {
           aria-hidden="true"
         />
 
-        {/* Subtle gold ambient halo */}
+        {/* Gold halo — grows and intensifies as user scrolls */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
             opacity: haloOpacity,
             scale: haloScale,
-            background: "radial-gradient(ellipse 55% 35% at 50% 50%, oklch(0.68 0.076 76 / 0.12) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 52% 38% at 50% 48%, oklch(0.68 0.076 76 / 0.16) 0%, oklch(0.68 0.076 76 / 0.05) 55%, transparent 75%)",
           }}
           aria-hidden="true"
         />
@@ -455,40 +557,58 @@ function ScrubbingHero() {
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background:
-              "linear-gradient(180deg, oklch(0.06 0.009 300 / 0) 0%, oklch(0.06 0.009 300 / 0) 30%, oklch(0.06 0.009 300 / 0.97) 100%)",
+            background: "linear-gradient(180deg, oklch(0.06 0.009 300 / 0) 0%, oklch(0.06 0.009 300 / 0) 25%, oklch(0.06 0.009 300 / 0.97) 100%)",
             opacity: vignetteOpacity,
           }}
           aria-hidden="true"
         />
 
-        {/* "Enter" CTA — refined */}
+        {/* Top bleed */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(180deg, oklch(0.07 0.009 300 / 0.40) 0%, transparent 18%)" }}
+          aria-hidden="true"
+        />
+
+        {/* ── Top-right “Enter the vault” link ── */}
         <motion.a
           href="#vault"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute right-5 top-6 z-20 sm:right-8 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-pearl/50 transition-colors duration-300 hover:text-brass"
-          style={{
-            letterSpacing: "0.20em",
-          }}
         >
           Enter the vault
           <span
             className="block h-px"
-            style={{
-              width: "20px",
-              background: "linear-gradient(to right, var(--brass-dim), var(--brass))",
-            }}
+            style={{ width: "20px", background: "linear-gradient(to right, var(--brass-dim), var(--brass))" }}
           />
         </motion.a>
 
-        {/* Hero copy */}
-        <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-16 sm:px-10 sm:pb-20">
+        {/* ── Vertical side label — fades out after 28% scroll ── */}
+        <motion.div
+          className="absolute left-5 top-1/2 z-20 hidden sm:flex items-center gap-3"
+          style={{
+            opacity: sidebarOpacity,
+            rotate: -90,
+            translateY: "-50%",
+            transformOrigin: "left center",
+          }}
+          aria-hidden="true"
+        >
+          <span className="font-mono text-[8px] uppercase tracking-[0.28em]" style={{ color: "oklch(0.68 0.076 76 / 0.38)" }}>
+            Scroll to reveal
+          </span>
+          <span className="block h-px w-6" style={{ background: "linear-gradient(to right, oklch(0.68 0.076 76 / 0.38), transparent)" }} />
+        </motion.div>
+
+        {/* ── Hero copy ── */}
+        <div className="relative z-10 flex h-full flex-col justify-end px-5 pb-16 sm:px-12 sm:pb-20">
+
           {/* Eyebrow */}
           <motion.p
             className="flex items-center gap-3"
-            initial={{ opacity: 0, x: -10 }}
+            initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
             style={{
@@ -496,122 +616,181 @@ function ScrubbingHero() {
               fontSize: "0.6rem",
               letterSpacing: "0.26em",
               textTransform: "uppercase",
-              color: "oklch(0.68 0.076 76 / 0.60)",
+              color: "oklch(0.68 0.076 76 / 0.65)",
             }}
           >
-            <span
-              className="block h-px w-8"
-              style={{ background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.60))" }}
-            />
+            <span className="block h-px w-8" style={{ background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.65))" }} />
             Lot 214 · Certified this week
           </motion.p>
 
-          {/* Headline */}
+          {/* Headline — shimmer italic */}
           <motion.h1
             className="font-display text-pearl"
-            initial={{ opacity: 0, y: 22 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
             style={{
-              fontSize: "clamp(2.4rem, 5.5vw, 4.75rem)",
+              fontSize: "clamp(2.5rem, 5.5vw, 4.75rem)",
               lineHeight: 1.00,
               maxWidth: "14ch",
               letterSpacing: "-0.03em",
-              textShadow: "0 4px 40px oklch(0 0 0 / 0.50)",
+              textShadow: "0 4px 40px oklch(0 0 0 / 0.55)",
               marginTop: "0.875rem",
             }}
           >
-            A 3.02 ct D / VVS1,{" "}
+            A 3.02 ct D / VVS1,{" "}
             <em
               style={{
                 fontStyle: "italic",
-                background:
-                  "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 50%, var(--brass-hi) 100%)",
+                background: "linear-gradient(135deg, var(--brass-dim) 0%, var(--brass) 45%, var(--brass-hi) 70%, var(--brass) 100%)",
+                backgroundSize: "200% auto",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                animation: "gold-shimmer 5s linear infinite",
               }}
             >
               turned in full light.
             </em>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.85 }}
-            className="mt-4 max-w-sm text-sm"
-            style={{ color: "oklch(1 0 0 / 0.42)", lineHeight: 1.75 }}
-          >
-            A flawless Botswana diamond, independently graded by GIA.
-            Scroll to examine every facet.
+          {/* Subtitle — phase 2: 6% scroll */}
+          <motion.p style={{ opacity: subtitleOpacity, y: subtitleY }} className="mt-4 max-w-sm text-sm">
+            <span style={{ color: "oklch(1 0 0 / 0.45)", lineHeight: 1.75, display: "block" }}>
+              A flawless Botswana diamond, independently graded by GIA.
+              Scroll to examine every facet.
+            </span>
           </motion.p>
 
-          {/* Details row */}
+          {/* Stat badge — phase 3: 18% scroll */}
+          <motion.div style={{ opacity: badgeOpacity, y: badgeY }} className="mt-5 w-fit">
+            <span
+              className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] px-3 py-1.5"
+              style={{
+                color: "oklch(0.68 0.076 76 / 0.90)",
+                background: "oklch(0.68 0.076 76 / 0.08)",
+                border: "1px solid oklch(0.68 0.076 76 / 0.22)",
+              }}
+            >
+              <span
+                className="block w-1.5 h-1.5 rounded-full animate-tip-glow"
+                style={{ background: "var(--brass)" }}
+              />
+              3 new stones this week
+            </span>
+          </motion.div>
+
+          {/* Details row — phase 4: 45% scroll */}
           <div
-            className="mt-8 flex flex-wrap items-end justify-between gap-6 pt-6"
-            style={{ borderTop: "1px solid oklch(1 0 0 / 0.08)" }}
+            className="mt-8 flex flex-wrap items-end justify-between gap-6 pt-5"
+            style={{ borderTop: "1px solid oklch(1 0 0 / 0.09)" }}
           >
             <motion.dl
-              className="flex flex-wrap gap-x-10 gap-y-3"
+              className="flex flex-wrap gap-x-10 gap-y-4"
               style={{ opacity: detailsOpacity, y: detailsY }}
             >
               {[
                 { label: "Report",  value: "GIA 2214938471" },
                 { label: "Origin",  value: "Botswana" },
                 { label: "Colour",  value: "D — Colourless" },
+                { label: "Clarity", value: "VVS1" },
               ].map(({ label, value }) => (
                 <div key={label}>
                   <dt
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: "0.55rem",
+                      fontSize: "0.52rem",
                       letterSpacing: "0.22em",
                       textTransform: "uppercase",
-                      color: "oklch(1 0 0 / 0.32)",
+                      color: "oklch(1 0 0 / 0.28)",
                     }}
                   >
                     {label}
                   </dt>
-                  <dd className="mt-1 font-mono text-xs text-pearl/75 sm:text-sm">
+                  <dd className="mt-1 font-mono text-xs text-pearl/75 sm:text-sm" style={{ letterSpacing: "0.04em" }}>
                     {value}
                   </dd>
                 </div>
               ))}
             </motion.dl>
 
-            <motion.div style={{ opacity: detailsOpacity }}>
-              <Link
-                to="/stones/$stoneId"
-                params={{ stoneId: "d-3021" }}
-                className="facet-sheen btn-gold"
-              >
+            {/* CTA — phase 5: 55% scroll */}
+            <motion.div style={{ opacity: ctaOpacity }}>
+              <Link to="/stones/$stoneId" params={{ stoneId: "d-3021" }} className="facet-sheen btn-gold">
                 View this stone
               </Link>
             </motion.div>
           </div>
 
-          {/* Progress rule */}
-          <div
-            className="absolute bottom-5 left-5 right-5 sm:left-10 sm:right-10"
-            style={{ height: "1px", background: "oklch(1 0 0 / 0.06)" }}
-          >
-            <motion.div
-              className="h-full origin-left"
-              style={{
-                scaleX: scrollYProgress,
-                background: "linear-gradient(to right, var(--brass-dim), var(--brass-hi))",
-              }}
-            />
+          {/* Progress bar + glowing tip dot */}
+          <div className="absolute bottom-5 left-5 right-5 sm:left-12 sm:right-12 flex items-center gap-4">
+            <div className="relative flex-1" style={{ height: "2px", background: "oklch(1 0 0 / 0.07)" }}>
+              <motion.div
+                className="h-full origin-left relative"
+                style={{
+                  scaleX: scrollYProgress,
+                  background: "linear-gradient(to right, var(--brass-dim), var(--brass-hi))",
+                }}
+              >
+                <span
+                  className="absolute right-0 top-1/2 w-2 h-2 rounded-full animate-tip-glow"
+                  style={{ background: "var(--brass-hi)", transform: "translate(50%, -50%)" }}
+                />
+              </motion.div>
+            </div>
+            <span
+              className="font-mono text-[8px] shrink-0 uppercase tracking-[0.18em]"
+              style={{ color: "oklch(0.68 0.076 76 / 0.40)" }}
+            >
+              Scroll
+            </span>
           </div>
         </div>
+
+        {/* ── Scroll invitation — animated chevron, fades after first scroll ── */}
+        <AnimatePresence>
+          {!scrolled && (
+            <motion.div
+              key="scroll-invite"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.6, delay: 2.0, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute bottom-14 left-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none"
+              style={{ transform: "translateX(-50%)" }}
+              aria-hidden="true"
+            >
+              {/* Pulse ring */}
+              <span
+                className="absolute w-8 h-8 rounded-full -top-3"
+                style={{
+                  border: "1px solid oklch(0.68 0.076 76 / 0.30)",
+                  animation: "ring-pulse 2.4s ease-out infinite",
+                }}
+              />
+              <svg
+                width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="oklch(0.68 0.076 76 / 0.75)" strokeWidth="1.5"
+                strokeLinecap="round" strokeLinejoin="round"
+                className="animate-bounce-gentle"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+              <span
+                className="font-mono text-[7.5px] uppercase tracking-[0.28em]"
+                style={{ color: "oklch(0.68 0.076 76 / 0.38)" }}
+              >
+                Scroll
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
 }
 
-/* Static fallback */
+/* ── Static fallback (mobile / reduced-motion) ──────── */
 function StaticHero() {
   return (
     <section className="relative overflow-hidden border-b border-border" style={{ minHeight: "88vh" }}>
@@ -619,34 +798,39 @@ function StaticHero() {
         className="absolute inset-0 h-full w-full object-cover"
         src={HERO_VIDEO_SRC}
         poster={HERO_VIDEO_POSTER}
-        autoPlay
-        muted
-        loop
-        playsInline
+        autoPlay muted loop playsInline
         aria-hidden="true"
       />
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg, oklch(0.06 0.009 300 / 0.35) 0%, oklch(0.06 0.009 300 / 0.40) 40%, oklch(0.06 0.009 300 / 0.97) 100%)",
+          background: "linear-gradient(180deg, oklch(0.06 0.009 300 / 0.30) 0%, oklch(0.06 0.009 300 / 0.35) 35%, oklch(0.06 0.009 300 / 0.97) 100%)",
+        }}
+        aria-hidden="true"
+      />
+      {/* Gold halo */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 50% 35% at 50% 48%, oklch(0.68 0.076 76 / 0.10) 0%, transparent 70%)",
+          animation: "fade-in 2s ease both",
         }}
         aria-hidden="true"
       />
 
       <a
         href="#vault"
-        className="absolute right-5 top-6 z-20 sm:right-8 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-pearl/50"
+        className="absolute right-5 top-6 z-20 sm:right-8 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-pearl/50 hover:text-brass transition-colors"
       >
         Enter the vault
-        <span
-          className="block h-px w-5"
-          style={{ background: "linear-gradient(to right, var(--brass-dim), var(--brass))" }}
-        />
+        <span className="block h-px w-5" style={{ background: "linear-gradient(to right, var(--brass-dim), var(--brass))" }} />
       </a>
 
       <div className="relative z-10 flex h-full min-h-[88vh] flex-col justify-end px-5 pb-14 sm:px-10 sm:pb-16">
-        <p
+        <motion.p
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "0.6rem",
@@ -655,18 +839,26 @@ function StaticHero() {
             color: "oklch(0.68 0.076 76 / 0.60)",
           }}
         >
-          Lot 214 · Certified this week
-        </p>
-        <h1
+          <span className="flex items-center gap-3">
+            <span className="block h-px w-8" style={{ background: "linear-gradient(to right, transparent, oklch(0.68 0.076 76 / 0.60))" }} />
+            Lot 214 · Certified this week
+          </span>
+        </motion.p>
+
+        <motion.h1
           className="font-display mt-4 text-pearl"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
           style={{
             fontSize: "clamp(2rem, 8vw, 3rem)",
             lineHeight: 1.03,
             maxWidth: "16ch",
             letterSpacing: "-0.028em",
+            textShadow: "0 4px 32px oklch(0 0 0 / 0.55)",
           }}
         >
-          A 3.02 ct D / VVS1,{" "}
+          A 3.02 ct D / VVS1,{" "}
           <em
             style={{
               fontStyle: "italic",
@@ -678,22 +870,32 @@ function StaticHero() {
           >
             turned in full light.
           </em>
-        </h1>
-        <div
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="mt-4 text-sm max-w-sm"
+          style={{ color: "oklch(1 0 0 / 0.42)", lineHeight: 1.75 }}
+        >
+          A flawless Botswana diamond, independently graded by GIA.
+        </motion.p>
+
+        <motion.div
           className="mt-8 flex flex-wrap items-center gap-4 pt-5"
           style={{ borderTop: "1px solid oklch(1 0 0 / 0.08)" }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.9 }}
         >
-          <Link
-            to="/stones/$stoneId"
-            params={{ stoneId: "d-3021" }}
-            className="facet-sheen btn-gold"
-          >
+          <Link to="/stones/$stoneId" params={{ stoneId: "d-3021" }} className="facet-sheen btn-gold">
             View this stone
           </Link>
-          <span className="font-mono text-xs text-pearl/50">
+          <span className="font-mono text-xs text-pearl/45" style={{ letterSpacing: "0.08em" }}>
             GIA 2214938471 · Botswana · D
           </span>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
