@@ -12,12 +12,10 @@ interface FilterSidebarProps {
   hasFilters: boolean;
   types: GemType[];
   maxCarat: number;
-  maxPrice: number;
   lab: string[];
   treatment: string[];
   onToggleType: (t: GemType) => void;
   onMaxCaratChange: (v: number) => void;
-  onMaxPriceChange: (v: number) => void;
   onToggleLab: (l: string) => void;
   onToggleTreatment: (t: string) => void;
   onReset: () => void;
@@ -28,12 +26,10 @@ export function FilterSidebar({
   hasFilters,
   types,
   maxCarat,
-  maxPrice,
   lab,
   treatment,
   onToggleType,
   onMaxCaratChange,
-  onMaxPriceChange,
   onToggleLab,
   onToggleTreatment,
   onReset,
