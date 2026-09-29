@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/vault/reveal";
-import { MessageSquare, BarChart3, Clock, Instagram, Facebook } from "lucide-react";
+import { MessageSquare, BarChart3, Clock } from "lucide-react";
+import { SocialDock } from "./SocialDock";
 
 const highlights = [
   { icon: MessageSquare, text: "Report interpretation, inclusion by inclusion" },
@@ -56,64 +57,12 @@ export function WhyBookCard() {
 
       {/* Social links */}
       <div className="mt-10 pt-8 border-t border-white/5">
-        <span className="font-mono text-xs uppercase tracking-widest text-pearl/50 block mb-4">
+        <span className="font-mono text-xs uppercase tracking-widest text-pearl/50 block mb-2">
           Follow our journey
         </span>
-        <div className="flex gap-3">
-          <a
-            href="#"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass"
-          >
-            <Instagram className="h-4 w-4" />
-            <span className="sr-only">Instagram</span>
-          </a>
-          <a
-            href="#"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass"
-          >
-            <Facebook className="h-4 w-4" />
-            <span className="sr-only">Facebook</span>
-          </a>
-          <a
-            href="#"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4"
-            >
-              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-            </svg>
-            <span className="sr-only">TikTok</span>
-          </a>
-          <a
-            href="https://wa.me/1234567890"
-            target="_blank"
-            rel="noreferrer"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-pearl transition-colors hover:border-brass hover:bg-white/10 hover:text-brass"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4"
-            >
-              <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
-            </svg>
-            <span className="sr-only">WhatsApp</span>
-          </a>
-        </div>
+        <SocialDock />
       </div>
-
-
     </Reveal>
   );
 }
+

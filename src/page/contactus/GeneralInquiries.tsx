@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Instagram, Facebook, Check, Send } from "lucide-react";
+import { Check, Send, Paperclip } from "lucide-react";
 import { Reveal } from "@/components/vault/reveal";
 import { ConsultField } from "./ConsultField";
 import { ConsultTextarea } from "./ConsultTextarea";
@@ -8,11 +8,30 @@ import { ConsultTextarea } from "./ConsultTextarea";
 export function GeneralInquiries() {
   const [focused, setFocused] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSent(true);
   }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 25 * 1024 * 1024) {
+        setFileError("File exceeds 25MB limit");
+        setFileName(null);
+        e.target.value = "";
+      } else {
+        setFileError(null);
+        setFileName(file.name);
+      }
+    } else {
+      setFileError(null);
+      setFileName(null);
+    }
+  };
 
   return (
     <Reveal>
@@ -94,6 +113,25 @@ export function GeneralInquiries() {
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
               />
+              <div className="flex flex-col gap-2">
+                <label className="cursor-pointer group block">
+                  <div className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 p-4 transition-all hover:bg-white/5 hover:border-brass/50">
+                    {fileName ? (
+                      <>
+                        <Check className="h-4 w-4 text-emerald-400" />
+                        <span className="text-xs font-medium text-emerald-400/90">{fileName}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Paperclip className="h-4 w-4 text-muted-foreground group-hover:text-brass" />
+                        <span className="text-xs text-muted-foreground group-hover:text-pearl transition-colors">Attach reference images or files (optional, max 25MB)</span>
+                      </>
+                    )}
+                  </div>
+                </label>
+                <input type="file" className="hidden" onChange={handleFileChange} />
+                {fileError && <span className="text-xs text-red-400 mt-0.5">{fileError}</span>}
+              </div>
               <motion.button
                 type="submit"
                 whileTap={{ scale: 0.97 }}
