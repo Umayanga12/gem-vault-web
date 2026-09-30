@@ -2,22 +2,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { gemTypes, type GemType } from "@/data/stones";
 import { FilterGroup } from "./FilterGroup";
 import { FilterCheck } from "./FilterCheck";
-import { RangeSlider } from "./RangeSlider";
-
-const labs = ["GIA", "IGI", "AGS", "GRS"] as const;
-const treatments = ["Unheated", "Heated", "Minor oil", "None"] as const;
 
 interface FilterSidebarProps {
   open: boolean;
   hasFilters: boolean;
   types: GemType[];
-  maxCarat: number;
-  lab: string[];
-  treatment: string[];
   onToggleType: (t: GemType) => void;
-  onMaxCaratChange: (v: number) => void;
-  onToggleLab: (l: string) => void;
-  onToggleTreatment: (t: string) => void;
   onReset: () => void;
 }
 
@@ -25,13 +15,7 @@ export function FilterSidebar({
   open,
   hasFilters,
   types,
-  maxCarat,
-  lab,
-  treatment,
   onToggleType,
-  onMaxCaratChange,
-  onToggleLab,
-  onToggleTreatment,
   onReset,
 }: FilterSidebarProps) {
   return (
