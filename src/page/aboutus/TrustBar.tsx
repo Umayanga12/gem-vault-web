@@ -4,7 +4,6 @@ const items = [
   { label: "Shipped & insured to 42 countries", detail: "Door-to-door, fully tracked" },
   { label: "Customs & export paperwork handled", detail: "CITES and duty documents included" },
   { label: "Independent grading on every stone", detail: "GIA · IGI · AGS · GRS" },
-  { label: "Escrow-backed payment", detail: "Funds released only on confirmed delivery" },
 ];
 
 export function TrustBar() {
