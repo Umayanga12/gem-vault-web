@@ -132,7 +132,7 @@ export const gemCategories: GemCategory[] = [
       "Garnet is a gemstone family occurring in a wide variety of colours and compositions. Sri Lankan Garnets are known for their attractive natural colours, brilliance and durability.",
     accent: gemRowAccent.Garnet,
     routeType: "Garnet",
-    subTypes: [],
+    subTypes: ["Pyrope Garnet", "Almandine Garnet", "Hessonite Garnet",],
   },
   // Zircon
   {
@@ -142,7 +142,7 @@ export const gemCategories: GemCategory[] = [
       "Zircon is a natural gemstone known for its exceptional brilliance, strong dispersion and wide range of natural colours. Sri Lankan Zircon is particularly well known and highly regarded.",
     accent: gemRowAccent.Zircon,
     routeType: "Zircon",
-    subTypes: [],
+    subTypes: ["Green", "Brown", "Yellow"],
   },
   // Tourmaline
   {

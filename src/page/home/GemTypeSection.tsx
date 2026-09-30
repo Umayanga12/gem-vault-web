@@ -129,7 +129,7 @@ export function GemTypeSection() {
               search={{ type: undefined }}
               className="group flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brass focus-visible:text-brass focus-visible:outline-none"
             >
-              View all {stones.length} stones
+              View all stones
               <span
                 className="block h-px transition-all duration-300 group-hover:w-8 group-focus-visible:w-8"
                 style={{ width: "20px", background: "var(--brass-dim)" }}
