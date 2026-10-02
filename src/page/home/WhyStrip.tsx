@@ -1,7 +1,7 @@
 import { useReducedMotion } from "motion/react";
 
 const WHY_ITEMS = [
-  "GIA · IGI · AGS · GRS graded",
+  "NGJA graded",
   "100% natural, earth-mined",
   "Full origin disclosure",
   "Unheated status stated plainly",

@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "motion/react";
 const items = [
   { label: "Shipped & insured to 42 countries", detail: "Door-to-door, fully tracked" },
   { label: "Customs & export paperwork handled", detail: "CITES and duty documents included" },
-  { label: "Independent grading on every stone", detail: "GIA · IGI · AGS · GRS" },
+  { label: "Independent grading on every stone", detail: "NGJA" },
 ];
 
 export function TrustBar() {

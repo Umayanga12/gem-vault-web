@@ -4,10 +4,10 @@ import { Reveal } from "@/components/vault/reveal";
 const sections = [
   {
     title: "Independent grading, without exception",
-    body: "No stone is listed before it is graded by GIA, IGI, AGS or GRS. We do not grade in-house, and we do not list a stone against a report issued to a different stone. The report number on the page is the report number in the parcel.",
+    body: "No stone is listed before it is graded by NGJA. We do not grade in-house, and we do not list a stone against a report issued to a different stone. The report number on the page is the report number in the parcel.",
     /* TODO: add image src when available */
     image: "/assets/1111.jpg",
-    imageAlt: "GIA grading report and gemstone under laboratory conditions",
+    imageAlt: "NGJA grading report and gemstone under laboratory conditions",
   },
   {
     title: "Treatment is stated, not implied",

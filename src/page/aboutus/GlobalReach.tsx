@@ -1,8 +1,8 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/vault/reveal";
 
-const labs = ["GIA", "IGI", "AGS", "GRS"];
-const carriers = ["DHL Express", "Brink's", "Malca-Amit", "FedEx Priority"];
+const labs = ["NGJA"];
+const carriers = ["NGJA Gem export service"];
 
 const regions = [
   { name: "North America", stat: "Next-day customs clearance via bonded courier" },

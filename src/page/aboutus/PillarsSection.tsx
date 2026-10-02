@@ -5,7 +5,7 @@ const pillars = [
   {
     index: "I",
     title: "Independent grading, without exception",
-    body: "No stone is listed before it is graded by GIA, IGI, AGS or GRS. We do not grade in-house, and we do not list a stone against a report issued to a different stone. The report number on the page is the report number in the parcel.",
+    body: "No stone is listed before it is graded by NGJA. We do not grade in-house, and we do not list a stone against a report issued to a different stone. The report number on the page is the report number in the parcel.",
   },
   {
     index: "II",

@@ -5,7 +5,7 @@ const items = [
   {
     icon: BadgeCheck,
     title: "Independently graded",
-    body: "Every stone ships with its GIA, IGI, AGS or GRS report.",
+    body: "Every stone ships with its NGJA report.",
   },
   {
     icon: Truck,

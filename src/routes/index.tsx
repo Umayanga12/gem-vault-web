@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A specialist vault of certified loose sapphires, rubies, emeralds, and fine gemstones — graded by GIA, IGI, AGS and GRS, sold with full origin and treatment disclosure.",
+          "A specialist vault of certified loose sapphires, rubies, emeralds, and fine gemstones — graded by NGJA, sold with full origin and treatment disclosure.",
       },
       { property: "og:title", content: "Rhea Cylone — Certified Loose Gemstones" },
       {
