@@ -9,7 +9,6 @@ import { BrowseHeader } from "@/page/Browse/BrowseHeader";
 import { FilterSidebar } from "@/page/Browse/FilterSidebar";
 import { EmptyState } from "@/page/Browse/EmptyState";
 import { gemCategories, gemRowAccent } from "@/page/home/GemTypeCard";
-import { labelToSlug } from "@/data/gemDescriptions";
 
 export const Route = createFileRoute("/browse")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -44,23 +43,7 @@ type Stones = ReturnType<typeof useVault>["stones"];
 const NO_STONES: Stones = [];
 
 /* ─── Sub-type pill chip ──────────────────────────────────────────────────── */
-function SubTypePill({ label, accent }: { label: string; accent: string }) {
-  return (
-    <Link
-      to="/gems/$gemSlug"
-      params={{ gemSlug: labelToSlug(label) }}
-      className="inline-block font-mono text-[9px] uppercase tracking-[0.12em] px-2 py-0.5 rounded-sm transition-all duration-200 hover:opacity-80 hover:scale-105"
-      style={{
-        color: accent.replace(")", " / 0.85)"),
-        background: accent.replace(")", " / 0.10)"),
-        border: `1px solid ${accent.replace(")", " / 0.22)")}`,
-        letterSpacing: "0.10em",
-      }}
-    >
-      {label}
-    </Link>
-  );
-}
+
 
 /* ─── Category section header with sub-type chips ────────────────────────── */
 function CategoryHeader({
@@ -106,14 +89,6 @@ function CategoryHeader({
           {count} {count === 1 ? "stone" : "stones"}
         </span>
       </div>
-
-      {subTypes.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 pl-12">
-          {subTypes.map((s) => (
-            <SubTypePill key={s} label={s} accent={accent} />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -128,14 +103,31 @@ function CatalogueBanner() {
         border: "1px solid oklch(0.70 0.082 78 / 0.18)",
       }}
     >
-      <p
-        className="font-display text-pearl mb-2"
-        style={{ fontSize: "1.05rem", letterSpacing: "-0.01em" }}
+      <h2
+        className="font-display text-pearl mb-3"
+        style={{
+          fontSize: "clamp(1.35rem, 2.2vw, 1.75rem)",
+          lineHeight: 1.2,
+          letterSpacing: "-0.01em",
+        }}
       >
-        We currently showcase a selection of fast-moving Sri Lankan gemstones.
+        Can't find your stone? We can source it for you.
+      </h2>
+
+      <p
+        className="mb-1 text-pearl/90"
+        style={{ fontSize: "1.05rem", lineHeight: 1.5 }}
+      >
+        We currently showcase a selection of fast-moving Sri Lankan
+        gemstones.
       </p>
-      <p className="text-sm text-muted-foreground mb-4" style={{ lineHeight: 1.75 }}>
-        If you are looking for a specific gemstone, color, size, cut, treatment status, or quantity that is not listed here, please contact us. We may be able to source it for you.
+      <p
+        className="mb-5 max-w-2xl text-[0.95rem] text-pearl/70"
+        style={{ lineHeight: 1.75 }}
+      >
+        If you are looking for a specific gemstone, color, size, cut,
+        treatment status, or quantity that is not listed here, please
+        contact us. We may be able to source it for you.
       </p>
 
       {/* Quotation process */}

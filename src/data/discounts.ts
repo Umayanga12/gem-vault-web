@@ -41,7 +41,7 @@ export const defaultDiscounts: Discount[] = [
     bundleQty: 2,
     bundlePrice: 200,
     applicableTo: "all",
-    applicableType: "Other",
+    applicableType: "Rare Gems",
     active: true,
     createdAt: new Date().toISOString(),
   },

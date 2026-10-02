@@ -1,11 +1,15 @@
 export function ConsultTextarea({
   label,
   focused,
+  value,
+  onChange,
   onFocus,
   onBlur,
 }: {
   label: string;
   focused?: boolean;
+  value?: string;
+  onChange?: (v: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
 }) {
@@ -27,6 +31,8 @@ export function ConsultTextarea({
       </label>
       <textarea
         rows={3}
+        value={value ?? ""}
+        onChange={(e) => onChange?.(e.target.value)}
         onFocus={onFocus}
         onBlur={onBlur}
         className="w-full rounded-xl px-3 pb-2 pt-6 text-sm text-pearl outline-none transition-all duration-200"

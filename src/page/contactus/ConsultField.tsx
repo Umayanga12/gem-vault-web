@@ -3,6 +3,8 @@ export function ConsultField({
   type = "text",
   required,
   focused,
+  value,
+  onChange,
   onFocus,
   onBlur,
 }: {
@@ -10,6 +12,8 @@ export function ConsultField({
   type?: string;
   required?: boolean;
   focused?: boolean;
+  value?: string;
+  onChange?: (v: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
 }) {
@@ -32,6 +36,8 @@ export function ConsultField({
       <input
         type={type}
         required={required}
+        value={value ?? ""}
+        onChange={(e) => onChange?.(e.target.value)}
         onFocus={onFocus}
         onBlur={onBlur}
         className="w-full rounded-xl px-3 pb-2 pt-6 text-sm text-pearl outline-none transition-all duration-200"

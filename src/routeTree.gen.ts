@@ -12,9 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BrowseRouteImport } from './routes/browse'
-import { Route as CartRouteImport } from './routes/cart'
-import { Route as ConsultationRouteImport } from './routes/consultation'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactusRouteImport } from './routes/contactus'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TrustRouteImport } from './routes/trust'
@@ -35,19 +33,9 @@ const BrowseRoute = BrowseRouteImport.update({
   path: '/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CartRoute = CartRouteImport.update({
-  id: '/cart',
-  path: '/cart',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConsultationRoute = ConsultationRouteImport.update({
-  id: '/consultation',
-  path: '/consultation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const ContactusRoute = ContactusRouteImport.update({
+  id: '/contactus',
+  path: '/contactus',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -75,9 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
-  '/cart': typeof CartRoute
-  '/consultation': typeof ConsultationRoute
-  '/dashboard': typeof DashboardRoute
+  '/contactus': typeof ContactusRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
@@ -87,9 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
-  '/cart': typeof CartRoute
-  '/consultation': typeof ConsultationRoute
-  '/dashboard': typeof DashboardRoute
+  '/contactus': typeof ContactusRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
@@ -100,9 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
-  '/cart': typeof CartRoute
-  '/consultation': typeof ConsultationRoute
-  '/dashboard': typeof DashboardRoute
+  '/contactus': typeof ContactusRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
@@ -114,9 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browse'
-    | '/cart'
-    | '/consultation'
-    | '/dashboard'
+    | '/contactus'
     | '/login'
     | '/sitemap.xml'
     | '/trust'
@@ -126,9 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browse'
-    | '/cart'
-    | '/consultation'
-    | '/dashboard'
+    | '/contactus'
     | '/login'
     | '/sitemap.xml'
     | '/trust'
@@ -138,9 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/browse'
-    | '/cart'
-    | '/consultation'
-    | '/dashboard'
+    | '/contactus'
     | '/login'
     | '/sitemap.xml'
     | '/trust'
@@ -151,9 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BrowseRoute: typeof BrowseRoute
-  CartRoute: typeof CartRoute
-  ConsultationRoute: typeof ConsultationRoute
-  DashboardRoute: typeof DashboardRoute
+  ContactusRoute: typeof ContactusRoute
   LoginRoute: typeof LoginRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrustRoute: typeof TrustRoute
@@ -183,25 +157,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cart': {
-      id: '/cart'
-      path: '/cart'
-      fullPath: '/cart'
-      preLoaderRoute: typeof CartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/consultation': {
-      id: '/consultation'
-      path: '/consultation'
-      fullPath: '/consultation'
-      preLoaderRoute: typeof ConsultationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/contactus': {
+      id: '/contactus'
+      path: '/contactus'
+      fullPath: '/contactus'
+      preLoaderRoute: typeof ContactusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -239,9 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BrowseRoute: BrowseRoute,
-  CartRoute: CartRoute,
-  ConsultationRoute: ConsultationRoute,
-  DashboardRoute: DashboardRoute,
+  ContactusRoute: ContactusRoute,
   LoginRoute: LoginRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrustRoute: TrustRoute,

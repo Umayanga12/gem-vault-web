@@ -1,37 +1,46 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Check, Send, Paperclip } from "lucide-react";
+import { Check, Send, AlertCircle, Loader2 } from "lucide-react";
 import { Reveal } from "@/components/vault/reveal";
 import { ConsultField } from "./ConsultField";
 import { ConsultTextarea } from "./ConsultTextarea";
+import { sendContactUsEmail } from "@/lib/send_email";
 
 export function GeneralInquiries() {
   const [focused, setFocused] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  // Controlled form fields
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [phone, setPhone] = useState("");
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSent(true);
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 25 * 1024 * 1024) {
-        setFileError("File exceeds 25MB limit");
-        setFileName(null);
-        e.target.value = "";
+    setServerError(null);
+    setLoading(true);
+    try {
+      const finalMessage = message + "\nContact Number : " + phone + "\nEmail : " + email;
+      const result = await sendContactUsEmail({
+        title: "General Inquiry",
+        name,
+        email,
+        message: finalMessage,
+      });
+      if (result.success) {
+        setSent(true);
       } else {
-        setFileError(null);
-        setFileName(file.name);
+        setServerError(result.error ?? "Failed to send message. Please try again.");
       }
-    } else {
-      setFileError(null);
-      setFileName(null);
+
+    } catch {
+      setServerError("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   return (
     <Reveal>
@@ -95,50 +104,74 @@ export function GeneralInquiries() {
                 label="Your name"
                 type="text"
                 required
+                value={name}
+                onChange={setName}
                 focused={focused === "name"}
                 onFocus={() => setFocused("name")}
+                onBlur={() => setFocused(null)}
+              />
+              <ConsultField
+                label="Contact Number"
+                type="tel"
+                required
+                value={phone}
+                onChange={setPhone}
+                focused={focused === "phone"}
+                onFocus={() => setFocused("phone")}
                 onBlur={() => setFocused(null)}
               />
               <ConsultField
                 label="Email"
                 type="email"
                 required
+                value={email}
+                onChange={setEmail}
                 focused={focused === "email"}
                 onFocus={() => setFocused("email")}
                 onBlur={() => setFocused(null)}
               />
               <ConsultTextarea
                 label="Your message"
+                value={message}
+                onChange={setMessage}
                 focused={focused === "message"}
                 onFocus={() => setFocused("message")}
                 onBlur={() => setFocused(null)}
               />
-              <div className="flex flex-col gap-2">
-                <label className="cursor-pointer group block">
-                  <div className="flex items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 p-4 transition-all hover:bg-white/5 hover:border-brass/50">
-                    {fileName ? (
-                      <>
-                        <Check className="h-4 w-4 text-emerald-400" />
-                        <span className="text-xs font-medium text-emerald-400/90">{fileName}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Paperclip className="h-4 w-4 text-muted-foreground group-hover:text-brass" />
-                        <span className="text-xs text-muted-foreground group-hover:text-pearl transition-colors">Attach reference images or files (optional, max 25MB)</span>
-                      </>
-                    )}
-                  </div>
-                </label>
-                <input type="file" className="hidden" onChange={handleFileChange} />
-                {fileError && <span className="text-xs text-red-400 mt-0.5">{fileError}</span>}
-              </div>
+
+              {/* Server error */}
+              <AnimatePresence>
+                {serverError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-2 rounded-lg px-4 py-3"
+                    style={{
+                      background: "oklch(0.30 0.12 25 / 0.18)",
+                      border: "1px solid oklch(0.55 0.18 25 / 0.40)",
+                      color: "oklch(0.75 0.15 25)",
+                      fontSize: "0.8125rem",
+                    }}
+                  >
+                    <AlertCircle className="size-4 shrink-0" />
+                    {serverError}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <motion.button
                 type="submit"
-                whileTap={{ scale: 0.97 }}
-                className="facet-sheen btn-gold mt-1 flex items-center justify-center gap-2 w-full cursor-pointer"
+                disabled={loading}
+                whileTap={loading ? undefined : { scale: 0.97 }}
+                className="facet-sheen btn-gold mt-1 flex items-center justify-center gap-2 w-full cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Send className="size-4" />
-                Send message
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Send className="size-4" />
+                )}
+                {loading ? "Sending…" : "Send message"}
               </motion.button>
             </motion.form>
           )}
