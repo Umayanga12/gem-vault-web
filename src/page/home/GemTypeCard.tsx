@@ -71,7 +71,7 @@ export const gemCategories: GemCategory[] = [
   // Sapphire
   {
     title: "Sapphire",
-    image: "src/assets/gem/0.89ctbluesapphire.webp",
+    image: "/gems/0.89ctbluesapphire.webp",
     description:
       "Blue Sapphire is particularly renowned as a classic Ceylon gemstone — from lighter and fancy blues to prized cornflower and royal blue shades. We also carry ruby, padparadscha, yellow, pink, purple, white, green and bi-colour varieties.",
     accent: gemRowAccent.Sapphire,
@@ -97,7 +97,7 @@ export const gemCategories: GemCategory[] = [
   // Chrysoberyl
   {
     title: "Chrysoberyl",
-    image: "src/assets/gem/Chrysoberyl/chrysoberyl.jpg",
+    image: "/gems/Chrysoberyl/chrysoberyl.jpg",
     description:
       "Chrysoberyl is a durable and naturally brilliant gemstone known for its attractive honey and apple-green varieties. Includes Chrysoberyl Cat's Eye — famous for its sharp chatoyancy — plus the remarkable colour-changing Alexandrite.",
     accent: gemRowAccent.Chrysoberyl,
@@ -107,7 +107,7 @@ export const gemCategories: GemCategory[] = [
   // Spinel
   {
     title: "Spinel",
-    image: "src/assets/gem/Spinel/spinel.jpg",
+    image: "/gems/Spinel/spinel.jpg",
     description:
       "Spinel is a naturally occurring gemstone known for its excellent brilliance and wide range of colours — red, pink, blue, purple, white and green. Sri Lankan Spinel offers outstanding quality.",
     accent: gemRowAccent.Spinel,
@@ -117,7 +117,7 @@ export const gemCategories: GemCategory[] = [
   // Star Spinel
   {
     title: "Star Spinel",
-    image: "src/assets/gem/Spinel/star.jpg",
+    image: "/gems/Spinel/star.jpg",
     description:
       "Star Spinel is a phenomenal variety of spinel displaying a rare star-like optical effect across the surface. The asterism phenomenon is relatively uncommon, adding significant visual character.",
     accent: gemRowAccent["Star Spinel"],
@@ -127,7 +127,7 @@ export const gemCategories: GemCategory[] = [
   // Garnet
   {
     title: "Garnet",
-    image: "src/assets/gem/Garnet/garnet.jpg",
+    image: "/gems/Garnet/garnet.jpg",
     description:
       "Garnet is a gemstone family occurring in a wide variety of colours and compositions. Sri Lankan Garnets are known for their attractive natural colours, brilliance and durability.",
     accent: gemRowAccent.Garnet,
@@ -137,7 +137,7 @@ export const gemCategories: GemCategory[] = [
   // Zircon
   {
     title: "Zircon",
-    image: "src/assets/gem/Zircon/dscn0704.jpg",
+    image: "/gems/Zircon/dscn0704.jpg",
     description:
       "Zircon is a natural gemstone known for its exceptional brilliance, strong dispersion and wide range of natural colours. Sri Lankan Zircon is particularly well known and highly regarded.",
     accent: gemRowAccent.Zircon,
@@ -147,7 +147,7 @@ export const gemCategories: GemCategory[] = [
   // Tourmaline
   {
     title: "Tourmaline",
-    image: "src/assets/gem/Tourmaline/tourmaline.jpg",
+    image: "/gems/Tourmaline/tourmaline.jpg",
     description:
       "Tourmaline is one of the most colour-diverse gemstone families. Sri Lankan stones display attractive brown, honey and green tones, with each crystal offering its own distinctive character.",
     accent: gemRowAccent.Tourmaline,
@@ -157,7 +157,7 @@ export const gemCategories: GemCategory[] = [
   // Beryl
   {
     title: "Beryl",
-    image: "src/assets/gem/Beryl/aqamerine.jpg",
+    image: "/gems/Beryl/aqamerine.jpg",
     description:
       "Beryl includes Aquamarine and White / Colorless Beryl varieties. Appreciated for their clarity, transparency and attractive natural colours.",
     accent: gemRowAccent.Beryl,
@@ -167,7 +167,7 @@ export const gemCategories: GemCategory[] = [
   // Moonstone
   {
     title: "Moonstone",
-    image: "src/assets/gem/Moonstone/moonstone.jpg",
+    image: "/gems/Moonstone/moonstone.jpg",
     description:
       "Moonstone is a feldspar gemstone recognized for its distinctive floating glow (adularescence). Sri Lankan Moonstone is associated with soft white and bluish appearances.",
     accent: gemRowAccent.Moonstone,
@@ -177,7 +177,7 @@ export const gemCategories: GemCategory[] = [
   // Quartz
   {
     title: "Quartz",
-    image: "src/assets/gem/Quartz/amatrine.jpg",
+    image: "/gems/Quartz/amatrine.jpg",
     description:
       "Quartz occurs in many colours and varieties — colorless, yellow, purple/amethyst, ametrine, lemon, pink, brown, and rutilated quartz. Each variety has its own distinctive character.",
     accent: gemRowAccent.Quartz,
@@ -190,7 +190,7 @@ export const gemCategories: GemCategory[] = [
   // Topaz
   {
     title: "Topaz",
-    image: "src/assets/gem/Topaz/topaz.jpg",
+    image: "/gems/Topaz/topaz.jpg",
     description:
       "Topaz is a transparent gemstone known for its excellent clarity, brilliance and range of colours — colorless, yellow, brown and more. Imperial topaz hues are particularly prized.",
     accent: gemRowAccent.Topaz,
@@ -200,7 +200,7 @@ export const gemCategories: GemCategory[] = [
   // Rare Gems
   {
     title: "Rare Gems",
-    image: "src/assets/gem/Rare/sinhalite.webp",
+    image: "/gems/Rare/sinhalite.webp",
     description:
       "Extraordinary collector minerals native to Ceylon — Cobalt Spinel, Singhalite, Kornerupine, Serendibite, Taaffeite, Alexandrite and Alexandrite Cat's Eye. Some of the rarest gems on Earth.",
     accent: gemRowAccent["Rare Gems"],
