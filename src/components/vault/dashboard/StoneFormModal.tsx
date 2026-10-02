@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { useVault } from "@/lib/vault-store";
-import { type Stone, type GemType } from "@/data/stones";
-
-const gemTypes: GemType[] = ["Diamond", "Sapphire", "Ruby", "Emerald", "Other"];
+import { gemTypes, type Stone, type GemType } from "@/data/stones";
 
 function generateId(type: string): string {
   const prefix = type.slice(0, 1).toLowerCase();
@@ -15,7 +13,7 @@ function generateId(type: string): string {
 const defaultForm: Omit<Stone, "images"> = {
   id: "",
   name: "",
-  type: "Diamond",
+  type: "Sapphire",
   origin: "Natural",
   shape: "",
   cut: "Very Good",
@@ -79,7 +77,7 @@ export function StoneFormModal({ open, stone, onClose }: Props) {
       const { images: _images, ...rest } = stone;
       setForm(rest);
     } else {
-      setForm({ ...defaultForm, id: generateId("Diamond") });
+      setForm({ ...defaultForm, id: generateId("Sapphire") });
     }
   }, [stone, open]);
 

@@ -4,7 +4,6 @@ import {
   Tag,
   TrendingUp,
   DollarSign,
-  Diamond,
   Layers,
 } from "lucide-react";
 import { useVault } from "@/lib/vault-store";
@@ -86,13 +85,33 @@ function StatCard({
 
 function GemTypeBreakdown() {
   const { stones } = useVault();
-  const types = ["Diamond", "Sapphire", "Ruby", "Emerald", "Other"] as const;
+  const types = [
+    "Sapphire",
+    "Star Sapphire",
+    "Chrysoberyl",
+    "Spinel",
+    "Garnet",
+    "Zircon",
+    "Tourmaline",
+    "Beryl",
+    "Moonstone",
+    "Quartz",
+    "Topaz",
+    "Rare Gems",
+  ] as const;
   const typeColors: Record<string, string> = {
-    Diamond: "oklch(0.82 0.015 240)",
     Sapphire: "oklch(0.60 0.055 250)",
-    Ruby: "oklch(0.62 0.120 15)",
-    Emerald: "oklch(0.56 0.060 160)",
-    Other: "oklch(0.62 0.075 313)",
+    "Star Sapphire": "oklch(0.65 0.080 255)",
+    Chrysoberyl: "oklch(0.68 0.095 95)",
+    Spinel: "oklch(0.62 0.120 10)",
+    Garnet: "oklch(0.60 0.140 25)",
+    Zircon: "oklch(0.70 0.040 220)",
+    Tourmaline: "oklch(0.62 0.120 350)",
+    Beryl: "oklch(0.65 0.090 175)",
+    Moonstone: "oklch(0.80 0.020 240)",
+    Quartz: "oklch(0.72 0.030 310)",
+    Topaz: "oklch(0.72 0.070 50)",
+    "Rare Gems": "oklch(0.75 0.060 60)",
   };
 
   return (
@@ -224,7 +243,7 @@ export function OverviewPanel({ onNavigate }: { onNavigate: (tab: "stones" | "di
           }}
         >
           <div className="flex items-center gap-2 mb-5">
-            <Diamond className="size-4" style={{ color: "var(--brass)" }} />
+            <Gem className="size-4" style={{ color: "var(--brass)" }} />
             <p
               className="font-mono uppercase"
               style={{ fontSize: "9px", letterSpacing: "0.18em", color: "var(--muted-foreground)" }}

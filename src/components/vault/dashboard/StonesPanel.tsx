@@ -6,11 +6,18 @@ import { formatPrice, type Stone } from "@/data/stones";
 import { StoneFormModal } from "./StoneFormModal";
 
 const typeColors: Record<string, string> = {
-  Diamond: "oklch(0.82 0.015 240)",
   Sapphire: "oklch(0.60 0.055 250)",
-  Ruby: "oklch(0.62 0.120 15)",
-  Emerald: "oklch(0.56 0.060 160)",
-  Other: "oklch(0.62 0.075 313)",
+  "Star Sapphire": "oklch(0.65 0.080 255)",
+  Chrysoberyl: "oklch(0.68 0.095 95)",
+  Spinel: "oklch(0.62 0.120 10)",
+  Garnet: "oklch(0.60 0.140 25)",
+  Zircon: "oklch(0.70 0.040 220)",
+  Tourmaline: "oklch(0.62 0.120 350)",
+  Beryl: "oklch(0.65 0.090 175)",
+  Moonstone: "oklch(0.80 0.020 240)",
+  Quartz: "oklch(0.72 0.030 310)",
+  Topaz: "oklch(0.72 0.070 50)",
+  "Rare Gems": "oklch(0.75 0.060 60)",
 };
 
 export function StonesPanel() {
@@ -170,18 +177,23 @@ export function StonesPanel() {
                 </div>
 
                 <div>
-                  <span
-                    className="inline-block px-2 py-0.5 font-mono text-[8px] uppercase"
-                    style={{
-                      color: typeColors[stone.type],
-                      background: `${typeColors[stone.type]}18`,
-                      border: `1px solid ${typeColors[stone.type]}44`,
-                      borderRadius: "4px",
-                      letterSpacing: "0.12em",
-                    }}
-                  >
-                    {stone.type}
-                  </span>
+                  {(() => {
+                    const c = typeColors[stone.type] ?? "oklch(0.68 0.076 76)";
+                    return (
+                      <span
+                        className="inline-block px-2 py-0.5 font-mono text-[8px] uppercase"
+                        style={{
+                          color: c,
+                          background: `${c}18`,
+                          border: `1px solid ${c}44`,
+                          borderRadius: "4px",
+                          letterSpacing: "0.12em",
+                        }}
+                      >
+                        {stone.type}
+                      </span>
+                    );
+                  })()}
                   <p
                     className="mt-1 font-mono"
                     style={{ fontSize: "8px", color: "var(--muted-foreground)", letterSpacing: "0.10em" }}

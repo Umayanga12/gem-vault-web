@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { useVault } from "@/lib/vault-store";
 import { type Discount, type DiscountType } from "@/data/discounts";
-
-const gemTypes = ["Diamond", "Sapphire", "Ruby", "Emerald", "Other"] as const;
+import { gemTypes } from "@/data/stones";
 
 function generateDiscountId(): string {
   return `promo-${Date.now().toString(36)}`;

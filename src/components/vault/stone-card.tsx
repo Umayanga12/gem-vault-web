@@ -1,49 +1,57 @@
 import { Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useReducedMotion, AnimatePresence } from "motion/react";
-import { Heart } from "lucide-react";
-import { formatPrice, typeAccent, type Stone } from "@/data/stones";
+import { Heart, FileQuestion } from "lucide-react";
+import { typeAccent, type Stone } from "@/data/stones";
 import { useVault } from "@/lib/vault-store";
 import { useState } from "react";
-import {
-  getApplicableDiscount,
-  computeDiscountedPrice,
-  formatDiscount,
-} from "@/data/discounts";
+import { QuotationModal, type QuotationFormData } from "@/components/vault/quotation-form";
+import { gemCategories } from "@/page/home/GemTypeCard";
 
 /* Gem-type hover glow — only on hover */
 const typeGlow: Record<string, string> = {
-  Diamond:  "0 16px 48px oklch(0.85 0.02 240 / 0.18), 0 0 0 1px oklch(1 0 0 / 0.07)",
   Sapphire: "0 16px 48px var(--glow-sapphire), 0 0 0 1px oklch(1 0 0 / 0.07)",
+  "Star Sapphire": "0 16px 48px var(--glow-sapphire), 0 0 0 1px oklch(1 0 0 / 0.07)",
   Ruby:     "0 16px 48px var(--glow-ruby), 0 0 0 1px oklch(1 0 0 / 0.07)",
-  Emerald:  "0 16px 48px var(--glow-emerald), 0 0 0 1px oklch(1 0 0 / 0.07)",
-  Amethyst: "0 16px 48px var(--glow-amethyst), 0 0 0 1px oklch(1 0 0 / 0.07)",
+  "Rare Gems": "0 16px 48px var(--glow-brass), 0 0 0 1px oklch(1 0 0 / 0.07)",
+  "Star Spinel": "0 16px 48px var(--glow-ruby), 0 0 0 1px oklch(1 0 0 / 0.07)",
 };
 
 /* Gem-type badge colors — minimal */
 const typeBadgeColor: Record<string, string> = {
-  Diamond:  "oklch(0.82 0.015 240 / 0.80)",
   Sapphire: "oklch(0.65 0.060 250 / 0.80)",
+  "Star Sapphire": "oklch(0.65 0.080 255 / 0.80)",
   Ruby:     "oklch(0.62 0.120 15 / 0.80)",
-  Emerald:  "oklch(0.60 0.065 160 / 0.80)",
-  Amethyst: "oklch(0.62 0.075 313 / 0.80)",
+  "Rare Gems": "oklch(0.75 0.060 60 / 0.80)",
+  "Star Spinel": "oklch(0.62 0.110 10 / 0.80)",
 };
 
 export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }) {
   const reduced = useReducedMotion();
-  const { currency, wishlist, toggleWishlist, discounts } = useVault();
+  const { wishlist, toggleWishlist, addToQuotation, removeFromQuotation, quotationIds } = useVault();
   const rx = useSpring(useMotionValue(0), { stiffness: 200, damping: 24 });
   const ry = useSpring(useMotionValue(0), { stiffness: 200, damping: 24 });
   const saved = wishlist.includes(stone.id);
+  const inQuotation = quotationIds.includes(stone.id);
   const [hovered, setHovered] = useState(false);
-  const glow = typeGlow[stone.type] ?? typeGlow.Diamond;
-  const badgeColor = typeBadgeColor[stone.type] ?? typeBadgeColor.Diamond;
+  const [modalOpen, setModalOpen] = useState(false);
+  const glow = typeGlow[stone.type] ?? "0 16px 48px oklch(0.70 0.082 78 / 0.15), 0 0 0 1px oklch(1 0 0 / 0.07)";
+  const badgeColor = typeBadgeColor[stone.type] ?? "oklch(0.65 0.060 250 / 0.80)";
 
-  // Discount logic
-  const activeDiscount = getApplicableDiscount(stone.id, stone.type, discounts);
-  const discountedPrice = activeDiscount
-    ? computeDiscountedPrice(stone.price, activeDiscount)
-    : null;
-  const hasDiscount = discountedPrice !== null && discountedPrice < stone.price;
+  // Accent colour from gem categories for the modal
+  const catAccent = gemCategories.find((c) => c.routeType === stone.type)?.accent ?? "oklch(0.70 0.082 78)";
+
+  function handleQuotationClick(e: React.MouseEvent) {
+    e.preventDefault();
+    if (inQuotation) {
+      removeFromQuotation(stone.id);
+    } else {
+      setModalOpen(true);
+    }
+  }
+
+  function handleFormSubmit(data: QuotationFormData) {
+    addToQuotation(data);
+  }
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
     if (reduced) return;
@@ -55,6 +63,7 @@ export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }
   }
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: reduced ? 0 : 14 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -128,26 +137,6 @@ export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }
               {stone.type}
             </span>
 
-            {/* Discount badge */}
-            {hasDiscount && activeDiscount && (
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="absolute top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 font-mono text-[8px] uppercase"
-                style={{
-                  background: "oklch(0.62 0.120 15 / 0.90)",
-                  border: "1px solid oklch(0.62 0.120 15 / 0.60)",
-                  backdropFilter: "blur(6px)",
-                  color: "oklch(0.97 0.01 15)",
-                  letterSpacing: "0.16em",
-                  borderRadius: "3px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {formatDiscount(activeDiscount)}
-              </motion.span>
-            )}
-
             {/* Wishlist */}
             <button
               onClick={(e) => {
@@ -197,55 +186,53 @@ export function StoneCard({ stone, index = 0 }: { stone: Stone; index?: number }
                 >
                   {stone.name}
                 </h3>
-                <p className="mt-1 font-mono text-[9px] text-muted-foreground uppercase tracking-wider" style={{ letterSpacing: "0.12em" }}>
-                  {stone.carat.toFixed(2)} ct · {stone.shape} · {stone.clarity}
-                </p>
               </div>
 
               <div className="shrink-0 text-right">
-                <p className="rule-label mb-0.5">{stone.lab}</p>
-                {hasDiscount && discountedPrice !== null ? (
-                  <div>
-                    <p
-                      className="font-mono line-through"
-                      style={{ fontSize: "0.7rem", color: "var(--muted-foreground)", letterSpacing: "-0.01em" }}
-                    >
-                      {formatPrice(stone.price, currency)}
-                    </p>
-                    <motion.p
-                      className="font-display"
-                      animate={{ color: hovered ? "oklch(0.80 0.120 15)" : "oklch(0.72 0.120 15)" }}
-                      transition={{ duration: 0.3 }}
-                      style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
-                    >
-                      {formatPrice(discountedPrice, currency)}
-                    </motion.p>
-                  </div>
-                ) : (
-                  <motion.p
-                    className="font-display"
-                    animate={{ color: hovered ? "var(--brass-hi)" : "var(--brass)" }}
-                    transition={{ duration: 0.3 }}
-                    style={{ fontSize: "1.1rem", letterSpacing: "-0.02em" }}
-                  >
-                    {formatPrice(stone.price, currency)}
-                  </motion.p>
-                )}
+                <span
+                  className="font-mono text-[9px] uppercase"
+                  style={{
+                    color: "var(--brass)",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  Ask for Quote
+                </span>
               </div>
-            </div>
-
-            {/* Footer row */}
-            <div className="flex items-center justify-between mt-3 pt-3" style={{ borderTop: "1px solid oklch(1 0 0 / 0.05)" }}>
-              <span className="rule-label">
-                {stone.country}
-              </span>
-              <span className="rule-label">
-                {stone.origin === "Lab-grown" ? "Lab-grown" : stone.treatment}
-              </span>
             </div>
           </div>
         </Link>
+
+        {/* Add to Quotation button */}
+        <div className="px-4 pb-4">
+          <button
+            onClick={handleQuotationClick}
+            id={`add-quotation-${stone.id}`}
+            className="w-full flex items-center justify-center gap-2 py-2 font-mono text-[9px] uppercase tracking-wider transition-all duration-200"
+            style={{
+              background: inQuotation
+                ? "oklch(0.70 0.082 78 / 0.15)"
+                : "oklch(0.14 0.015 305 / 0.80)",
+              border: `1px solid ${inQuotation ? "oklch(0.70 0.082 78 / 0.40)" : "oklch(1 0 0 / 0.10)"}`,
+              color: inQuotation ? "var(--brass)" : "var(--muted-foreground)",
+              letterSpacing: "0.14em",
+            }}
+          >
+            <FileQuestion className="size-3" />
+            {inQuotation ? "In Quotation" : "Add to Quotation"}
+          </button>
+        </div>
       </motion.div>
     </motion.div>
+
+    {/* Quotation modal — rendered outside card so it's not clipped */}
+    <QuotationModal
+      stone={stone}
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      onSubmit={handleFormSubmit}
+      accent={catAccent}
+    />
+  </>
   );
 }
