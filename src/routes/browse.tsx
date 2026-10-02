@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
-import { useMemo, useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
-import { gemTypes, type GemType } from "@/data/stones";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { AnimatePresence } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { MessageCircle, Mail } from "lucide-react";
+import { type GemType } from "@/data/stones";
 import { StoneCard } from "@/components/vault/stone-card";
-import { CountUp } from "@/components/vault/reveal";
-import { PromoBanner } from "@/components/vault/PromoBanner";
 import { useVault } from "@/lib/vault-store";
+import { BrowseHeader } from "@/page/Browse/BrowseHeader";
+import { FilterSidebar } from "@/page/Browse/FilterSidebar";
+import { EmptyState } from "@/page/Browse/EmptyState";
+import { gemCategories, gemRowAccent } from "@/page/home/GemTypeCard";
+import { labelToSlug } from "@/data/gemDescriptions";
 
 export const Route = createFileRoute("/browse")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -14,47 +17,323 @@ export const Route = createFileRoute("/browse")({
   }),
   head: () => ({
     meta: [
-      { title: "Browse Certified Loose Gemstones — Rhea Cylone" },
+      { title: "Browse Sri Lankan Gemstones — Request a Quotation | Rhea Cylone" },
       {
         name: "description",
         content:
-          "Filter certified loose gemstones by type, carat, clarity, origin, treatment and laboratory. Natural and lab-grown stones with full grading data.",
+          "Browse our selection of fast-moving Sri Lankan gemstones. Filter by type, carat, clarity, treatment and laboratory. Request a quotation for any stone — no fixed prices.",
       },
-      { property: "og:title", content: "Browse Certified Loose Gemstones" },
+      { property: "og:title", content: "Browse Sri Lankan Gemstones — Request a Quotation" },
       {
         property: "og:description",
-        content: "Filter by carat, clarity, origin, treatment and grading laboratory.",
+        content: "A curated selection of fast-moving Sri Lankan gemstones. Request a quotation for sapphires, spinels, garnets, tourmalines and more.",
       },
     ],
   }),
   component: Browse,
 });
 
-const labs = ["GIA", "IGI", "AGS", "GRS"] as const;
-const treatments = ["Unheated", "Heated", "Minor oil", "None"] as const;
+/* ─── Hydration-safe mounted flag ─────────────────────────────────────────── */
+function useHasMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted;
+}
 
+type Stones = ReturnType<typeof useVault>["stones"];
+const NO_STONES: Stones = [];
+
+/* ─── Sub-type pill chip ──────────────────────────────────────────────────── */
+function SubTypePill({ label, accent }: { label: string; accent: string }) {
+  return (
+    <Link
+      to="/gems/$gemSlug"
+      params={{ gemSlug: labelToSlug(label) }}
+      className="inline-block font-mono text-[9px] uppercase tracking-[0.12em] px-2 py-0.5 rounded-sm transition-all duration-200 hover:opacity-80 hover:scale-105"
+      style={{
+        color: accent.replace(")", " / 0.85)"),
+        background: accent.replace(")", " / 0.10)"),
+        border: `1px solid ${accent.replace(")", " / 0.22)")}`,
+        letterSpacing: "0.10em",
+      }}
+    >
+      {label}
+    </Link>
+  );
+}
+
+/* ─── Category section header with sub-type chips ────────────────────────── */
+function CategoryHeader({
+  title,
+  accent,
+  count,
+  subTypes = [],
+}: {
+  title: string;
+  accent: string;
+  count: number;
+  subTypes?: string[];
+}) {
+  return (
+    <div className="mb-6">
+      <div className="flex items-center gap-4 mb-3">
+        <div
+          className="h-[2px] w-8 flex-none"
+          style={{
+            background: `linear-gradient(90deg, ${accent}, ${accent.replace(")", " / 0.20)")})`,
+          }}
+        />
+        <h2
+          className="font-display"
+          style={{
+            fontSize: "clamp(1.1rem, 2vw, 1.45rem)",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.1,
+            color: "oklch(0.94 0.012 85 / 0.95)",
+          }}
+        >
+          {title}
+        </h2>
+        <span
+          className="font-mono text-[9px] px-2 py-0.5"
+          style={{
+            color: "var(--muted-foreground)",
+            background: "oklch(0.14 0.015 305 / 0.60)",
+            border: "1px solid oklch(1 0 0 / 0.08)",
+            letterSpacing: "0.12em",
+          }}
+        >
+          {count} {count === 1 ? "stone" : "stones"}
+        </span>
+      </div>
+
+      {subTypes.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 pl-12">
+          {subTypes.map((s) => (
+            <SubTypePill key={s} label={s} accent={accent} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─── "Selected catalogue" info banner ───────────────────────────────────── */
+function CatalogueBanner() {
+  return (
+    <div
+      className="mb-10 rounded-xl px-6 py-5"
+      style={{
+        background: "linear-gradient(135deg, oklch(0.70 0.082 78 / 0.06) 0%, oklch(0.62 0.060 250 / 0.06) 100%)",
+        border: "1px solid oklch(0.70 0.082 78 / 0.18)",
+      }}
+    >
+      <p
+        className="font-display text-pearl mb-2"
+        style={{ fontSize: "1.05rem", letterSpacing: "-0.01em" }}
+      >
+        We currently showcase a selection of fast-moving Sri Lankan gemstones.
+      </p>
+      <p className="text-sm text-muted-foreground mb-4" style={{ lineHeight: 1.75 }}>
+        If you are looking for a specific gemstone, color, size, cut, treatment status, or quantity that is not listed here, please contact us. We may be able to source it for you.
+      </p>
+
+      {/* Quotation process */}
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        {["Select your gemstone", "Request a quotation", "Discuss and negotiate", "Complete your purchase"].map((step, i, arr) => (
+          <span key={step} className="flex items-center gap-2">
+            <span
+              className="font-mono text-[9px] uppercase px-2 py-0.5"
+              style={{
+                background: "oklch(0.70 0.082 78 / 0.10)",
+                border: "1px solid oklch(0.70 0.082 78 / 0.25)",
+                color: "var(--brass)",
+                letterSpacing: "0.10em",
+              }}
+            >
+              {step}
+            </span>
+            {i < arr.length - 1 && (
+              <span className="text-muted-foreground font-mono text-xs">→</span>
+            )}
+          </span>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <a
+          href="https://wa.me/message/GL6VCXPQEINGO1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-wider px-3 py-1.5 transition-all duration-200 hover:opacity-80"
+          style={{
+            background: "oklch(0.50 0.120 145 / 0.15)",
+            border: "1px solid oklch(0.50 0.120 145 / 0.35)",
+            color: "oklch(0.70 0.120 145)",
+            letterSpacing: "0.12em",
+          }}
+        >
+          <MessageCircle className="size-3" />
+          WhatsApp
+        </a>
+        <Link
+          to="/contactus"
+          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-wider px-3 py-1.5 transition-all duration-200 hover:opacity-80"
+          style={{
+            background: "oklch(0.70 0.082 78 / 0.10)",
+            border: "1px solid oklch(0.70 0.082 78 / 0.30)",
+            color: "var(--brass)",
+            letterSpacing: "0.12em",
+          }}
+        >
+          <Mail className="size-3" />
+          Email Us
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ─── "You may also like" section ────────────────────────────────────────── */
+function YouMayLike({
+  activeType,
+  stones,
+}: {
+  activeType: GemType;
+  stones: Stones;
+}) {
+  const otherStones = useMemo(
+    () => stones.filter((s) => s.type !== activeType).slice(0, 6),
+    [stones, activeType],
+  );
+
+  if (otherStones.length === 0) return null;
+
+  const otherFamilies = [...new Set(otherStones.map((s) => s.type))];
+
+  return (
+    <div className="mt-20">
+      <div className="flex items-center gap-4 mb-8">
+        <div
+          className="h-px flex-1"
+          style={{ background: "linear-gradient(to right, oklch(1 0 0 / 0.06), transparent)" }}
+        />
+        <p className="engraved-label flex items-center gap-3">
+          <span
+            className="block h-px w-8 flex-none"
+            style={{ background: "linear-gradient(to right, transparent, var(--brass-dim))" }}
+          />
+          Gems you may also like
+        </p>
+        <div
+          className="h-px flex-1"
+          style={{ background: "linear-gradient(to left, oklch(1 0 0 / 0.06), transparent)" }}
+        />
+      </div>
+
+      <div className="flex flex-wrap gap-3 mb-8">
+        {otherFamilies.map((t) => {
+          const cat = gemCategories.find((c) => c.routeType === t);
+          const accent = (gemRowAccent as Record<string, string>)[t] ?? gemRowAccent["Rare Gems"];
+          return (
+            <Link
+              key={t}
+              to="/browse"
+              search={{ type: t as GemType }}
+              className="group flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors hover:text-brass focus-visible:outline-none"
+              style={{ color: "var(--muted-foreground)" }}
+            >
+              <span
+                className="block w-5 h-px transition-all duration-300 group-hover:w-8"
+                style={{ background: accent }}
+              />
+              {cat?.title ?? t}
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <AnimatePresence>
+          {otherStones.map((s, i) => (
+            <StoneCard key={s.id} stone={s} index={i} />
+          ))}
+        </AnimatePresence>
+      </div>
+
+      <div className="mt-8 text-center">
+        <Link
+          to="/browse"
+          search={{ type: undefined }}
+          className="group inline-flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-brass focus-visible:text-brass focus-visible:outline-none"
+        >
+          View all gemstones
+          <span
+            className="block h-px transition-all duration-300 group-hover:w-10"
+            style={{ width: "20px", background: "var(--brass-dim)" }}
+          />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main Browse component ───────────────────────────────────────────────── */
 function Browse() {
   const { type } = Route.useSearch();
-  const { stones } = useVault();
+  const { stones: vaultStones } = useVault();
+
+  // The vault store is only populated on the client, so the server renders
+  // with no stones. Use the same empty list for the first client render, then
+  // switch to the real data after mount so hydration matches.
+  const mounted = useHasMounted();
+  const stones = mounted ? vaultStones : NO_STONES;
+
   const [types, setTypes] = useState<GemType[]>(type ? [type] : []);
-  const [maxCarat, setMaxCarat] = useState(8);
-  const [lab, setLab] = useState<string[]>([]);
-  const [treatment, setTreatment] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState(250000);
   const [open, setOpen] = useState(true);
 
   const results = useMemo(
     () =>
       stones.filter(
         (s) =>
-          (types.length === 0 || types.includes(s.type)) &&
-          s.carat <= maxCarat &&
-          s.price <= maxPrice &&
-          (lab.length === 0 || lab.includes(s.lab)) &&
-          (treatment.length === 0 || treatment.includes(s.treatment)),
+          types.length === 0 || types.includes(s.type as GemType)
       ),
-    [types, maxCarat, maxPrice, lab, treatment],
+    [stones, types],
   );
+
+  /* Group results by gem family, preserving gemCategories display order */
+  const groupedResults = useMemo(() => {
+    const groups: { category: (typeof gemCategories)[0]; stones: typeof results }[] = [];
+
+    for (const cat of gemCategories) {
+      const catStones = results.filter((s) => s.type === (cat.routeType as GemType));
+      if (catStones.length > 0) {
+        groups.push({ category: cat, stones: catStones });
+      }
+    }
+
+    // Uncategorised fallback
+    const coveredTypes = new Set(gemCategories.map((c) => c.routeType));
+    const uncategorised = results.filter((s) => !coveredTypes.has(s.type));
+    if (uncategorised.length > 0) {
+      groups.push({
+        category: {
+          title: "Rare Gems",
+          image: "",
+          description: "",
+          accent: gemRowAccent["Rare Gems"],
+          routeType: "Rare Gems",
+          subTypes: [],
+        },
+        stones: uncategorised,
+      });
+    }
+
+    return groups;
+  }, [results]);
+
+  const isSingleCategory = types.length === 1;
+  const singleType = isSingleCategory ? types[0] : undefined;
 
   function toggle<T>(list: T[], set: (v: T[]) => void, value: T) {
     set(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
@@ -62,319 +341,71 @@ function Browse() {
 
   function reset() {
     setTypes([]);
-    setMaxCarat(8);
-    setLab([]);
-    setTreatment([]);
-    setMaxPrice(250000);
   }
 
-  const hasFilters =
-    types.length > 0 || maxCarat < 8 || lab.length > 0 || treatment.length > 0 || maxPrice < 250000;
+  const hasFilters = types.length > 0;
 
   return (
     <>
-      <PromoBanner />
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
-      {/* Page header */}
-      <header
-        className="flex flex-wrap items-end justify-between gap-4 pb-10"
-        style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)" }}
-      >
-        <div>
-          <p className="engraved-label flex items-center gap-3">
-            <span
-              className="block h-px w-8"
-              style={{ background: "linear-gradient(to right, transparent, var(--brass-dim))" }}
-            />
-            The vault
-          </p>
-          <h1
-            className="mt-4 font-display text-pearl"
-            style={{
-              fontSize: "clamp(2.2rem, 4vw, 3.25rem)",
-              lineHeight: 1.03,
-              letterSpacing: "-0.03em",
-            }}
-          >
-            Available stones
-          </h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <p className="font-mono text-[10px] text-muted-foreground" style={{ letterSpacing: "0.14em" }}>
-            <CountUp value={results.length} /> of {stones.length} stones
-          </p>
-          {hasFilters && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={reset}
-              className="font-mono text-[9px] uppercase tracking-wider transition-colors hover:text-brass"
-              style={{
-                color: "var(--brass-dim)",
-                border: "1px solid oklch(0.68 0.076 76 / 0.25)",
-                padding: "0.375rem 0.75rem",
-                letterSpacing: "0.16em",
-              }}
-            >
-              Clear filters
-            </motion.button>
-          )}
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-pearl lg:hidden"
-            style={{
-              fontFamily: "var(--font-mono)",
-              background: "oklch(0.16 0.015 305 / 0.50)",
-              border: "1px solid oklch(1 0 0 / 0.07)",
-              padding: "0.5rem 0.875rem",
-              letterSpacing: "0.10em",
-            }}
-          >
-            <SlidersHorizontal className="size-3.5" />
-            {open ? "Hide" : "Filters"}
-          </button>
-        </div>
-      </header>
+        <BrowseHeader
+          totalCount={stones.length}
+          filteredCount={results.length}
+          hasFilters={hasFilters}
+          filtersOpen={open}
+          onReset={reset}
+          onToggleFilters={() => setOpen((v) => !v)}
+        />
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-[260px_1fr]">
-        {/* Filter sidebar */}
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.aside
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden lg:!h-auto lg:!opacity-100"
-            >
-              <div
-                className="space-y-7 p-6 lg:sticky lg:top-24"
-                style={{
-                  background: "oklch(0.145 0.015 305 / 0.60)",
-                  border: "1px solid oklch(1 0 0 / 0.07)",
-                  backdropFilter: "blur(16px)",
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <p className="engraved-label">Filters</p>
-                  {hasFilters && (
-                    <button
-                      onClick={reset}
-                      className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground hover:text-brass transition-colors"
-                      style={{ letterSpacing: "0.16em" }}
-                    >
-                      Reset all
-                    </button>
-                  )}
-                </div>
+        <div className="mt-10 grid gap-8 lg:grid-cols-[260px_1fr]">
+          <FilterSidebar
+            open={open}
+            hasFilters={hasFilters}
+            types={types}
+            onToggleType={(t) => toggle(types, setTypes, t)}
+            onReset={reset}
+          />
 
-                <FilterGroup title="Gem type">
-                  {gemTypes.map((t) => (
-                    <FilterCheck
-                      key={t}
-                      label={t}
-                      checked={types.includes(t)}
-                      onChange={() => toggle(types, setTypes, t)}
+          {/* Results */}
+          <div>
+            {/* Catalogue info banner */}
+            <CatalogueBanner />
+
+            {!mounted ? (
+              // Same placeholder on server and first client render.
+              // Avoids flashing the "no results" empty state before data loads.
+              <div className="min-h-[50vh]" aria-busy="true" />
+            ) : results.length === 0 ? (
+              <EmptyState onReset={reset} />
+            ) : (
+              <div className="space-y-14">
+                {groupedResults.map(({ category, stones: catStones }) => (
+                  <section key={category.title}>
+                    <CategoryHeader
+                      title={category.title}
+                      accent={category.accent}
+                      count={catStones.length}
+                      subTypes={category.subTypes}
                     />
-                  ))}
-                </FilterGroup>
-
-                <FilterGroup title={`Carat — up to ${maxCarat.toFixed(2)} ct`}>
-                  <RangeSlider
-                    min={0.5} max={8} step={0.01}
-                    value={maxCarat}
-                    onChange={setMaxCarat}
-                    aria-label="Maximum carat weight"
-                  />
-                </FilterGroup>
-
-                <FilterGroup title={`Price — up to $${maxPrice.toLocaleString()}`}>
-                  <RangeSlider
-                    min={2000} max={250000} step={1000}
-                    value={maxPrice}
-                    onChange={setMaxPrice}
-                    aria-label="Maximum price"
-                  />
-                </FilterGroup>
-
-                <FilterGroup title="Laboratory">
-                  {labs.map((l) => (
-                    <FilterCheck
-                      key={l}
-                      label={l}
-                      checked={lab.includes(l)}
-                      onChange={() => toggle(lab, setLab, l)}
-                    />
-                  ))}
-                </FilterGroup>
-
-                <FilterGroup title="Treatment">
-                  {treatments.map((t) => (
-                    <FilterCheck
-                      key={t}
-                      label={t}
-                      checked={treatment.includes(t)}
-                      onChange={() => toggle(treatment, setTreatment, t)}
-                    />
-                  ))}
-                </FilterGroup>
-              </div>
-            </motion.aside>
-          )}
-        </AnimatePresence>
-
-        {/* Results */}
-        <div>
-          {results.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center py-24 text-center"
-              style={{
-                background: "oklch(0.135 0.014 305 / 0.45)",
-                border: "1px solid oklch(1 0 0 / 0.06)",
-              }}
-            >
-              <div className="mb-8 animate-float opacity-20">
-                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="url(#empty-gold)" strokeWidth="0.8">
-                  <polygon points="12 2 22 9 12 22 2 9" />
-                  <defs>
-                    <linearGradient id="empty-gold" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="oklch(0.55 0.060 76)" />
-                      <stop offset="100%" stopColor="oklch(0.78 0.085 80)" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <p
-                className="font-display text-pearl"
-                style={{ fontSize: "1.5rem", letterSpacing: "-0.02em", opacity: 0.75 }}
-              >
-                No stones match
-              </p>
-              <p className="mt-3 text-xs text-muted-foreground" style={{ maxWidth: "28ch", lineHeight: 1.7 }}>
-                Try widening the carat range or removing a laboratory filter.
-              </p>
-              <button onClick={reset} className="btn-outline-gold mt-8">
-                Reset filters
-              </button>
-            </motion.div>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              <AnimatePresence>
-                {results.map((s, i) => (
-                  <StoneCard key={s.id} stone={s} index={i} />
+                    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                      <AnimatePresence>
+                        {catStones.map((s, i) => (
+                          <StoneCard key={s.id} stone={s} index={i} />
+                        ))}
+                      </AnimatePresence>
+                    </div>
+                  </section>
                 ))}
-              </AnimatePresence>
-            </div>
-          )}
+              </div>
+            )}
+
+            {/* "You may also like" — shown only when a single category is active */}
+            {isSingleCategory && singleType && results.length > 0 && (
+              <YouMayLike activeType={singleType} stones={stones} />
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </>
-  );
-}
-
-function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p
-        className="rule-label mb-4"
-        style={{ borderBottom: "1px solid oklch(1 0 0 / 0.05)", paddingBottom: "0.5rem" }}
-      >
-        {title}
-      </p>
-      <div className="space-y-2.5">{children}</div>
-    </div>
-  );
-}
-
-function FilterCheck({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}) {
-  return (
-    <label className="flex cursor-pointer items-center gap-3 text-xs text-muted-foreground transition-colors hover:text-pearl">
-      {/* Diamond checkbox */}
-      <span
-        className="relative flex size-3.5 shrink-0 items-center justify-center transition-all duration-200"
-        style={{
-          background: checked ? "oklch(0.68 0.076 76 / 0.15)" : "transparent",
-          border: `1px solid ${checked ? "oklch(0.68 0.076 76 / 0.60)" : "oklch(1 0 0 / 0.16)"}`,
-          transform: "rotate(45deg)",
-        }}
-      >
-        <AnimatePresence>
-          {checked && (
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.15, ease: "backOut" }}
-              className="size-1.5"
-              style={{ background: "var(--brass)", transform: "rotate(-45deg)" }}
-            />
-          )}
-        </AnimatePresence>
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={onChange}
-          className="sr-only"
-          aria-label={label}
-        />
-      </span>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", letterSpacing: "0.08em" }}>
-        {label}
-      </span>
-    </label>
-  );
-}
-
-function RangeSlider({
-  min, max, step, value, onChange, "aria-label": ariaLabel,
-}: {
-  min: number; max: number; step: number;
-  value: number;
-  onChange: (v: number) => void;
-  "aria-label"?: string;
-}) {
-  const pct = ((value - min) / (max - min)) * 100;
-  return (
-    <div className="relative pt-1">
-      <div className="relative h-px rounded-full" style={{ background: "oklch(1 0 0 / 0.08)" }}>
-        <div
-          className="absolute h-full rounded-full"
-          style={{
-            width: `${pct}%`,
-            background: "linear-gradient(to right, var(--brass-dim), var(--brass))",
-          }}
-        />
-      </div>
-      <input
-        type="range"
-        min={min} max={max} step={step}
-        value={value}
-        aria-label={ariaLabel}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="absolute inset-0 w-full cursor-pointer opacity-0"
-        style={{ height: "1rem", marginTop: "-0.5rem" }}
-      />
-      {/* Thumb */}
-      <div
-        className="pointer-events-none absolute top-0 size-3 -translate-x-1/2 -translate-y-[5px]"
-        style={{
-          left: `${pct}%`,
-          background: "linear-gradient(135deg, var(--brass), var(--brass-hi))",
-          border: "1.5px solid oklch(0.11 0.010 300)",
-          boxShadow: "0 0 6px var(--glow-gold)",
-        }}
-      />
-    </div>
   );
 }
