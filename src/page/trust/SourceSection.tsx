@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/vault/reveal";
-import miningImg from "@/assets/mining/images_2.jpg";
-import traderImg from "@/assets/market/beruwala/WhatsApp Image 2026-09-21 at 17.22.50 (2).jpeg";
+const miningImg = "/assets/mining/images_2.jpg";
+const traderImg = "/assets/market/beruwala/WhatsApp Image 2026-09-21 at 17.22.50 (2).jpeg";
 
 /* ─── Process steps for "how each gem is prepared" ──────────────── */
 const PROCESS_STEPS = [
@@ -358,7 +358,7 @@ export function SourceSection() {
         >
 
           <img
-            src="src\assets\Storyboard_for_gem_market_docume…_2K_20260924150956.jpeg"
+            src="/assets/Storyboard_for_gem_market_docume…_2K_20260924150956.jpeg"
             alt="Master gem cutter polishing a sapphire at the wheel"
             className="h-full w-full object-cover"
           />

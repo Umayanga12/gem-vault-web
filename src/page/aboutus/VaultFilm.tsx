@@ -58,7 +58,7 @@ export function VaultFilm() {
               aria-label="Play video: inside the grading vault"
             >
               <img
-                src="src\assets\video\vault-process-poster.jpg"
+                src="/assets/video/vault-process-poster.jpg"
                 alt="Gemologist examining a stone under a loupe in the grading vault"
                 className="h-full w-full object-cover"
               />
@@ -87,7 +87,7 @@ export function VaultFilm() {
           ) : (
             <video
               ref={videoRef}
-              src="src\assets\video\vault-process.mp4"
+              src="/assets/video/vault-process.mp4"
               controls
               playsInline
               className="h-full w-full"

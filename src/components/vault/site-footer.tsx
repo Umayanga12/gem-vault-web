@@ -1,6 +1,6 @@
 import { SocialDock } from "@/page/contactus/SocialDock";
 import { Link } from "@tanstack/react-router";
-import footerImage from "@/assets/footer.jpeg";
+const footerImage = "/assets/footer.jpeg";
 
 const primaryLinks = [
   { to: "/about", label: "About Us" },

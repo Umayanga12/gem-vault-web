@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { useVault } from "@/lib/vault-store";
-import starSapphireImg from "@/assets/gem/star_sapphire/image.png";
-import rareGemImg from "@/assets/gem/gem_img_1.png";
+const starSapphireImg = "/assets/gem/star_sapphire/image.png";
+const rareGemImg = "/assets/gem/gem_img_1.png";
 
 /* Gem type icon paths (SVG outlines) */
 export const gemIcons: Record<string, string> = {

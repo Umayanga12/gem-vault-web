@@ -1,5 +1,5 @@
-import redSpinelImg from "@/assets/gem/Spinel/redspinel.jpg";
-import whiteSpinelImg from "@/assets/gem/Spinel/whitespinel.webp";
+const redSpinelImg = "/assets/gem/Spinel/redspinel.jpg";
+const whiteSpinelImg = "/assets/gem/Spinel/whitespinel.webp";
 
 export const gemTypes = [
   "Sapphire",

@@ -119,14 +119,14 @@ export function HeroSection() {
             <div className="flex flex-col gap-4 lg:gap-6 pt-12 lg:pt-16">
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
                 <img
-                  src="src\assets\gem\Screenshot 2026-09-23 152353.png"
+                  src="/assets/gem/Screenshot 2026-09-23 152353.png"
                   alt="Gemologist at work in the grading vault"
                   className="h-full w-full object-cover object-left"
                 />
               </div>
               <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
                 <img
-                  src="src\assets\mining\Screenshot 2026-09-23 153148.png"
+                  src="/assets/mining/Screenshot 2026-09-23 153148.png"
                   alt="Sourcing site where stones are mined"
                   className="h-full w-full object-cover object-left"
                 />
@@ -138,8 +138,8 @@ export function HeroSection() {
               {/* Muted looping video tile — motion catches the eye where a static photo of "inspection" reads generic */}
               <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
                 <video
-                  src="src\assets\video\hero-inspection-loop.mp4"
-                  poster="src\assets\market\beruwala\WhatsApp Image 2026-09-21 at 17.22.43 (1).jpeg"
+                  src="/assets/video/hero-inspection-loop.mp4"
+                  poster="/assets/market/beruwala/WhatsApp Image 2026-09-21 at 17.22.43 (1).jpeg"
                   autoPlay
                   muted
                   loop
@@ -155,7 +155,7 @@ export function HeroSection() {
               </div>
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
                 <img
-                  src="src\assets\gem\image.png"
+                  src="/assets/gem/image.png"
                   alt="Graded stone ready for listing"
                   className="h-full w-full object-cover object-right"
                 />

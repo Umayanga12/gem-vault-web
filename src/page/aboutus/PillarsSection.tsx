@@ -128,7 +128,7 @@ export function PillarsSection() {
         <div className="sticky top-24">
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-white/5 bg-white/5">
             <img
-              src="src\assets\images_2.jpg"
+              src="/assets/images_2.jpg"
               alt="Independent gemologist inspecting a stone under a loupe before grading"
               className="h-full w-full object-cover"
             />

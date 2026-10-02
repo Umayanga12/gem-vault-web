@@ -69,10 +69,10 @@ export function GlobalReach() {
       <Reveal>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-16">
           {[
-            { src: "src\\assets\\global\\packing-insured.jpg", alt: "Insured shipping case being sealed for export" },
-            { src: "src\\assets\\global\\customs-docs.jpg", alt: "Export and customs paperwork attached to a shipment" },
-            { src: "src\\assets\\global\\lab-report-scan.jpg", alt: "Laboratory report being matched to its stone" },
-            { src: "src\\assets\\global\\handoff-courier.jpg", alt: "Bonded courier receiving a sealed parcel" },
+            { src: "/assets/global/packing-insured.jpg", alt: "Insured shipping case being sealed for export" },
+            { src: "/assets/global/customs-docs.jpg", alt: "Export and customs paperwork attached to a shipment" },
+            { src: "/assets/global/lab-report-scan.jpg", alt: "Laboratory report being matched to its stone" },
+            { src: "/assets/global/handoff-courier.jpg", alt: "Bonded courier receiving a sealed parcel" },
           ].map((img) => (
             <div key={img.src} className="relative aspect-square overflow-hidden rounded-lg border border-white/5 bg-white/5">
               <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />
