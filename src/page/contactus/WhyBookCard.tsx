@@ -1,11 +1,11 @@
 import { Reveal } from "@/components/vault/reveal";
-import { MessageSquare, BarChart3, Clock } from "lucide-react";
+import { MousePointerClick, FileText, Handshake } from "lucide-react";
 import { SocialDock } from "./SocialDock";
 
 const highlights = [
-  { icon: MessageSquare, text: "Report interpretation, inclusion by inclusion" },
-  { icon: BarChart3, text: "Side-by-side pricing against recent comparables" },
-  { icon: Clock, text: "Origin and treatment implications for resale" },
+  { icon: MousePointerClick, text: "Select the stones you like from the collection" },
+  { icon: FileText, text: "Receive a clear, itemised quotation within 24 hours" },
+  { icon: Handshake, text: "Negotiate the price directly with us — we're open to fair offers" },
 ];
 
 export function WhyBookCard() {
@@ -31,11 +31,13 @@ export function WhyBookCard() {
           </svg>
         </div>
 
-        <h3 className="font-display text-xl text-pearl mb-3 relative z-10">Why book a call?</h3>
+        <h3 className="font-display text-xl text-pearl mb-3 relative z-10">
+          Choose your stones. Name your price.
+        </h3>
         <p className="text-sm leading-relaxed text-muted-foreground mb-6 relative z-10">
-          Bring the report numbers of the stones you are considering. We will walk the grading
-          data, explain what the inclusions mean in practice, and give you a plain view of where
-          each stone sits against current market comparables. No obligation to buy.
+          Browse the collection and select the stones you are interested in. We will send you a
+          quotation, and if the price needs adjusting, you can negotiate it with us directly.
+          No obligation to buy.
         </p>
         <ul className="space-y-4 relative z-10">
           {highlights.map((h) => (
@@ -65,4 +67,3 @@ export function WhyBookCard() {
     </Reveal>
   );
 }
-

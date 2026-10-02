@@ -6,6 +6,8 @@ const WHY_ITEMS = [
   "Full origin disclosure",
   "Unheated status stated plainly",
   "No synthetic or lab-grown material",
+  "Free quotations available",
+  "Prices open to negotiation",
   "Insured transit worldwide",
   "Escrow above $50,000",
   "Independent gemologist review",

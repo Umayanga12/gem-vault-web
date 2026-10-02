@@ -48,7 +48,7 @@ export function GeneralInquiries() {
       <h2 className="font-display text-2xl text-pearl mb-2">General Inquiries</h2>
       <p className="text-base text-muted-foreground" style={{ lineHeight: 1.8 }}>
         Looking for a specific stone? Have questions about our vault, shipping, or sourcing?
-        Send us a message and our gemologists will get back to you promptly.
+        Send us a message and we will get back to you promptly.
       </p>
 
       {/* Inline email form */}

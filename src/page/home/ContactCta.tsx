@@ -40,7 +40,7 @@ export function ContactCta() {
                   letterSpacing: "-0.03em",
                 }}
               >
-                We source{" "}
+                Get a quote,{" "}
                 <em
                   style={{
                     fontStyle: "italic",
@@ -50,15 +50,16 @@ export function ContactCta() {
                     backgroundClip: "text",
                   }}
                 >
-                  the extraordinary.
+                  negotiate the price.
                 </em>
               </h2>
               <p
                 className="mt-5 text-sm leading-relaxed text-muted-foreground"
                 style={{ maxWidth: "48ch", lineHeight: 1.8 }}
               >
-                Looking for a specific stone? Have questions about our vault?
-                Reach out and our gemologists will assist you within 24 hours.
+                Interested in a stone? Request a free quotation and negotiate
+                the price directly with our gemologists. We're open to fair
+                offers — reach out and we'll respond within 24 hours.
               </p>
             </div>
             <div className="flex flex-col gap-3 lg:items-end">

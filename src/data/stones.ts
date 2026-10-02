@@ -50,12 +50,10 @@ export const stones: Stone[] = [
     description:
       "Blue Sapphire is one of the most sought-after varieties of corundum and is particularly renowned as a classic Ceylon gemstone. Sri Lankan Blue Sapphires are found in a wide range of blue tones, from lighter and fancy blues to highly prized cornflower and royal blue shades. The depth, saturation, clarity, cut and overall appearance influence the character and value of each stone.",
     subTypes: [
-      "Fancy Blue – 4th Quality",
-      "Fancy Blue – 3rd Quality",
+      "Fancy Blue",
       "Cornflower Blue",
       "Royal Blue",
       "Dark Blue / Kaka Nil",
-      "Light Blue",
     ],
     isFeatured: true,
   },

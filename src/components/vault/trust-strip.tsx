@@ -12,11 +12,11 @@ const items = [
     title: "Insured to the door",
     body: "Fully insured, signature-required transit worldwide.",
   },
-  // {
-  //   icon: RotateCcw,
-  //   title: "14-day return",
-  //   body: "Return in the sealed parcel for a full refund.",
-  // },
+  {
+    icon: RotateCcw,
+    title: "Negotiable",
+    body: "Prices are negotiable — reach out and we'll respond within 24 hours.",
+  },
   {
     icon: ShieldCheck,
     title: "Escrow above $50,000",

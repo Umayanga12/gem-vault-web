@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as ContactusRouteImport } from './routes/contactus'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TrustRouteImport } from './routes/trust'
 import { Route as StonesStoneIdRouteImport } from './routes/stones.$stoneId'
@@ -38,11 +37,6 @@ const ContactusRoute = ContactusRouteImport.update({
   path: '/contactus',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -64,7 +58,6 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
   '/contactus': typeof ContactusRoute
-  '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -74,7 +67,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
   '/contactus': typeof ContactusRoute
-  '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -85,7 +77,6 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/browse': typeof BrowseRoute
   '/contactus': typeof ContactusRoute
-  '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trust': typeof TrustRoute
   '/stones/$stoneId': typeof StonesStoneIdRoute
@@ -97,7 +88,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/browse'
     | '/contactus'
-    | '/login'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -107,7 +97,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/browse'
     | '/contactus'
-    | '/login'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -117,7 +106,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/browse'
     | '/contactus'
-    | '/login'
     | '/sitemap.xml'
     | '/trust'
     | '/stones/$stoneId'
@@ -128,7 +116,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BrowseRoute: typeof BrowseRoute
   ContactusRoute: typeof ContactusRoute
-  LoginRoute: typeof LoginRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrustRoute: typeof TrustRoute
   StonesStoneIdRoute: typeof StonesStoneIdRoute
@@ -164,13 +151,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactusRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -200,7 +180,6 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BrowseRoute: BrowseRoute,
   ContactusRoute: ContactusRoute,
-  LoginRoute: LoginRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrustRoute: TrustRoute,
   StonesStoneIdRoute: StonesStoneIdRoute,
