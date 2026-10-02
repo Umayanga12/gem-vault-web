@@ -7,33 +7,40 @@ import {
   type ReactNode,
 } from "react";
 import { stones as defaultStones, type Stone } from "@/data/stones";
-import { defaultDiscounts, type Discount } from "@/data/discounts";
+import type { QuotationFormData } from "@/components/vault/quotation-form";
+
+export type { QuotationFormData };
+
+/** A stone added to the quotation basket with its request preferences */
+export interface QuotationItem {
+  stoneId: string;
+  formData: QuotationFormData;
+}
 
 type Currency = "USD" | "EUR" | "GBP";
 
 interface VaultState {
-  cart: string[];
+  /** Quotation basket — items with their request preferences */
+  quotation: QuotationItem[];
+  /** Convenience: just the stone IDs in the quotation basket */
+  quotationIds: string[];
   wishlist: string[];
   compare: string[];
   currency: Currency;
   unit: "ct" | "g";
-  addToCart: (id: string) => void;
-  removeFromCart: (id: string) => void;
+  addToQuotation: (data: QuotationFormData) => void;
+  removeFromQuotation: (id: string) => void;
+  clearQuotation: () => void;
   toggleWishlist: (id: string) => void;
   toggleCompare: (id: string) => void;
   setCurrency: (c: Currency) => void;
   setUnit: (u: "ct" | "g") => void;
-  cartStones: Stone[];
+  quotationStones: Stone[];
   // Stone management
   stones: Stone[];
   addStone: (stone: Stone) => void;
   updateStone: (stone: Stone) => void;
   deleteStone: (id: string) => void;
-  // Discount management
-  discounts: Discount[];
-  addDiscount: (d: Discount) => void;
-  updateDiscount: (d: Discount) => void;
-  deleteDiscount: (id: string) => void;
   // Authentication
   isLoggedIn: boolean;
   login: (password: string) => boolean;
@@ -62,42 +69,101 @@ function saveToStorage<T>(key: string, value: T): void {
   }
 }
 
+const REMOVED_STONE_IDS = new Set([
+  "s-star-s001",
+  "s-star-r001",
+  "s-star-b001",
+  "s-star-w001",
+  "s-star-p001",
+  "s-star-pk001",
+  "zc-0215",
+  "zc-yellow-001",
+  "zc-brown-001",
+  "tm-0156",
+  "tm-honey-001",
+  "tm-brown-001",
+  "ms-0298",
+  "tp-0142",
+  "tp-colourless-001",
+  "tp-green-001",
+  "tp-yellow-001",
+  "tp-brown-001",
+  "sp-purple-001",
+  "d-3021",
+  // Removed Emerald
+  "by-eme-001",
+  // Duplicate IDs from old data
+  "rg-0345",
+  "rg-0182",
+]);
+
+const STONES_STORAGE_KEY = "vault_stones_v7";
+const QUOTATION_STORAGE_KEY = "vault_quotation_v1";
+
 export function VaultProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<string[]>([]);
+  const [quotation, setQuotation] = useState<QuotationItem[]>(() =>
+    loadFromStorage<QuotationItem[]>(QUOTATION_STORAGE_KEY, []),
+  );
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [compare, setCompare] = useState<string[]>([]);
   const [currency, setCurrency] = useState<Currency>("USD");
   const [unit, setUnit] = useState<"ct" | "g">("ct");
-  const [stones, setStones] = useState<Stone[]>(() =>
-    loadFromStorage("vault_stones", defaultStones),
-  );
-  const [discounts, setDiscounts] = useState<Discount[]>(() =>
-    loadFromStorage("vault_discounts", defaultDiscounts),
-  );
+  const [stones, setStones] = useState<Stone[]>(() => {
+    // Purge legacy storage keys so deleted stones don't get resurrected
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem("vault_stones");
+        window.localStorage.removeItem("vault_stones_v2");
+        window.localStorage.removeItem("vault_stones_v3");
+        window.localStorage.removeItem("vault_stones_v4");
+        window.localStorage.removeItem("vault_stones_v5");
+        window.localStorage.removeItem("vault_stones_v6");
+      } catch {}
+    }
+    const defaultIds = new Set(defaultStones.map((s) => s.id));
+    const persisted = loadFromStorage<Stone[]>(STONES_STORAGE_KEY, []);
+    const userAdded = persisted.filter(
+      (s) =>
+        !defaultIds.has(s.id) &&
+        !REMOVED_STONE_IDS.has(s.id) &&
+        (s.type as string) !== "Diamond" &&
+        (s.subType as string) !== "Emerald",
+    );
+    return [...defaultStones, ...userAdded];
+  });
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() =>
     loadFromStorage("vault_logged_in", false),
   );
 
-  // Persist stones & discounts on change
+  // Persist quotation basket on change
   useEffect(() => {
-    saveToStorage("vault_stones", stones);
+    saveToStorage(QUOTATION_STORAGE_KEY, quotation);
+  }, [quotation]);
+
+  // Persist stones on change
+  useEffect(() => {
+    saveToStorage(STONES_STORAGE_KEY, stones);
   }, [stones]);
-  useEffect(() => {
-    saveToStorage("vault_discounts", discounts);
-  }, [discounts]);
   useEffect(() => {
     saveToStorage("vault_logged_in", isLoggedIn);
   }, [isLoggedIn]);
 
   const value = useMemo<VaultState>(
     () => ({
-      cart,
+      quotation,
+      quotationIds: quotation.map((q) => q.stoneId),
       wishlist,
       compare,
       currency,
       unit,
-      addToCart: (id) => setCart((c) => (c.includes(id) ? c : [...c, id])),
-      removeFromCart: (id) => setCart((c) => c.filter((x) => x !== id)),
+      addToQuotation: (data) =>
+        setQuotation((c) =>
+          c.some((q) => q.stoneId === data.stoneId)
+            ? c
+            : [...c, { stoneId: data.stoneId, formData: data }],
+        ),
+      removeFromQuotation: (id) => setQuotation((c) => c.filter((q) => q.stoneId !== id)),
+      clearQuotation: () => setQuotation([]),
       toggleWishlist: (id) =>
         setWishlist((w) =>
           w.includes(id) ? w.filter((x) => x !== id) : [...w, id],
@@ -108,8 +174,8 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         ),
       setCurrency,
       setUnit,
-      cartStones: cart
-        .map((id) => stones.find((s) => s.id === id))
+      quotationStones: quotation
+        .map((q) => stones.find((s) => s.id === q.stoneId))
         .filter((s): s is Stone => Boolean(s)),
       // Stones
       stones,
@@ -118,13 +184,6 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         setStones((prev) => prev.map((s) => (s.id === stone.id ? stone : s))),
       deleteStone: (id) =>
         setStones((prev) => prev.filter((s) => s.id !== id)),
-      // Discounts
-      discounts,
-      addDiscount: (d) => setDiscounts((prev) => [...prev, d]),
-      updateDiscount: (d) =>
-        setDiscounts((prev) => prev.map((x) => (x.id === d.id ? d : x))),
-      deleteDiscount: (id) =>
-        setDiscounts((prev) => prev.filter((x) => x.id !== id)),
       // Authentication
       isLoggedIn,
       login: (password) => {
@@ -138,7 +197,8 @@ export function VaultProvider({ children }: { children: ReactNode }) {
         setIsLoggedIn(false);
       },
     }),
-    [cart, wishlist, compare, currency, unit, stones, discounts, isLoggedIn],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [quotation, wishlist, compare, currency, unit, stones, isLoggedIn],
   );
 
   return <VaultContext.Provider value={value}>{children}</VaultContext.Provider>;
