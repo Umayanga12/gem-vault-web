@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { stones } from "@/data/stones";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+// Confirmed production domain — do NOT include a trailing slash.
+const BASE_URL = "https://www.rheacylone.lk";
 
 interface SitemapEntry {
   path: string;
@@ -16,15 +16,24 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        // ISO date string used as a freshness signal for crawlers (YYYY-MM-DD).
+        const today = new Date().toISOString().split("T")[0];
+
         const entries: SitemapEntry[] = [
-          { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/browse", changefreq: "daily", priority: "0.9" },
-          { path: "/trust", changefreq: "monthly", priority: "0.6" },
-          { path: "/consultation", changefreq: "monthly", priority: "0.6" },
+          // Core pages
+          { path: "/",             lastmod: today, changefreq: "weekly",  priority: "1.0" },
+          { path: "/browse",       lastmod: today, changefreq: "daily",   priority: "0.9" },
+          { path: "/about",        lastmod: today, changefreq: "monthly", priority: "0.7" },
+          { path: "/contactus",    lastmod: today, changefreq: "monthly", priority: "0.6" },
+          { path: "/trust",        lastmod: today, changefreq: "monthly", priority: "0.6" },
+          { path: "/consultation", lastmod: today, changefreq: "monthly", priority: "0.6" },
+
+          // Individual stone detail pages
           ...stones.map((s) => ({
-            path: `/stones/${s.id}`,
+            path:       `/stones/${s.id}`,
+            lastmod:    today,
             changefreq: "weekly" as const,
-            priority: "0.8",
+            priority:   "0.8",
           })),
         ];
 
@@ -32,9 +41,9 @@ export const Route = createFileRoute("/sitemap.xml")({
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,
-            e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : null,
+            e.lastmod    ? `    <lastmod>${e.lastmod}</lastmod>`       : null,
             e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
-            e.priority ? `    <priority>${e.priority}</priority>` : null,
+            e.priority   ? `    <priority>${e.priority}</priority>`   : null,
             `  </url>`,
           ]
             .filter(Boolean)
@@ -43,15 +52,22 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          `<urlset`,
+          `  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`,
+          `  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"`,
+          `  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9`,
+          `    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">`,
           ...urls,
           `</urlset>`,
         ].join("\n");
 
         return new Response(xml, {
           headers: {
-            "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=3600",
+            "Content-Type":  "application/xml; charset=utf-8",
+            // Cache for 1 hour on CDN; revalidate after.
+            "Cache-Control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+            // Prevent the sitemap URL itself from appearing in search results.
+            "X-Robots-Tag":  "noindex, follow",
           },
         });
       },
