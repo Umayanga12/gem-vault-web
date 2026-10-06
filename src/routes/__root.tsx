@@ -87,10 +87,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Certified loose natural and lab-grown gemstones for collectors, jewelers and investors.",
+          "Certified loose natural and lab-grown gemstones for collectors, jewelers and investors. Every stone independently graded with full origin and treatment disclosure.",
       },
+      // Open Graph
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Rhea Ceylon" },
+      { property: "og:image", content: "https://www.rheaceylon.lk/logo.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Rhea Ceylon — Certified Loose Gemstones" },
+      // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@rheaceylon" },
+      { name: "twitter:image", content: "https://www.rheaceylon.lk/logo.png" },
+      // Theme
+      { name: "theme-color", content: "#0a0906" },
+      { name: "color-scheme", content: "dark" },
+      // Mobile web-app
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Rhea Ceylon" },
+      { name: "application-name", content: "Rhea Ceylon" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -100,7 +118,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
-      { rel: "icon", href: "/logo.png", type: "image/png" },
+      // Favicons
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "shortcut icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
