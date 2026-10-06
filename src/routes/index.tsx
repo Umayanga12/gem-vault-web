@@ -10,13 +10,13 @@ import { ContactCta } from "@/page/home/ContactCta";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Rhea Cylone — Certified Loose Gemstones for Collectors" },
+      { title: "Rhea Ceylon — Certified Loose Gemstones for Collectors" },
       {
         name: "description",
         content:
           "A specialist vault of certified loose sapphires, rubies, emeralds, and fine gemstones — graded by NGJA, sold with full origin and treatment disclosure.",
       },
-      { property: "og:title", content: "Rhea Cylone — Certified Loose Gemstones" },
+      { property: "og:title", content: "Rhea Ceylon — Certified Loose Gemstones" },
       {
         property: "og:description",
         content:

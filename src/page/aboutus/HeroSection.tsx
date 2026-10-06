@@ -91,7 +91,7 @@ export function HeroSection() {
                 maxWidth: "50ch",
               }}
             >
-              Rhea Cylone was founded on a simple conviction: every stone deserves an
+              Rhea Ceylon was founded on a simple conviction: every stone deserves an
               honest record. We are a specialist vault — not a marketplace — where
               each gem is independently graded before it is ever shown to a buyer.
             </motion.p>

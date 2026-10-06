@@ -16,7 +16,7 @@ export const Route = createFileRoute("/browse")({
   }),
   head: () => ({
     meta: [
-      { title: "Browse Sri Lankan Gemstones — Request a Quotation | Rhea Cylone" },
+      { title: "Browse Sri Lankan Gemstones — Request a Quotation | Rhea Ceylon" },
       {
         name: "description",
         content:

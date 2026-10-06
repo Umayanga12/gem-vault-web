@@ -127,7 +127,7 @@ export function SiteHeader() {
             >
               <img
                 src="/logo.png"
-                alt="Rhea Cylone Logo"
+                alt="Rhea Ceylon Logo"
                 className="h-10 w-auto shrink-0 object-contain"
               />
             </motion.div>

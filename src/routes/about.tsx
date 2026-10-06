@@ -13,13 +13,13 @@ import { ClosingCta } from "@/page/aboutus/ClosingCta";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us — Rhea Cylone" },
+      { title: "About Us — Rhea Ceylon" },
       {
         name: "description",
         content:
           "Discover who we are, our vision for transparent gemstone trading, and our mission to connect collectors with independently graded, ethically sourced stones.",
       },
-      { property: "og:title", content: "About Us — Rhea Cylone" },
+      { property: "og:title", content: "About Us — Rhea Ceylon" },
       {
         property: "og:description",
         content:

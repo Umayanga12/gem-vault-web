@@ -6,7 +6,7 @@ import { WhyBookCard } from "@/page/contactus/WhyBookCard";
 export const Route = createFileRoute("/contactus")({
   head: () => ({
     meta: [
-      { title: "Contact Us & Consultation — Rhea Cylone" },
+      { title: "Contact Us & Consultation — Rhea Ceylon" },
       {
         name: "description",
         content:

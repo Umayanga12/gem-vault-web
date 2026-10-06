@@ -18,7 +18,7 @@ export const Route = createFileRoute("/stones/$stoneId")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Stone unavailable — Rhea Cylone" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Stone unavailable — Rhea Ceylon" }, { name: "robots", content: "noindex" }],
       };
     }
     const { stone } = loaderData;

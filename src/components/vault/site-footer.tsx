@@ -80,7 +80,7 @@ export function SiteFooter() {
         <div className="md:col-span-2 lg:col-span-1">
           <img
             src="/logo.png"
-            alt="Rhea Cylone Logo"
+            alt="Rhea Ceylon Logo"
             className="h-9 w-auto shrink-0 object-contain"
           />
           <p
@@ -145,7 +145,7 @@ export function SiteFooter() {
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <p className="rule-label">
-            © {currentYear} Rhea Cylone · All stones independently graded
+            © {currentYear} Rhea Ceylon · All stones independently graded
           </p>
           <p className="rule-label">Prices per stone · Exclusive of duty</p>
         </div>
