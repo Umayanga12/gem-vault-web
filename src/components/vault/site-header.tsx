@@ -126,7 +126,7 @@ export function SiteHeader() {
               className="flex items-center gap-3"
             >
               <img
-                src="/logo.png"
+                src="/1212-removebg-preview.png"
                 alt="Rhea Ceylon Logo"
                 className="h-10 w-auto shrink-0 object-contain"
               />

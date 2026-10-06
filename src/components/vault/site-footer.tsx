@@ -79,7 +79,7 @@ export function SiteFooter() {
         {/* Brand column */}
         <div className="md:col-span-2 lg:col-span-1">
           <img
-            src="/logo.png"
+            src="/1212-removebg-preview.png"
             alt="Rhea Ceylon Logo"
             className="h-9 w-auto shrink-0 object-contain"
           />
