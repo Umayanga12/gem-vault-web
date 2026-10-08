@@ -91,6 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       // Open Graph
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://www.rheaceylon.lk/" },
       { property: "og:site_name", content: "Rhea Ceylon" },
       { property: "og:image", content: "https://www.rheaceylon.lk/logo.png" },
       { property: "og:image:width", content: "1200" },
@@ -118,10 +119,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
-      // Favicons
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      // Favicons — Google requires an icon at the root, ≥48×48px
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon.png" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/logo.png" },
       { rel: "shortcut icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,

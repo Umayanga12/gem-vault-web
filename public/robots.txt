@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap auto-discovery — used by Google, Bing, and other crawlers.
-Sitemap: https://www.rheacylone.lk/sitemap.xml
+Sitemap: https://www.rheaceylon.lk/sitemap.xml
