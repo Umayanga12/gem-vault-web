@@ -89,18 +89,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Rhea Ceylon specialises in certified loose natural gemstones — sapphires, rubies, emeralds and rare Ceylon (Sri Lankan) stones. Every gem is 100% naturally mined, independently graded with full origin and treatment disclosure. No lab-grown, no synthetics.",
       },
-      // Open Graph
+      // Open Graph — required for WhatsApp, Slack, iMessage, Facebook, LinkedIn previews
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.rheaceylon.lk/" },
       { property: "og:site_name", content: "Rhea Ceylon" },
-      { property: "og:image", content: "https://www.rheaceylon.lk/logo.png" },
+      { property: "og:title", content: "Rhea Ceylon — Certified Natural Gemstones from Sri Lanka" },
+      {
+        property: "og:description",
+        content:
+          "Rare gems, honestly graded. 100% natural loose gemstones — independently certified, origin disclosed, sold with the laboratory report that describes them.",
+      },
+      { property: "og:image", content: "https://www.rheaceylon.lk/og-image.jpg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Rhea Ceylon — 100% Natural Certified Gemstones from Sri Lanka" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:alt", content: "Rhea Ceylon — Certified Natural Gemstones from Sri Lanka" },
       // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@rheaceylon" },
-      { name: "twitter:image", content: "https://www.rheaceylon.lk/logo.png" },
+      { name: "twitter:title", content: "Rhea Ceylon — Certified Natural Gemstones from Sri Lanka" },
+      {
+        name: "twitter:description",
+        content:
+          "Rare gems, honestly graded. 100% natural loose gemstones — independently certified, origin disclosed, sold with the laboratory report that describes them.",
+      },
+      { name: "twitter:image", content: "https://www.rheaceylon.lk/og-image.jpg" },
+      { name: "twitter:image:alt", content: "Rhea Ceylon — Certified Natural Gemstones from Sri Lanka" },
       // Theme
       { name: "theme-color", content: "#0a0906" },
       { name: "color-scheme", content: "dark" },
