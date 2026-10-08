@@ -17,13 +17,13 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Discover who we are, our vision for transparent gemstone trading, and our mission to connect collectors with independently graded, ethically sourced stones.",
+          "Learn who we are at Rhea Ceylon — our vision for transparent natural gemstone trading and our mission to connect collectors with 100% pure natural, independently graded, ethically sourced Ceylon (Sri Lankan) gems. No synthetics, no lab-grown.",
       },
       { property: "og:title", content: "About Us — Rhea Ceylon" },
       {
         property: "og:description",
         content:
-          "Our vision and mission: a specialist vault built on transparency, independent grading and honest disclosure.",
+          "Rhea Ceylon: a specialist vault built on transparency, independent grading and honest disclosure of 100% pure natural Ceylon gemstones.",
       },
     ],
   }),

@@ -6,16 +6,16 @@ import { WhyBookCard } from "@/page/contactus/WhyBookCard";
 export const Route = createFileRoute("/contactus")({
   head: () => ({
     meta: [
-      { title: "Contact Us & Consultation — Rhea Ceylon" },
+      { title: "Contact Us & Gemstone Consultation — Rhea Ceylon" },
       {
         name: "description",
         content:
-          "Reach out for general inquiries or book a 30-minute call with a graduate gemologist to review stones.",
+          "Contact Rhea Ceylon for inquiries about 100% pure natural Ceylon gemstones, or book a 30-minute call with a graduate gemologist to review natural stones. No lab-grown, no synthetics — just pure Ceylon gems.",
       },
-      { property: "og:title", content: "Contact & Consultation" },
+      { property: "og:title", content: "Contact & Consultation — Rhea Ceylon" },
       {
         property: "og:description",
-        content: "Reach out to us directly or book time with a gemologist.",
+        content: "Reach out to Rhea Ceylon directly or book time with a gemologist to discuss 100% pure natural certified Ceylon gemstones.",
       },
     ],
   }),

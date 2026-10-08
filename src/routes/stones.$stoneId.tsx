@@ -22,8 +22,8 @@ export const Route = createFileRoute("/stones/$stoneId")({
       };
     }
     const { stone } = loaderData;
-    const title = `${stone.name}`;
-    const description = `${stone.color} ${stone.type.toLowerCase()} from ${stone.country}. Request a quotation to discuss pricing.`;
+    const title = `${stone.name} — Natural ${stone.type} | Rhea Ceylon`;
+    const description = `100% natural ${stone.color} ${stone.type.toLowerCase()} from ${stone.country} (Ceylon). Independently certified, full origin & treatment disclosure. Request a quotation from Rhea Ceylon.`;
     return {
       meta: [
         { title },

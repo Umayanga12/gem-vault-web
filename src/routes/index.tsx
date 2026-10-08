@@ -10,17 +10,17 @@ import { ContactCta } from "@/page/home/ContactCta";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Rhea Ceylon — Certified Loose Gemstones for Collectors" },
+      { title: "Rhea Ceylon — 100% Pure Natural Certified Gemstones from Sri Lanka" },
       {
         name: "description",
         content:
-          "A specialist vault of certified loose sapphires, rubies, emeralds, and fine gemstones — graded by NGJA, sold with full origin and treatment disclosure.",
+          "Rhea Ceylon — a specialist vault of certified loose natural sapphires, rubies, emeralds and rare Ceylon gems. Every stone is 100% naturally mined, graded by NGJA, with full origin and treatment disclosure. No synthetics, no lab-grown.",
       },
-      { property: "og:title", content: "Rhea Ceylon — Certified Loose Gemstones" },
+      { property: "og:title", content: "Rhea Ceylon — Pure Natural Ceylon Gemstones" },
       {
         property: "og:description",
         content:
-          "Certified natural and lab-grown stones with carat, cut, clarity, origin and treatment stated plainly.",
+          "100% natural loose Ceylon gems with carat, cut, clarity, origin and treatment stated plainly. Sapphires, rubies, emeralds and rare Sri Lankan stones.",
       },
     ],
   }),

@@ -16,16 +16,16 @@ export const Route = createFileRoute("/browse")({
   }),
   head: () => ({
     meta: [
-      { title: "Browse Sri Lankan Gemstones — Request a Quotation | Rhea Ceylon" },
+      { title: "Browse Natural Ceylon Gemstones — Request a Quotation | Rhea Ceylon" },
       {
         name: "description",
         content:
-          "Browse our selection of fast-moving Sri Lankan gemstones. Filter by type, carat, clarity, treatment and laboratory. Request a quotation for any stone — no fixed prices.",
+          "Browse our curated selection of 100% pure natural Ceylon (Sri Lankan) gemstones. Every stone is certified and naturally mined — no lab-grown, no synthetics. Filter by type, carat, clarity and laboratory. Request a quotation for any gem.",
       },
-      { property: "og:title", content: "Browse Sri Lankan Gemstones — Request a Quotation" },
+      { property: "og:title", content: "Browse Natural Ceylon Gemstones — Rhea Ceylon" },
       {
         property: "og:description",
-        content: "A curated selection of fast-moving Sri Lankan gemstones. Request a quotation for sapphires, spinels, garnets, tourmalines and more.",
+        content: "100% natural, certified Ceylon gemstones — sapphires, spinels, garnets, tourmalines and more. All naturally mined, none synthetic or lab-grown. Request a quotation today.",
       },
     ],
   }),

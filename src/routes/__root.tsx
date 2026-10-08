@@ -83,11 +83,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Rhea Ceylon — Loose Certified Gemstones" },
+      { title: "Rhea Ceylon — 100% Pure Natural Certified Gemstones from Sri Lanka" },
       {
         name: "description",
         content:
-          "Certified loose natural and lab-grown gemstones for collectors, jewelers and investors. Every stone independently graded with full origin and treatment disclosure.",
+          "Rhea Ceylon specialises in certified loose natural gemstones — sapphires, rubies, emeralds and rare Ceylon (Sri Lankan) stones. Every gem is 100% naturally mined, independently graded with full origin and treatment disclosure. No lab-grown, no synthetics.",
       },
       // Open Graph
       { property: "og:type", content: "website" },
@@ -95,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: "https://www.rheaceylon.lk/logo.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Rhea Ceylon — Certified Loose Gemstones" },
+      { property: "og:image:alt", content: "Rhea Ceylon — 100% Natural Certified Gemstones from Sri Lanka" },
       // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@rheaceylon" },

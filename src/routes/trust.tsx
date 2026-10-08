@@ -8,17 +8,17 @@ import { TrustCta } from "@/page/trust/TrustCta";
 export const Route = createFileRoute("/trust")({
   head: () => ({
     meta: [
-      { title: "Sourcing, Grading and Certification — Gem Vault" },
+      { title: "Natural Gemstone Sourcing, Grading & Certification — Rhea Ceylon" },
       {
         name: "description",
         content:
-          "How we source, grade and disclose every stone: direct from our own mines and trusted Sri Lankan gem markets, independently graded before listing — no exceptions.",
+          "How Rhea Ceylon sources, grades and discloses every 100% natural Ceylon stone: directly from Sri Lankan mines and trusted markets, independently graded before listing. No lab-grown, no synthetic gems — ever.",
       },
-      { property: "og:title", content: "Sourcing, Grading and Certification" },
+      { property: "og:title", content: "Natural Gemstone Sourcing, Grading & Certification — Rhea Ceylon" },
       {
         property: "og:description",
         content:
-          "Direct mine sourcing, trusted Sri Lankan market relationships, independent grading and treatment disclosure — explained in full.",
+          "Direct mine sourcing, trusted Ceylon market relationships, independent grading and treatment disclosure — only 100% pure natural gemstones. No synthetics, no lab-grown.",
       },
     ],
   }),
